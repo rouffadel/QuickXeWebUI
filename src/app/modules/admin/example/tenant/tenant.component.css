@@ -1,0 +1,57 @@
+table {
+  width: 100%;
+}
+  /* Ensure responsiveness */
+  .responsive-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .mat-elevation-z8 {
+    width: 100%;
+    min-width: 600px; /* Prevents shrinking on smaller screens */
+    table-layout: auto; /* Dynamic column resizing */
+  }
+
+  th.mat-header-cell, td.mat-cell {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  /* Responsive font size adjustments */
+  @media (max-width: 768px) {
+    th.mat-header-cell, td.mat-cell {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Alternate row background color */
+tr:nth-child(even) {
+  background-color: lightgrey;
+}
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;  /* Ensure the header stays above the rows */
+  }
+
+
+    /* Align search box to the right */
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  /* margin-bottom: 16px; Optional spacing from other elements */
+  margin-bottom: 0; /* Remove any bottom space */
+}
+
+.search-field {
+  max-width: 300px;
+  width: 100%;
+  /* margin-right: 10px; Adds 10px space to the right of the button */
+}
+
+.no-spacing {
+  margin-top: 0;
+  padding-top: 0;
+}
