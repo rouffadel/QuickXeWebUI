@@ -4,13 +4,24 @@ import { Router } from '@angular/router';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import * as pako from 'pako';
+import { environment } from 'environments/environments';
 
 @Injectable({ providedIn: 'root' })
+
+
 export class AuthService {
+    baseUrl
     private _authenticated: boolean = false;
     private _httpClient = inject(HttpClient);
     private _userService = inject(UserService);
     private router: Router
+   
+    
+constructor(){
+    this.baseUrl=environment.apiUrl
+}
+
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
@@ -18,24 +29,68 @@ export class AuthService {
     /**
      * Setter & getter for access token
      */
+    // set accessToken(token: string) {
+    //     localStorage.setItem('accessToken', token);
+    // }
+
+    // get accessToken(): string {
+    //     return localStorage.getItem('accessToken') ?? '';
+    // }
+
     set accessToken(token: string) {
-        localStorage.setItem('accessToken', token);
+        sessionStorage.setItem('accessToken', token);
     }
 
     get accessToken(): string {
-        return localStorage.getItem('accessToken') ?? '';
+        return sessionStorage.getItem('accessToken') ?? '';
     }
+
+
+    // //Setter & getter for loggged in user role
+    // set loggedInUserRole(roleName: string) {
+    //     localStorage.setItem('loggedInUserRole', roleName);
+    // }
+
+    // get loggedInUserRole(): string {
+    //     return localStorage.getItem('loggedInUserRole') ?? '';
+    // }
+
+    // //Setter & getter for loggged in user id
+    // set loggedInUserId(userId: string) {
+    //     localStorage.setItem('loggedInUserId', userId);
+    // }
+
+    // get loggedInUserId(): string {
+    //     return localStorage.getItem('loggedInUserId') ?? '';
+    // }    
 
 
     //Setter & getter for loggged in user role
     set loggedInUserRole(roleName: string) {
-        localStorage.setItem('loggedInUserRole', roleName);
+        sessionStorage.setItem('loggedInUserRole', roleName);
     }
 
     get loggedInUserRole(): string {
-        return localStorage.getItem('loggedInUserRole') ?? '';
+        return sessionStorage.getItem('loggedInUserRole') ?? '';
     }
 
+    //Setter & getter for loggged in user id
+    set loggedInUserId(userId: string) {
+        sessionStorage.setItem('loggedInUserId', userId);
+    }
+
+    get loggedInUserId(): string {
+        return sessionStorage.getItem('loggedInUserId') ?? '';
+    }   
+    
+       //Setter & getter for loggged in user id
+        set userName(username: string) {
+            sessionStorage.setItem('userName', username);
+        }
+    
+        get userName(): string {
+            return sessionStorage.getItem('userName') ?? '';
+        }  
 
 
 
@@ -46,17 +101,17 @@ export class AuthService {
     /**
      * Forgot password
      *
-     * @param email
-     */
+    //  * @param email
+    //  */
     forgotPassword(email: string): Observable<any> {
         return this._httpClient.post('api/auth/forgot-password', email);
     }
 
-    /**
-     * Reset password
-     *
-     * @param password
-     */
+    // /**
+    //  * Reset password
+    //  *
+    //  * @param password
+    //  */
     resetPassword(password: string): Observable<any> {
         return this._httpClient.post('api/auth/reset-password', password);
     }
@@ -88,6 +143,28 @@ export class AuthService {
     //         })
     //     );
     // }
+
+    // isValidJwt(token: string): boolean {
+    //     try {
+    //       const payload = JSON.parse(atob(token.split('.')[1]));
+    //       return !!payload; // Returns true if payload exists
+    //     } catch (error) {
+    //       console.error('Invalid JWT:', error);
+    //       return false;
+    //     }
+    //   }
+
+      
+    // accesToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzkyNTU0MTEsImlzcyI6IkZ1c2UiLCJleHAiOjE3Mzk4NjAyMTF9.G5GGKkqYLGwC4G4ElXNJfcCnVZC_Fmuj1G4cXPRPx-c"
+      
+    // useer={
+    // "id": "cfaad35d-07a3-4447-a6c3-d8c3d54fd5df",
+    // "name": "Tenant",
+    // "email": "tenant@gmail.com",
+    // "avatar": "images/avatars/brian-hughes.jpg",
+    // "status": "online"
+    // }
+
     signIn(credentials: { email: string; password: string }): Observable<any> {
         debugger
         // Throw error, if the user is already logged in
@@ -95,19 +172,32 @@ export class AuthService {
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('https://localhost:7034/api/Registration/login', credentials).pipe(
+        return this._httpClient.post(this.baseUrl+'Registration/login', credentials).pipe(
             switchMap((response: any) => {
                 // Store the access token in the local storage
                 this.accessToken = response.data.token;
+              //  this.accesToken=this.accesToken
 
-                // Store the access token in the local storage
-                localStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
+                // // Store the logged in user role in the local storage
+                // localStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
+
+                // // Store the logged in user id in the local storage
+                // localStorage.setItem('loggedInUserId', response.data.userId);
+
+
+                // Store the logged in user role in the local storage
+                sessionStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
+                sessionStorage.setItem('userName', response.data.username);
+                // Store the logged in user id in the local storage
+                sessionStorage.setItem('loggedInUserId', response.data.userId);
+
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.data.email;
+                // this._userService.user = this.useer;
+                this._userService.user = response.user;
 
                 // Return a new observable with the response
                 return of(response);
@@ -160,6 +250,8 @@ export class AuthService {
         // Remove the access token from the local storage
         // localStorage.removeItem('accessToken');
 
+        // sessionStorage.removeItem('accessToken');
+
         // Set the authenticated flag to false
         this._authenticated = false;
 
@@ -184,7 +276,7 @@ export class AuthService {
         roleId: string;
         roleName: string;
     }): Observable<any> {
-        return this._httpClient.post('https://localhost:7034/api/Registration/register', user);
+        return this._httpClient.post(this.baseUrl+'Registration/register', user);
     }
 
     /**

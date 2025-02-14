@@ -59,8 +59,10 @@ export class UserComponent implements OnInit, OnDestroy {
     /**
      * On init
      */
+    userName
     ngOnInit(): void {
         // Subscribe to user changes
+        this.userName=sessionStorage.getItem('userName')
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
@@ -109,5 +111,7 @@ export class UserComponent implements OnInit, OnDestroy {
      */
     signOut(): void {
         this._router.navigate(['/sign-out']);
+        localStorage.clear();
+        sessionStorage.clear();
     }
 }

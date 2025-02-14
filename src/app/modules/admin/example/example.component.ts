@@ -20,50 +20,8 @@ export interface Exchange {
   currencyName: string;
   buyRate: number;
   sellRate: number;
-  action: string;
+  // action: string;
 }
-
-
-// const initialCountries: Exchange[] = [
-//   { country: '', countryName: 'USD', countryCode: 'US', currencyName: 'United States Dollar', buyRate: 58.3500, sellRate: 58.3500, action: '' },
-//   { country: '', countryName: 'GBP', countryCode: 'GB', currencyName: 'British Pound Sterling', buyRate: 64.1400, sellRate: 66.0600, action: '' },
-//   { country: '', countryName: 'EUR', countryCode: 'EU', currencyName: 'Euro', buyRate: 56.7400, sellRate: 58.1600, action: '' },
-//   { country: '', countryName: 'KSA', countryCode: 'SA', currencyName: 'Saudi Riyal', buyRate: 23.3113, sellRate: 22.9301, action: '' },
-// ]
-
-// const allCountries = countries;
-
-
-// // const countriesToDisplay = document.getElementById('countriesToDisplay') as HTMLTableSectionElement;
-// const countriesDropdown = document.getElementById('countriesDropdown') as HTMLSelectElement;
-
-
-// function renderDropdown() {
-//   allCountries.forEach(fruit => {
-//     const option = document.createElement('mat-option');
-//     option.value = fruit;
-//     option.textContent = fruit;
-//     countriesDropdown.appendChild(option);
-//   });
-// }
-
-
-// function deleteCountry(index: number) {
-//   countries.splice(index, 1);
-//   renderTable(countries);
-// }
-
-
-// function addCountry(countryName: string) {
-//   if (!countries.find(fruit => fruit.name === countryName)) {
-//     countries.push({ name: countryName });
-//     renderTable(countries);
-//   } else {
-//     alert('Fruit already displayed in the table');
-//   }
-// }
-
-
 
 export interface Food {
   value: string;
@@ -96,60 +54,9 @@ export interface Food {
   imports: [MatTableModule,MatIconModule,CommonModule,GenericSearchFilterPipe,FormsModule,MatFormField,MatInputModule,MatSelectModule],
 })
 
-// export class ExampleComponent implements OnInit{
-//   displayedColumns: string[] = ['country',  'buyRate', 'sellRate'];
-//  // dataSource = this.countries;
-//   currentDate: Date = new Date();
-//   displayedData: Exchange[] = [];
-//   data: any;
-//   searchText: string = "";
-//   // searchText: string = "https://localhost:7034/api";
-
-//   filteredData = new MatTableDataSource(this.displayedData);
-
-
-
-//   constructor(private breakpointObserver: BreakpointObserver, private exampleService:ExampleService) {
-
-//   }
-
-//   countries=[];
-//   ngOnInit(): void {
-//     // debugger
-//     this.getService();
-//     this.applyFilter();
-//     this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
-//       if (result.matches) {
-//         // Mobile screen, show all rows
-//         this.displayedData = this.countries;
-//         // this.filteredData = this.countries;
-
-//       } else {
-//         // Desktop screen, show only the first four rows
-//         this.displayedData = this.countries.slice(0, 4);
-//       }
-//     });
-
-//   }
-
-//   applyFilter() {
-//     this.filteredData.filter = this.searchText.trim().toLowerCase();
-//   }
-
-//   getService(){
-//     // debugger
-//     this.exampleService.getData().subscribe((resp:any)=>{
-//       if(resp){
-//        this.countries = resp; 
-//        this.displayedData = this.countries.slice(0, 4);
-//       }
-//     })
-//   }
-
-// }
 
 export class ExampleComponent implements OnInit {
-  displayedColumns: string[] = ['country', 'buyRate', 'sellRate', 'action'];
+  displayedColumns: string[] = ['country', 'buyRate', 'sellRate'];
   searchText: string = '';
   currentDate: Date = new Date();
   displayedData: Exchange[] = [];

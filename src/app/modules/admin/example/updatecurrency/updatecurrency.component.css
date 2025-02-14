@@ -1,0 +1,11 @@
+.country-flag {
+    width: 30px;
+    height: 20px;
+    border-radius: 2px;
+    object-fit: cover;
+  }
+  
+  .snackbar-success {
+    background-color: #4caf50;
+    color: white;
+  }

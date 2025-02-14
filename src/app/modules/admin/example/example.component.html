@@ -34,7 +34,7 @@
           <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
         </mat-form-field>
 
-        <form>
+        <!-- <form>
           <mat-form-field>
             <mat-select [(ngModel)]="selectedValue" name="food" placeholder="Add">
               @for (food of foods; track food) {
@@ -42,7 +42,7 @@
               }
             </mat-select>
           </mat-form-field>
-        </form>
+        </form> -->
         
       </div>
 
@@ -93,15 +93,15 @@
     </ng-container>
   
 
-        <!-- Action Column (centered) -->
+        <!-- Action Column (centered)
         <ng-container matColumnDef="action">
           <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9; text-align: center;">
-            <span style="vertical-align: middle;">Action</span> <!-- Sell rate name aligned to middle -->
-          </th>
-          <td mat-cell *matCellDef="let element" style="text-align: center;">
-            <i class="material-icons md-24">delete</i>
+            <span style="vertical-align: middle;">Action</span>  Sell rate name aligned to middle -->
+          <!-- </th>
+          <td mat-cell *matCellDef="let element" class="cursor-pointer"  style="text-align: center;">
+            <mat-icon class="text-red-600" svgIcon="heroicons_outline:trash"></mat-icon>
           </td>
-        </ng-container>
+        </ng-container> --> 
 
 
 

@@ -11,23 +11,10 @@
           <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
         </mat-form-field>
 
-
-        
-
-
-
-
-        <!-- <section>
-            <div class="example-button-row">
-              <button mat-flat-button>Basic</button>
-            </div>
-        </section>
-
-
-
-        <div class="example-button-row">
-            <button mat-flat-button>Add</button>
-        </div> -->
+        <button mat-flat-button (click)="addCurrency()" style="background-color: #ffb300; color: white;">
+          <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>
+          <span class="ml-2">Add</span>
+      </button>
         
       </div>
 
@@ -36,7 +23,7 @@
 
     <!-- <table mat-table [dataSource]="filteredData" class="mat-elevation-z8" style="max-height: 400px; overflow: auto;"> -->
     <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing" style="max-height: 400px; overflow: auto;">
-      <ng-container matColumnDef="country">
+      <ng-container matColumnDef="countryName">
     <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9; text-align: left;">
       <mat-icon style="vertical-align: middle; margin-right: 5px;">public</mat-icon> <!-- Country icon aligned to middle -->
       <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle --> </th>
@@ -78,16 +65,30 @@
     </ng-container>
   
 
-        <!-- Action Column (centered) -->
-        <ng-container matColumnDef="action">
-          <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9; text-align: center;">
-            <span style="vertical-align: middle;">Action</span> <!-- Sell rate name aligned to middle -->
-          </th>
-          <td mat-cell *matCellDef="let element" style="text-align: center;">
-            <i class="material-icons md-24">delete</i>
-          </td>
-        </ng-container>
 
+    <!-- Action Column (centered) -->
+    <ng-container matColumnDef="action">
+      <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9; text-align: center;">
+        <span style="vertical-align: middle;">Action</span>
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;">
+
+            <!-- <span (click)="getCurrencyByCountryId(element.countryId)"> -->
+              <!-- <span (click)="updateCurrency(element.countryId)"> -->
+                <span (click)="openUpdateCurrencyDialog(element.countryId)">
+                  <!-- <mat-icon svgIcon="heroicons_outline:pencil-square"></mat-icon> -->
+              <mat-icon svgIcon="heroicons_outline:pencil-square"></mat-icon>
+            </span> | 
+            <span (click)="deleteCurrency(element.countryId)">
+              <!-- <mat-icon svgIcon="heroicons_outline:trash"></mat-icon> -->
+              <mat-icon class="text-red-600" svgIcon="heroicons_outline:trash"></mat-icon>
+            </span>
+      </td>
+    </ng-container>
+
+    <!-- <button mat-flat-button (click)="addCurrency()" [color]="'primary'">
+      <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>
+  </button> -->
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -98,7 +99,6 @@
     </tr> -->
   </table>
 
-            
           </div>
     </div>
 </div>

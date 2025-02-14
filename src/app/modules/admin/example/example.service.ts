@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
+import { environment } from 'environments/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +30,15 @@ export class ExampleService {
 
   // private apiUrl = 'http://localhost:5000/api'; // Update with your API endpoint
 
-  private apiUrl = 'https://localhost:7034/api'; 
-
-  constructor(private http: HttpClient) { }
+  // private apiUrl = 'https://localhost:7034/api'; 
+  baseUrl
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.apiUrl
+   }
 
   // Example GET method
   getData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/Countries`);
+    return this.http.get<any>(this.baseUrl+'Countries')
   }
 
   // // Example POST method

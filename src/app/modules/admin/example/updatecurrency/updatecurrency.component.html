@@ -1,0 +1,72 @@
+<div class="-m-6 flex max-h-screen max-w-240 flex-col md:min-w-160">
+    <!-- Header -->
+    <div class="flex h-16 flex-0 items-center justify-between bg-[#303030] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
+        <div class="text-lg font-medium">Update Currency</div>
+        <br>
+        <button mat-icon-button (click)="Close()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Content -->
+    <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
+        <!-- <mat-form-field>
+            <mat-select [(ngModel)]="country" name="country" (selectionChange)="Change($event)" aria-placeholder="Add">
+                <mat-option *ngFor="let item of currency" [value]="item">{{ item.countryName }}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field>
+            <mat-label>Country</mat-label>
+            <input matInput  [(ngModel)]="selcountryName"  disabled/>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+            <mat-select [(ngModel)]="selcountryName" (selectionChange)="Change($event)" aria-placeholder="Add">
+              <mat-option *ngFor="let item of currency" [value]="item.countryName">
+                {{ item.countryName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+          
+
+        <div class="flex flex-cols justify-between">
+            <div class="flex flex-cols">
+                Flag :&nbsp;
+                <img src="/assets/icons/globe.png" alt="" *ngIf="!selcountryCode" />
+                <img
+                    [src]="'https://flagcdn.com/w40/' + selcountryCode + '.png'"
+                    alt="{{ selcountryCode }} flag"
+                    class="country-flag"
+                    *ngIf="selcountryCode"
+                />
+            </div>
+            <div>
+                Currency Name: {{ selcurrencyName }}
+            </div>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Buy Rate</mat-label>
+            <input matInput type="number" [(ngModel)]="inputBuyRate" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Sell Rate</mat-label>
+            <input matInput type="number" [(ngModel)]="inputSellRate" />
+        </mat-form-field>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+        <button
+            (click)="updateCurrency()"
+            class="order-first sm:order-last"
+            style="background-color: #ffb300;"
+            mat-flat-button
+            [color]="'primary'"
+        >
+            Update
+        </button>
+    </div>
+</div>

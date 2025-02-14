@@ -18,6 +18,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { SignInService } from './sign-in.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
     selector: 'auth-sign-in',
@@ -49,12 +51,8 @@ export class AuthSignInComponent implements OnInit {
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
 
-    // isCreatedSuccessfully = false;
-
 
     signUpForm: UntypedFormGroup;
-
-    // signInArray: Details[] = [];
     
 
     /**
@@ -65,65 +63,32 @@ export class AuthSignInComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
-        private signInService:SignInService
+        private signInService:SignInService,
+        private snackBar: MatSnackBar
     ) {}
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * On init
      */
     ngOnInit(): void {
-        // Create the form
-        // this.signInForm = this._formBuilder.group({
-        //     emailAddressOrPhoneNumber: [
-        //         '',
-        //         [Validators.required, Validators.email],
-        //     ],
-        //     password: ['', Validators.required],
-        // });
-
-        // this.signInForm = this._formBuilder.group({
-        //     email: [
-        //         // 'hughes.brian@company.com',
-        //         [Validators.required, Validators.email],
-        //     ],
-        //     password: [ Validators.required],
-        //     rememberMe: [''],
-        // });
-
-
+    
         this.signInForm = this._formBuilder.group({
             username: ['', Validators.required], // Add Username field
             password: ['', Validators.required],
             rememberMe: [''],
         });
-        
-
-        // this.signUpForm = this._formBuilder.group({
-        //     name: ['', Validators.required],
-        //     email: ['', [Validators.required, Validators.email]],
-        //     password: ['', Validators.required],
-        //     company: [''],
-        //     agreements: ['', Validators.requiredTrue],
-        // });
 
 
         this.signUpForm = this._formBuilder.group({
             firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
+            // lastName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
             companyName: [''],
             roleId: ['46532A00-C18E-452D-B7E5-C2AD6C6C384D'],
             roleName: ['Tenant'],
-            agreements: ['', Validators.requiredTrue],
+       
         });
-
-
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -183,9 +148,10 @@ export class AuthSignInComponent implements OnInit {
 //             }
 //         );
 //     }
-
+userRole
 
 signIn(): void {
+    debugger
     if (this.signInForm.invalid) {
         return;
     }
@@ -199,14 +165,24 @@ signIn(): void {
     // Sign in
     this._authService.signIn(this.signInForm.value).subscribe(
         (response) => {
+            debugger
             // Log the successful response
             console.log('Sign-in success:', response);
+            this.userRole=response.data.roles[0].roleName;
 
-            const redirectURL =
-                this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+            
+
+    const redirectURL =  this._activatedRoute.snapshot.queryParamMap.get(  'redirectURL' ) || '/signed-in-redirect';
+    const redirectURL2 =  this._activatedRoute.snapshot.queryParamMap.get(  'redirectURL' ) || '/signed-in-redirectTenant';
 
             // Navigate to the redirect URL
-            this._router.navigateByUrl(redirectURL);
+            if(this.userRole=='Admin'){
+                this._router.navigate(['main']);
+            }
+            else if(this.userRole=='Tenant'){
+                this._router.navigateByUrl(redirectURL2);
+            }
+           
         },
         (response) => {
             // Log the error response from the backend
@@ -231,44 +207,53 @@ signIn(): void {
 }
 
 
-    signUp(): void {
-        // Do nothing if the form is invalid
-        if (this.signUpForm.invalid) {
-            return;
-        }
-
-        // Disable the form
-        this.signUpForm.disable();
-
-        // Hide the alert
-        this.showAlert = false;
-
-        // this.isCreatedSuccessfully = true;
-
-
-        // Sign up
-        this._authService.signUp(this.signUpForm.value).subscribe(
-            (response) => {
-                // Navigate to the confirmation required page
-                
-                this._router.navigateByUrl('/confirmation-required');
-            },
-            (response) => {
-                // Re-enable the form
-                this.signUpForm.enable();
-
-                // Reset the form
-                this.signUpNgForm.resetForm();
-
-                // Set the alert
-                this.alert = {
-                    type: 'error',
-                    message: 'Something went wrong, please try again.',
-                };
-
-                // Show the alert
-                this.showAlert = true;
-            }
-        );
+signUp(): void {
+    debugger
+    // Do nothing if the form is invalid
+    if (this.signUpForm.invalid) {
+        return;
     }
+
+    // Disable the form to prevent multiple submissions
+    this.signUpForm.disable();
+
+    // Hide any previous alert
+    this.showAlert = false;
+
+    // Sign up
+    this._authService.signUp(this.signUpForm.value).subscribe(
+        (response) => {
+            // Show Snackbar Notification
+            this.snackBar.open('User Registered!', '✖', {
+                duration: 3000, // Time in milliseconds
+                verticalPosition: 'top', // Position (top/bottom)
+                horizontalPosition: 'right', // Position (start/center/end/right/left)
+                panelClass: ['snackbar-success'] // Custom styling
+            });
+
+            // ✅ Re-enable the form
+            this.signUpForm.enable();
+
+            // ✅ Clear the form fields
+            this.signUpNgForm.resetForm();
+        },
+        (response) => {
+            // Re-enable the form in case of an error
+            this.signUpForm.enable();
+
+            // Reset the form (optional if needed)
+            this.signUpNgForm.resetForm();
+
+            // Show error alert
+            this.alert = {
+                type: 'error',
+                message: 'Something went wrong, please try again.',
+            };
+
+            // Show the alert
+            this.showAlert = true;
+        }
+    );
+}
+
 }
