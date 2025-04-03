@@ -1,0 +1,109 @@
+<div class="-m-6 flex max-h-screen max-w-240 flex-col md:min-w-100">
+    <!-- Header -->
+    <div class="flex h-16 flex-0 items-center justify-between bg-[#424242] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
+        <div class="text-lg font-medium"><h5>Register</h5></div>
+        <br>
+        <button mat-icon-button (click)="Close()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+        </button>
+    </div>
+
+
+    <form [formGroup]="customerDetailsForm">
+        <div class="flex flex-auto flex-col overflow-y-auto p-3 sm:p-3">
+
+            
+        <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
+            <!-- <mat-label>Name</mat-label> -->
+            <input type="text" [(ngModel)]="name" matInput formControlName="name" placeholder="Name">
+            <mat-error *ngIf="customerDetailsForm.get('name').hasError('required')">
+                Name is required
+            </mat-error>
+        </mat-form-field>
+<!-- 
+        <div class="wrapper">
+			<ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+				[enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+				[searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+				[selectedCountryISO]="CountryISO.India" [maxLength]="15" 
+				[phoneValidation]="true" [separateDialCode]="separateDialCode" name="phone" ngModel
+				#phoneNumber="ngModel" required>
+			</ngx-intl-tel-input>
+		</div> -->
+
+        <!-- <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+            <input type="tel" [(ngModel)]="phoneNumber" matInput formControlName="phoneNumber" placeholder="Phone Number">
+            <mat-error *ngIf="customerDetailsForm.get('phoneNumber').hasError('required')">
+                Phone Number is required
+            </mat-error>
+        </mat-form-field> -->
+
+
+        <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+            <input type="tel"
+                   matInput
+                   formControlName="phoneNumber"
+                   [(ngModel)]="phoneNumber"
+                   placeholder="Phone Number"
+                   (keypress)="onlyNumbers($event)"
+                   (input)="validatePhoneNumber()">
+            <mat-error *ngIf="customerDetailsForm.get('phoneNumber')?.hasError('required')">
+                Phone Number is required
+            </mat-error>
+            <mat-error *ngIf="customerDetailsForm.get('phoneNumber')?.hasError('minlength')">
+                Phone Number must be at least 10 digits
+            </mat-error>
+        </mat-form-field>
+        
+
+        <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
+            <!-- <mat-label>Email ID</mat-label> -->
+            <input type="email" [(ngModel)]="email" matInput formControlName="email" placeholder="Email ID"/>
+            <mat-error *ngIf="customerDetailsForm.get('email').hasError('required')">
+                Email ID is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:map-pin"></mat-icon>
+            <!-- <mat-label>Address</mat-label> -->
+            <input type="text" [(ngModel)]="address" matInput formControlName="address" placeholder="Address"/>
+            <mat-error *ngIf="customerDetailsForm.get('address').hasError('required')">
+                Address is required
+            </mat-error>
+        </mat-form-field>
+
+        <div class="flex items-center justify-end mb-4 mr-4 sm:mt-0">
+
+
+            <!-- Save -->
+            <button
+            (click)="register()"
+            mat-flat-button
+            [disabled]="!customerDetailsForm.valid"
+            [ngStyle]="{ 'background-color': (customerDetailsForm.valid)  ? '#ffb300' : '' }">
+            Sign Up
+            </button>
+            </div>
+
+            <p class="justify-start text-#424242 text text-1xl font-semibold">
+                Already have an account?
+            <a 
+    class="justify-end text-1xl font-semibold hover:underline" 
+    style="color: #ffb300; cursor: pointer;"
+    (click)="openLoginDialog()"
+>
+    Sign in
+</a>
+            </p> 
+
+    </div>
+</form>
+
+     
+</div>
+

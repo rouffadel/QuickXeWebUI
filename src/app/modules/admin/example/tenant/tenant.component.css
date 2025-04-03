@@ -37,21 +37,58 @@ tr:nth-child(even) {
 
 
     /* Align search box to the right */
-.search-container {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  /* margin-bottom: 16px; Optional spacing from other elements */
-  margin-bottom: 0; /* Remove any bottom space */
-}
+    .search-container {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      /* margin-bottom: 16px; Optional spacing from other elements */
+      margin-bottom: 0; /* Remove any bottom space */
+    }
+    
+    .search-field {
+      max-width: 300px;
+      width: 100%;
+      margin-right: 10px; /* Adds 10px space to the right of the button */
+    }
+    
+    
+    .no-spacing {
+      margin-top: 0;
+      padding-top: 0;
+    }
 
-.search-field {
-  max-width: 300px;
-  width: 100%;
-  /* margin-right: 10px; Adds 10px space to the right of the button */
-}
-
-.no-spacing {
-  margin-top: 0;
-  padding-top: 0;
-}
+    .status-cell {
+      padding: 8px 12px;  /* Adjust cell padding */
+    }
+    
+    .status-wrapper {
+      display: flex;
+      align-items: center; /* Ensure vertical alignment */
+      gap: 8px; /* Space between text and icon */
+      height: 100%; /* Make wrapper take full cell height */
+    }
+    
+    .status-text {
+      font-size: 14px; /* Adjust font size to be consistent */
+      line-height: 1; /* Ensures text is properly aligned */
+      display: flex;
+      align-items: center; /* Aligns text properly */
+    }
+    
+    .status-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%; /* Ensure full height */
+    }
+    
+    .status-icon mat-icon {
+      font-size: 18px; /* Standardize icon size */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    
+    
+    

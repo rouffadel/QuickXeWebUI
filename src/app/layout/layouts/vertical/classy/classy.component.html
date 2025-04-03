@@ -13,9 +13,11 @@
     <!-- Navigation header hook -->
     <ng-container fuseVerticalNavigationContentHeader>
         <!-- Logo -->
-        <div class="mb-4 mt-3 flex h-20 items-center justify-center">
-            <img class="w-20 h-14" src="images/logo/QuickXe_logo.jpeg" />
+        <div class="mb-4 mt-3 mr-1 flex h-20 items-center justify-center">
+            <!-- <img class="w-40 h-14" src="images/logo/QuickXe_logo.jpeg" /> -->
+            <img class="w-40 h-12" src="images/logo/quickxe_white.png" />
                 </div>
+
     </ng-container>
 </fuse-vertical-navigation>
 
@@ -36,8 +38,8 @@
        
         <!-- Components -->
         <div class="ml-auto flex items-center space-x-0.5 pl-2 sm:space-x-2">
-            <div>
-                <p>{{ currentDate | date: 'EEE, MMM d, y' }} {{ currentDate | date: 'shortTime' }}</p>
+            <div class="hidden">
+                {{ currentDate | date: 'EEE, MMM d, y' }} {{ currentDate | date: 'shortTime' }}
             </div>
             <!-- <div>
                 <p>Your current location: {{ currentLocation }}</p>
@@ -52,6 +54,11 @@
                 <button mat-button [color]="'warn'" [matTooltip]="currentLocation">
                      <mat-icon class="text-red-600">location_on</mat-icon>  {{ areaName }}   
                 </button>
+            </div>
+
+            
+            <div class="ml-auto flex items-center">
+                <notifications></notifications>
             </div>
             
             <!-- <languages></languages> -->
@@ -90,13 +97,41 @@
        <div
        class="bg-card relative z-49 flex h-14 w-full flex-0 items-center justify-start border-t px-4 dark:bg-transparent md:px-6 print:hidden">
        
-       <span class="text-black font-medium">
+       <!-- <span class="text-black font-medium">
         QuickXe &copy; {{ currentYear }}
-       </span>
+       </span> -->
 
-       <span class="text-black font-medium" style="text-align: center; margin: auto;">CIN:U66110TS2025PTC193108</span>
-       <span class="text-black lg:text-xl font-bold" style="text-align: right;">Kaaba Travel Care Forex Pvt Ltd</span>
+       <div class="mb-4 relative w-full">
+        <span class="text-black flex items-center font-medium absolute left-0">
+            QuickXe &copy; {{ currentYear }}
+        </span>
+      </div>
 
+       <!-- <span class="font-medium" style="text-align: center; margin: auto;">CIN:U66110TS2025PTC193108</span> -->
+
+       <!-- <div class="hidden md:block relative w-full">
+       <span class="font-medium text-center mx-auto">
+        CIN: U66110TS2025PTC193108
+      </span>
+       </div> -->
+
+
+       <div class="hidden md:flex justify-center items-center w-full">
+        <span class="font-medium">
+          CIN: U66110TS2025PTC193108
+        </span>
+      </div>
+      
+
+      
+       <!-- <span class="text-black flex flex-cols  font-medium" style="text-align: right;"><mat-icon class=""> call</mat-icon>+91 9849325656</span> -->
+
+       <div class="mb-4 relative w-full">
+        <span class="text-black flex items-center font-medium absolute right-0">
+          <mat-icon>call</mat-icon> +91 9849325656
+        </span>
+      </div>
+      
 <!-- 
        <span class="text-secondary font-medium">
         QuickXe &copy; {{ currentYear }}

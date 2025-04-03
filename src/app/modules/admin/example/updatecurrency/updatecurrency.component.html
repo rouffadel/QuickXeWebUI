@@ -1,6 +1,6 @@
 <div class="-m-6 flex max-h-screen max-w-240 flex-col md:min-w-160">
     <!-- Header -->
-    <div class="flex h-16 flex-0 items-center justify-between bg-[#303030] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
+    <div class="flex h-16 flex-0 items-center justify-between bg-[#424242] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
         <div class="text-lg font-medium">Update Currency</div>
         <br>
         <button mat-icon-button (click)="Close()" [tabIndex]="-1">
@@ -48,24 +48,37 @@
 
         <mat-form-field>
             <mat-label>Buy Rate</mat-label>
-            <input matInput type="number" [(ngModel)]="inputBuyRate" />
+            <input matInput type="number" [(ngModel)]="inputBuyRate" (keypress)="onlyNumbers($event)"/>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Sell Rate</mat-label>
-            <input matInput type="number" [(ngModel)]="inputSellRate" />
+            <input matInput type="number" [(ngModel)]="inputSellRate" (keypress)="onlyNumbers($event)"/>
         </mat-form-field>
     </div>
 
     <!-- Actions -->
     <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+
+
+
+<!-- <button
+(click)="addCurrency()"
+[ngStyle]="{'background-color': (!country || !buyRate || !sellRate) ? 'bg-gray' : '#ffb300', 'color': (!country || !buyRate || !sellRate) ? 'inherit' : 'white' }"
+class="order-first sm:order-last"
+mat-flat-button
+[disabled]="!country || !buyRate || !sellRate"
+>
+Save
+</button> -->
+
         <button
             (click)="updateCurrency()"
-            class="order-first sm:order-last"
-            style="background-color: #ffb300;"
             mat-flat-button
-            [color]="'primary'"
-        >
+            [disabled]="!inputBuyRate || !inputSellRate"
+            [ngStyle]="{ 'background-color': (inputBuyRate && inputSellRate)  ? '#ffb300' : '' }"
+            class="order-first sm:order-last"
+            >
             Update
         </button>
     </div>

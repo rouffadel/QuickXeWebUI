@@ -1,0 +1,70 @@
+<div class="w-full card">
+    <!-- Title -->
+
+    <div class="bg-card ml-4 mr-4 mt-4 pb-2 rounded-2xl">
+    <div class="text-2xl font-semibold px-4 pt-4 font-medium">Update Profile </div>
+        <br>
+    
+
+    <!-- Update Profile Details form -->
+
+    <div class="grid sm:grid-cols-1 lg:grid-cols-2 px-4 flex w-full">
+        <mat-form-field class="p-2">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="contactName" disabled/>
+        </mat-form-field>
+
+        <mat-form-field class="p-2">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="username" disabled/>
+        </mat-form-field>
+
+        <mat-form-field class="p-2">
+            <mat-label>Phone Number</mat-label>
+            <input matInput [(ngModel)]="contactNo" />
+        </mat-form-field>
+
+        <mat-form-field  class="p-2">
+            <mat-label>Company</mat-label>
+            <input matInput [(ngModel)]="companyName" />
+        </mat-form-field>
+
+
+        <mat-form-field  class="p-2">
+            <mat-label>Country</mat-label>
+            <input matInput [(ngModel)]="country" />
+        </mat-form-field>
+
+        <mat-form-field  class="p-2">
+            <mat-label>State</mat-label>
+            <input matInput [(ngModel)]="state" />
+        </mat-form-field>
+
+        <mat-form-field  class="p-2">
+            <mat-label>District</mat-label>
+            <input matInput [(ngModel)]="district" />
+        </mat-form-field>
+
+        <mat-form-field  class="p-2">
+            <mat-label>Location</mat-label>
+            <input matInput type="string" [(ngModel)]="currentLocation" disabled/>
+        </mat-form-field>
+
+        
+    </div>
+        <!-- Update button -->
+        <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+            <!-- Save -->
+            <button
+                (click)="updateUserDetails()"
+                class="order-first sm:order-last" 
+                mat-flat-button
+                style="background-color: #ffb300;"
+            >
+                Update
+            </button>
+        </div> 
+
+    </div>
+
+</div>

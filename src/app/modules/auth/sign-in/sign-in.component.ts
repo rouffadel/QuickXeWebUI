@@ -19,6 +19,7 @@ import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { SignInService } from './sign-in.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -38,9 +39,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         MatIconModule,
         MatCheckboxModule,
         MatProgressSpinnerModule,
+        CommonModule
     ],
 })
 export class AuthSignInComponent implements OnInit {
+
+    invalidCredentials: string = '';
+
+
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     @ViewChild('signUpNgForm') signUpNgForm: NgForm;
     
@@ -83,6 +89,7 @@ export class AuthSignInComponent implements OnInit {
             firstName: ['', Validators.required],
             // lastName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
+            mobileNumber: [''],
             password: ['', Validators.required],
             companyName: [''],
             roleId: ['46532A00-C18E-452D-B7E5-C2AD6C6C384D'],
@@ -166,6 +173,30 @@ signIn(): void {
     this._authService.signIn(this.signInForm.value).subscribe(
         (response) => {
             debugger
+
+            if (response.data.message === 'Invalid user')
+            {
+                debugger
+                this.invalidCredentials = 'Invalid Email / Password';
+                // Re-enable the form in case of an error
+                this.signInForm.enable();
+                // Reset the form (optional if needed)
+                this.signInNgForm.resetForm();
+            
+            }
+            else if (response.data.message === 'User does not exist')
+            {
+                debugger
+                this.invalidCredentials = 'Invalid Email / Password';
+                // Re-enable the form in case of an error
+                this.signInForm.enable();
+                // Reset the form (optional if needed)
+                this.signInNgForm.resetForm();
+            }
+            else if (response.data.message === 'User exists')
+            {
+                
+            debugger
             // Log the successful response
             console.log('Sign-in success:', response);
             this.userRole=response.data.roles[0].roleName;
@@ -182,29 +213,41 @@ signIn(): void {
             else if(this.userRole=='Tenant'){
                 this._router.navigateByUrl(redirectURL2);
             }
-           
+            }
+
         },
-        (response) => {
-            // Log the error response from the backend
-            console.error('Sign-in error:', response);
 
-            // Re-enable the form
-            this.signInForm.enable();
+        // (error) => this.handleError(error)
 
-            // Reset the form
-            this.signInNgForm.resetForm();
+        // (response) => {
+        //     // Log the error response from the backend
+        //     console.error('Sign-in error:', response);
 
-            // Set the alert
-            this.alert = {
-                type: 'error',
-                message: response.error?.errors?.Username?.[0] || 'Wrong username or password',
-            };
+        //     // Re-enable the form
+        //     this.signInForm.enable();
 
-            // Show the alert
-            this.showAlert = true;
-        }
+        //     // Reset the form
+        //     this.signInNgForm.resetForm();
+
+        //     // Set the alert
+        //     this.alert = {
+        //         type: 'error',
+        //         message: response.error?.errors?.Username?.[0] || 'Wrong username or password',
+        //     };
+
+        //     // Show the alert
+        //     this.showAlert = true;
+        // }
     );
 }
+
+// handleError(error: any): void {
+//     console.error('API Error:', error);
+
+//     if (error.error?.status === "Error") {
+//         this.invalidCredentials = 'Invalid Email / Password';
+//     } 
+//   }
 
 
 signUp(): void {
@@ -224,12 +267,13 @@ signUp(): void {
     this._authService.signUp(this.signUpForm.value).subscribe(
         (response) => {
             // Show Snackbar Notification
-            this.snackBar.open('User Registered!', '✖', {
-                duration: 3000, // Time in milliseconds
-                verticalPosition: 'top', // Position (top/bottom)
-                horizontalPosition: 'right', // Position (start/center/end/right/left)
-                panelClass: ['snackbar-success'] // Custom styling
-            });
+            this._router.navigate(['welcome'])
+            // this.snackBar.open('User Registered!', '✖', {
+            //     duration: 3000, // Time in milliseconds
+            //     verticalPosition: 'top', // Position (top/bottom)
+            //     horizontalPosition: 'right', // Position (start/center/end/right/left)
+            //     panelClass: ['snackbar-success'] // Custom styling
+            // });
 
             // ✅ Re-enable the form
             this.signUpForm.enable();

@@ -12,14 +12,26 @@ import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { countries } from 'app/mock-api/apps/contacts/data';
+import { MatDialog } from '@angular/material/dialog';
+import { AddcurrencyComponent } from './addcurrency/addcurrency.component';
+import { MatButtonModule } from '@angular/material/button';
+import { auto } from '@popperjs/core';
+import { UpdatecurrencyService } from './updatecurrency/updatecurrency.service';
+import { UpdatecurrencyComponent } from './updatecurrency/updatecurrency.component';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { CurrencyService } from './currency/currency.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataService } from 'app/services/data.service';
 
 export interface Exchange {
   country: string;
+  countryId: number;
   countryName: string;
   countryCode: string;
   currencyName: string;
   buyRate: number;
   sellRate: number;
+  action: string;
   // action: string;
 }
 
@@ -51,17 +63,18 @@ export interface Food {
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.css'],
-  imports: [MatTableModule,MatIconModule,CommonModule,GenericSearchFilterPipe,FormsModule,MatFormField,MatInputModule,MatSelectModule],
+  imports: [MatButtonModule,MatTableModule,MatIconModule,CommonModule,GenericSearchFilterPipe,FormsModule,MatFormField,MatInputModule,MatSelectModule],
 })
 
 
 export class ExampleComponent implements OnInit {
-  displayedColumns: string[] = ['country', 'buyRate', 'sellRate'];
+  displayedColumns: string[] = ['country', 'buyRate', 'sellRate', 'action'];
   searchText: string = '';
   currentDate: Date = new Date();
   displayedData: Exchange[] = [];
   filteredData = new MatTableDataSource<Exchange>([]);
 
+  countryId: string;
 
   countries: Exchange[] = [];
   
@@ -81,7 +94,15 @@ export class ExampleComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver, 
-    private exampleService: ExampleService
+    private exampleService: ExampleService,
+    private dialog:MatDialog,
+    private updatecurrencyService: UpdatecurrencyService,
+    private _fuseConfirmationService: FuseConfirmationService,
+    private currencyService: CurrencyService,
+    private snackBar: MatSnackBar,
+    private dataService: DataService,
+
+
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +117,13 @@ export class ExampleComponent implements OnInit {
       }
       this.updateFilteredData();
     });
+
+    this.dataService.dataUpdated$.subscribe((updated) =>{
+      if(updated){
+        this.getService();
+      }
+    });
+
   }
 
   applyFilter() {
@@ -114,7 +142,7 @@ export class ExampleComponent implements OnInit {
   }
 
   getService() {
-    this.exampleService.getData().subscribe((resp: Exchange[]) => {
+    this.currencyService.getData().subscribe((resp: Exchange[]) => {
       if (resp) {
         this.countries = resp;
         this.displayedData = this.countries.slice(0, 4);
@@ -122,5 +150,73 @@ export class ExampleComponent implements OnInit {
       }
     });
   }
+  
+  dialogBoxSettings = {
+          height: auto,
+          width: '700px',
+          margin: '0 auto',
+          disableClose: true,
+          hasBackdrop: true
+        };
+
+  addCurrency()
+    {
+      this.dialog.open(AddcurrencyComponent,this.dialogBoxSettings
+      )
+    }
+
+      openUpdateCurrencyDialog(countryId): void {
+        debugger
+        this.updatecurrencyService.getCurrencyByCountryId(countryId).subscribe((resp: any) => {
+          if (resp) {
+            this.dialog.open(UpdatecurrencyComponent, {
+              disableClose: true,
+              data: resp, // Pass fetched currency data to dialog
+            });
+          }
+        });
+      }
+
+      deleteCurrency(countryId: string): void {
+        const confirmation = this._fuseConfirmationService.open({
+          title: 'Delete Currency',
+          message: 
+              'Are you sure you want to delete this currency?',
+          actions: {
+              confirm: {
+                  label: 'Delete',
+              },
+              cancel: {
+                show: true,
+                label: 'Cancel',
+            },
+          },
+      });
+      
+      // Subscribe to the confirmation dialog closed action
+      confirmation.afterClosed().subscribe((result) => {
+      
+          // If the confirm button pressed...
+      
+          if (result === 'confirmed') {
+      
+              // Delete the currency
+           this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
+            console.log('Deleted Successfully.');
+                // Show Snackbar Notification
+                this.snackBar.open('Currency Deleted!', 'Close', {
+                duration: 3000, // Time in milliseconds
+                verticalPosition: 'top', // Position (top/bottom)
+                horizontalPosition: 'right', // Position (start/center/end/right/left)
+                panelClass: ['snackbar-success'] // Custom styling
+                });
+                this.getService();
+          }, (error) => {
+            console.log('Failed to delete');
+          });
+          }
+      });
+      
+      }
 }
 

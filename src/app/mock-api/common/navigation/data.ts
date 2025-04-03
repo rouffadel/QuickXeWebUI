@@ -4,10 +4,24 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id   : 'currency',
-        title: 'Currencies',
+        title: 'Exchange Rate',
         type : 'basic',
         icon : 'heroicons_outline:currency-dollar',
         link : '/currency'
+    },
+    {
+        id   : 'myorders',
+        title: 'My Orders',
+        type : 'basic',
+        icon : 'heroicons_outline:inbox',
+        link : '/myorders'
+    },
+    {
+        id   : 'assignorders',
+        title: 'Assign Orders',
+        type : 'basic',
+        icon : 'heroicons_outline:inbox',
+        link : '/assignorders'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -20,22 +34,22 @@ export const compactNavigation: FuseNavigationItem[] = [
     },
     {
         id   : 'tenant',
-        title: 'Tenants',
+        title: 'Agents',
         type : 'basic',
         icon : 'heroicons_outline:users',
-        link : '/tenant'
+        link : '/agent'
     }
 ];
 
-export const tenantNavigation: FuseNavigationItem[] = [
-    {
-        id   : 'currency',
-        title: 'Currencies',
-        type : 'basic',
-        icon : 'heroicons_outline:currency-dollar',
-        link : '/currency'
-    }
-];
+// export const tenantNavigation: FuseNavigationItem[] = [
+//     {
+//         id   : 'currency',
+//         title: 'Exchange',
+//         type : 'basic',
+//         icon : 'heroicons_outline:currency-dollar',
+//         link : '/currency'
+//     }
+// ];
 
 export const futuristicNavigation: FuseNavigationItem[] = [
     {

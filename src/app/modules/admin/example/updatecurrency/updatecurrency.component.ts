@@ -127,6 +127,13 @@ export class UpdatecurrencyComponent implements OnInit {
     });
   }
 
+  onlyNumbers(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if ((charCode < 48 || charCode > 57) && charCode !== 46) {
+      event.preventDefault();
+    }
+  }
+
   Close(): void {
     this.matDialogRef.close();
   }

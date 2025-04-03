@@ -61,12 +61,16 @@ export class CurrencyService {
   //   return this.http.get<any[]>(url);
   // }
 
-  getCurrenciesByTenant(tenantId: string): Observable<any[]> {
-    const encodedTenantId = encodeURIComponent(tenantId); // Encode properly
-    const url = `${this.baseUrl}Countries/ByTenant/${encodedTenantId}`;
-    return this.http.get<any[]>(url);
-  }
+  // getCurrenciesByTenant(tenantId: string): Observable<any[]> {
+  //   const encodedTenantId = encodeURIComponent(tenantId); // Encode properly
+  //   const url = `${this.baseUrl}Countries/ByTenant/${encodedTenantId}`;
+  //   return this.http.get<any[]>(url);
+  // }
 
+    // Example GET method
+    getData(): Observable<any> {
+      return this.http.get<any>(this.baseUrl+'Countries')
+    }
 
   getCurrencyByCountryId(countryId: string): Observable<any[]> {
     debugger

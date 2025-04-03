@@ -7,10 +7,6 @@ import { environment } from 'environments/environments';
   providedIn: 'root'
 })
 export class TenantService {
-
-  // private apiUrl = 'https://localhost:7034/api';
-
-  // https://localhost:7034/api/Registration/registered_user
   
   baseUrl
   constructor(private http: HttpClient) { 
@@ -19,14 +15,15 @@ export class TenantService {
 
     // Example GET method
     getData(): Observable<any> {
-      return this.http.get<any>(this.baseUrl+'Registration/registered_user')
+      return this.http.get<any>(this.baseUrl+'Registration/registereduser')
     }
 
-      // // Example POST method
-  // postData(data: any): Observable<any> {
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //   return this.http.post<any>(`${this.apiUrl}/https://localhost:7034/api/Countries`, data, { headers });
-  // }
+    getEmailCodeByEmail(email: string): Observable<any[]> {
+      const encodedEmailId = encodeURIComponent(email); // Encode properly
+      const url = `${this.baseUrl}Registration/ByUser/${encodedEmailId}`;
+      return this.http.get<any[]>(url);
+    }
+    
 }
 
 

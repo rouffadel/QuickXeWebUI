@@ -1,0 +1,446 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="bg-card sticky top-0 relative z-49 flex h-16 w-full items-center pr-4 pl-0 shadow dark:border-b dark:bg-transparent dark:shadow-none sm:h-20 md:px-6 print:hidden">
+      <div class="mx-2 flex items-center lg:mr-8" [ngStyle]="{ display: windowWidth >= 768 ? 'flex' : 'none' }">
+        
+        <div class="w-56">
+          <img src="images/logo/Quick_XeNbg.png">
+        </div>
+        <!-- <div class="hidden lg:flex">
+              <img src="images/logo/Quick_XeNbg.png" class="dark:hidden" style="width: 14rem;">
+          </div> -->
+
+          <!-- <div class="w-56">
+            <img src="images/logo/Quick_XeNbg.png">
+        </div> -->
+
+        
+
+      </div>
+
+             
+       <!-- Navigation links -->
+    <!-- <div
+    class="menu-links"
+    [ngStyle]="{
+      display: isMenuOpen || windowWidth > 768 ? 'flex' : 'none',
+      flexDirection: windowWidth <= 768 ? 'column' : 'row',
+      gap: '10px',
+      position: windowWidth <= 768 ? 'absolute' : 'static',
+      top: windowWidth <= 768 ? '60px' : 'auto',
+      left: windowWidth <= 768 ? '0' : 'auto',
+      right: windowWidth <= 768 ? '0' : 'auto',
+      backgroundColor: windowWidth <= 768 ? '#fff' : 'transparent',
+      padding: windowWidth <= 768 ? '20px' : '0',
+      boxShadow: windowWidth <= 768 ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none'
+    }"
+  >
+
+     <div
+    (click)="scrollToAboutUs()"
+    class="menu-item"
+    style="
+      padding: 8px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+      border-radius: 4px;
+    "
+    (mouseover)="hoverStyle($event, true)"
+    (mouseout)="hoverStyle($event, false)"
+  >
+  About Us
+  </div>
+
+  <div
+  (click)="scrollToServices()"
+    class="menu-item"
+    style="
+      padding: 8px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+      border-radius: 4px;
+    "
+    (mouseover)="hoverStyle($event, true)"
+    (mouseout)="hoverStyle($event, false)"
+  >
+    Services
+  </div>
+
+  <div
+  (click)="scrollToContactUs()"
+  class="menu-item"
+  [ngStyle]="{
+    display: isMenuOpen || windowWidth > 768 ? 'flex' : 'none'}"
+  style="
+    padding: 8px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    border-radius: 4px;
+  "
+  (mouseover)="hoverStyle($event, true)"
+  (mouseout)="hoverStyle($event, false)"
+>
+Contact Us
+</div>
+
+
+    <div
+      (click)="goToSignIn()"
+      class="menu-item"
+      style="
+        padding: 8px;
+        transition: background-color 0.3s;
+        cursor: pointer;
+        border-radius: 4px;
+      "
+      (mouseover)="hoverStyle($event, true)"
+      (mouseout)="hoverStyle($event, false)"
+    >
+      RBI AGENT
+    </div>
+
+    
+   
+  </div> -->
+
+
+  <div class="menu-links" [ngClass]="{ 'mobile-menu': windowWidth <= 768, 'open': isMenuOpen || windowWidth > 768 }">
+    <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToAboutUs()" class="menu-item">About Us</div>
+    <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToServices()" class="menu-item">Services</div>
+    <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToContactUs()" class="menu-item">Contact Us</div>
+    <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="goToSignIn()" class="menu-item">AGENT LOGIN</div>
+  </div>
+  
+
+  <!-- <div class="ml-auto flex items-center space-x-2 pl-2">
+    <div class="relative flex items-center">
+  
+        <button type="button" mat-flat-button [matMenuTriggerFor]="userActions" style="background-color: #ffb300;">
+          <mat-icon class="icon-size-4" svgIcon="heroicons_outline:user"></mat-icon>
+          <span class="ml-1">LOGIN / SIGN UP</span>
+        </button>
+      
+      <mat-menu [xPosition]="'before'" #userActions="matMenu">
+      
+          <button mat-menu-item (click)="openLogin()">
+              <span>Login</span>
+          </button>
+
+          <mat-divider class="mt-0 mb-0"></mat-divider>
+          <button mat-menu-item (click)="openRegister()">
+              <span>Sign Up</span>
+          </button>
+      </mat-menu>
+
+    </div>
+</div> -->
+
+
+
+<div class="ml-auto flex items-center space-x-2 pl-2">
+  <div class="relative flex items-center">
+    <!-- <button
+      type="button"
+      mat-flat-button
+      [matMenuTriggerFor]="userActions"
+      class="px-4 py-2 text-white flex items-center rounded-md shadow-md"
+    >
+      <mat-icon class="icon-size-4" svgIcon="heroicons_outline:user"></mat-icon>
+      <span class="ml-1 hidden sm:inline">LOGIN / SIGN UP</span>
+    </button> -->
+
+    <button type="button" mat-flat-button [matMenuTriggerFor]="userActions" style="background-color: #ffb300;">
+      <mat-icon class="icon-size-4" svgIcon="heroicons_outline:user"></mat-icon>
+      <span class="ml-1 hidden sm:inline">LOGIN / SIGN UP</span>
+    </button>
+
+    <!-- <mat-menu [xPosition]="'before'" #userActions="matMenu" class="w-full max-w-xs">
+      <button mat-menu-item (click)="openLogin()" class="w-full text-center">
+        <span>Login</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="openRegister()" class="w-full text-center">
+        <span>Sign Up</span>
+      </button>
+    </mat-menu> -->
+
+    <mat-menu [xPosition]="'before'" #userActions="matMenu">
+      
+      <button mat-menu-item (click)="openLogin()">
+          <span>Login</span>
+      </button>
+
+      <mat-divider class="mt-0 mb-0"></mat-divider>
+      <button mat-menu-item (click)="openRegister()">
+          <span>Sign Up</span>
+      </button>
+  </mat-menu>
+
+  </div>
+</div>
+
+
+
+<!-- <div class="ml-auto flex items-center space-x-2 pl-2">
+  <div class="relative flex items-center">
+    <button
+      type="button"
+      mat-flat-button
+      [matMenuTriggerFor]="userActions"
+      class="bg-amber-500 px-4 py-2 rounded-md hidden sm:flex items-center"
+    >
+      <mat-icon class="icon-size-4" svgIcon="heroicons_outline:user"></mat-icon>
+      <span class="ml-1 hidden sm:inline">LOGIN / SIGN UP</span>
+    </button>
+
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="userActions"
+      class="sm:hidden"
+    >
+      <mat-icon svgIcon="heroicons_outline:user"></mat-icon>
+    </button>
+
+    <mat-menu [xPosition]="'before'" #userActions="matMenu">
+      <button mat-menu-item (click)="openLogin()">
+        <span>Login</span>
+      </button>
+      <mat-divider class="mt-0 mb-0"></mat-divider>
+      <button mat-menu-item (click)="openRegister()">
+        <span>Sign Up</span>
+      </button>
+    </mat-menu>
+  </div>
+</div> -->
+
+
+
+
+  </div>
+
+ 
+
+
+  <div id="carouselExample" class="hidden sm:inline carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="images/logo/webbanner.png" class="d-block w-100" alt="Image 2">
+        </div>
+        <div class="carousel-item">
+          <img src="images/logo/image_fit_size.jpeg" class="d-block w-100" alt="Image 1">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+
+
+
+      <div class="container">
+        <!-- <div id="about-us">
+        <section #aboutUsSection class="section">
+            <h2>About QuickXe</h2>
+            <div >
+             <p style="text-align: justify;">QuickXe is a leading forensics company specializing in advanced digital investigations, forensic analysis, and evidence management. Our cutting-edge solutions help law enforcement agencies, legal professionals, and businesses uncover critical insights with precision and efficiency.
+              With expertise in data recovery, cybercrime investigations, and forensic intelligence, QuickXe ensures accuracy and reliability in every case.
+              <br><strong>Secure. Investigate. Resolve.</strong></p>
+            </div>
+        </section>
+      </div> -->
+
+      <div id="about-us" class="about-container">
+        <section #aboutUsSection class="section">
+            <div class="content">
+                <div class="text-section">
+                    <h2>About QuickXe</h2>
+                    <p style="text-align: justify;">
+                      QuickXe is a pioneering forensics company offering cutting-edge digital investigations, forensic analysis, and evidence management solutions. Our mission is to provide law enforcement, legal professionals, and businesses with reliable tools to uncover critical digital evidence efficiently.
+                      With a team of highly skilled forensic experts and state-of-the-art technology, we specialize in data recovery, cybercrime investigations, and forensic intelligence, ensuring precision and accuracy in every case.
+                    </p>
+                    <p>
+                        <strong>Our expertise spans across:</strong>
+                    </p>
+                    <ul>
+                        <li>✅ Data Recovery & Digital Evidence Extraction</li>
+                        <li>✅ Cybercrime & Fraud Investigations</li>
+                        <li>✅ Mobile & Computer Forensics</li>
+                        <li>✅ Forensic Intelligence & Risk Analysis</li>
+                        <li>✅ Incident Response & Threat Detection</li>
+                    </ul>
+                    <p style="text-align: justify;">
+                        With a commitment to accuracy, security, and innovation, QuickXe ensures seamless 
+                        forensic operations tailored to the needs of our clients. 
+                    </p>
+                    <strong>Secure. Investigate. Resolve.</strong>
+                </div>
+                <div class="image-section">
+                    <img src="images/logo/image.jpeg" alt="Forensics Lab">
+                    <!-- <img src="digital_investigation.jpg" alt="Digital Investigation"> -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+
+
+<div class="flex min-w-0 flex-auto flex-col">
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+    <div class="search-container">
+
+      <mat-form-field class="search-field">
+        <!-- <mat-label>Search</mat-label> -->
+        <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
+      </mat-form-field>
+      
+    </div>
+
+      <!-- CONTENT GOES HERE -->
+      <div class="">          
+
+  <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing" style="max-height: 400px; overflow: auto;">
+    <ng-container matColumnDef="countryName">
+  <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white;  text-align: left;">
+    <mat-icon style="vertical-align: middle; margin-right: 5px; color: white;">public</mat-icon> <!-- Country icon aligned to middle -->
+    <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle --> </th>
+  <td mat-cell *matCellDef="let element" style="text-align: left;"> 
+    <div class="country-wrapper">
+      <div class="country-info">
+        <img
+          [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
+          alt="{{ element.countryName }} flag"
+          class="country-flag"
+        />
+        <span class="country-text">{{ element.countryName }}</span>
+      </div>
+      <div class="currency-text">{{ element.currencyName }}</div>
+    </div>
+  </td>
+</ng-container> 
+
+  <!-- Buy Rate Column (centered) -->
+  <ng-container matColumnDef="buyRate">
+    <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
+      <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
+      <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+      <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
+    </th>
+    <td mat-cell *matCellDef="let element" style="text-align: center;">
+      {{element.buyRate}}
+    </td>
+  </ng-container>
+
+  <!-- Sell Rate Column (centered) -->
+  <ng-container matColumnDef="sellRate">
+    <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
+      <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
+      <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+      <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
+    </th>
+    <td mat-cell *matCellDef="let element" style="text-align: center;">
+      {{element.sellRate}}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+<!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
+<mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+
+        </div>
+  </div>
+</div>
+
+
+
+    
+
+        <div id="services" class="about-container">
+        <section #Servicessection class="section">
+            <h2>Our Services</h2>
+            <div class="services">
+                <div class="service-box">
+                    <h3>Digital Forensics</h3>
+                    <p>Recover and analyze digital evidence with precision.</p>
+                </div>
+                <div class="service-box">
+                    <h3>Cybercrime Investigations</h3>
+                    <p>Detect and prevent cyber threats effectively.</p>
+                </div>
+                <div class="service-box">
+                    <h3>Data Recovery</h3>
+                    <p>Restore lost or deleted data securely.</p>
+                </div>
+                <div class="service-box">
+                  <h3>Mobile & Computer Forensics</h3>
+                  <p>Mobile forensic investigations including call logs, messages, app data, and GPS tracking.</p>
+              </div>
+              <div class="service-box">
+                <h3>Incident Response & Threat Intelligence</h3>
+                <p>Rapid response to data breaches, insider threats, and unauthorized system intrusions.</p>
+            </div>
+            <div class="service-box">
+              <h3>Expert Witness & Legal Support</h3>
+              <p>Professional forensic reports and documentation for legal cases.</p>
+          </div>
+            </div>
+        </section>
+        </div>
+        
+        <div id="contact-us" class="about-container">
+        <!-- <section #contactUsSection class="section contact"> -->
+            <!-- <h2>Contact Us</h2>
+            <p>Email: support&#64;quickxe.com</p>
+            <p>Phone: +123 456 7890</p> -->
+            <section #contactUsSection class="contact-section">
+              <h2>Contact Us</h2>
+              <p>We’re here to help! Whether you have questions about our forensic services, need technical support, or require expert consultation, our team is ready to assist you.</p>
+      
+              <div class="contact-details">
+                  <div class="contact-info">
+                      <h3>Get in Touch</h3>
+                      <p><strong>Email:</strong> <a href="mailto:support@quickxe.com">support&#64;quickxe.com</a></p>
+                      <p style="margin-bottom: 30px;"><strong>Phone:</strong> <a href="tel:+1234567890">+123 456 7890</a></p>
+      
+                      <h3>Our Office</h3>
+                      <p style="margin-bottom: 30px;"><strong>Headquarters:</strong> 123 Forensics Street, Cyber City, Techland 56789</p>
+      
+                      <h3>Business Hours</h3>
+                      <p>Monday – Friday: 9:00 AM – 6:00 PM</p>
+                      <p>Saturday: 10:00 AM – 4:00 PM</p>
+                      <p>Sunday: Closed</p>
+      
+                      <!-- <h3>Follow Us</h3>
+                      <p>Stay connected with QuickXe for the latest updates on digital forensics and cybersecurity.</p>
+                      <ul class="social-links">
+                          <li><a href="https://www.linkedin.com/company/quickxe" target="_blank">LinkedIn</a></li>
+                          <li><a href="https://twitter.com/quickxe" target="_blank">Twitter</a></li>
+                          <li><a href="https://facebook.com/quickxe" target="_blank">Facebook</a></li>
+                      </ul> -->
+                  </div>
+      
+                
+              </div>
+          </section>
+        <!-- </section> -->
+      </div>
+    </div>
+
+    
+    <footer>
+        <p class="mt-2 mb-2" style="font-size: 16px;">&copy; 2025 QuickXe. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+
+

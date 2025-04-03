@@ -15,10 +15,10 @@ export class AddcurrencyService {
     this.baseUrl = environment.apiUrl
   }
 
-  // // Example GET method
-  // getData(): Observable<any> {
-  //   return this.http.get<any>(this.baseUrl+'Countries');
-  // }
+  // Example GET method
+  getData(): Observable<any> {
+    return this.http.get<any>(this.baseUrl+'CountriesMasters')
+  }
 
   createCurrency(currencyData: any): Observable<any> {
     return this.http.post<any>(this.baseUrl+'Countries', currencyData);

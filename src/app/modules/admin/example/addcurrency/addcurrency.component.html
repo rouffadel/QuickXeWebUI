@@ -1,6 +1,6 @@
 <div class="-m-6 flex max-h-screen max-w-240 flex-col md:min-w-160">
     <!-- Header -->
-    <div class="flex h-16 flex-0 items-center justify-between bg-[#303030] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
+    <div class="flex h-16 flex-0 items-center justify-between bg-[#424242] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
         <div class="text-lg font-medium">Add Currency</div>
         <br>
         <button mat-icon-button (click)="Close()" [tabIndex]="-1">
@@ -9,20 +9,18 @@
     </div>
 
         <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
-            <!-- <mat-form-field>
-              <mat-select [(ngModel)]="country" name="country" (selectionChange)="Change($event)" aria-placeholder="Add">
-                @for (item of countries; track country) {
-                  <mat-option [value]="item">{{item.countryName}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field> -->
-            <mat-form-field>
+
+              <mat-form-field>
                 <mat-select [(ngModel)]="country" name="country" (selectionChange)="Change($event)" aria-placeholder="Add">
-                  @for (item of currency; track currency) {
+                  @for (item of countries; track countries) {
                     <mat-option [value]="item">{{item.countryName}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
+
+              <!-- <lib-country-list></lib-country-list> -->
+
+
             <div class="flex flex-cols justify-between">
                 <div class="flex flex-cols">
                 Flag :&nbsp; <img *ngIf="selcountryCode"
@@ -38,26 +36,52 @@
   
         <mat-form-field>
             <mat-label>Buy Rate</mat-label>
-            <input matInput [(ngModel)]="buyRate" />
+            <input type="number" matInput [(ngModel)]="buyRate" (keypress)="onlyNumbers($event)"/>
         </mat-form-field>
+
+        <!-- <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+            <input type="tel" matInput formControlName="mobileNumber" placeholder="Mobile Number" (keypress)="onlyNumbers($event)" (input)="validateMobileNumber()">
+            <mat-error *ngIf="addTenantForm.get('mobileNumber').hasError('required')">
+                Mobile Number is required
+            </mat-error>
+            <mat-error *ngIf="addTenantForm.get('mobileNumber')?.hasError('minlength')">
+                Phone Number must be at least 10 digits
+            </mat-error>
+        </mat-form-field> -->
+
 
         <mat-form-field>
             <mat-label>Sell Rate</mat-label>
-            <input matInput [(ngModel)]="sellRate" />
+            <input type="number" matInput [(ngModel)]="sellRate" (keypress)="onlyNumbers($event)"/>
         </mat-form-field>
     </div>
 
 
         <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
-            <!-- Save -->
-            <button
-                (click)="addCurrency()"
-                class="order-first sm:order-last" style="background-color: #ffb300;"
-                mat-flat-button
-                [color]="'primary'"
-            >
-                Save
-            </button>
+
+
+<!-- Save -->
+<button
+(click)="addCurrency()"
+mat-flat-button
+[disabled]="!country || !buyRate || !sellRate"
+[ngStyle]="{ 'background-color': (country && buyRate && sellRate) ? '#ffb300' : '' }"
+class="order-first sm:order-last">
+Save
+</button>
+
+
+<!-- <button
+            (click)="addCustomer()"
+            mat-flat-button
+            [disabled]="customerDetailsForm.invalid"
+            [ngStyle]="{ 'background-color': customerDetailsForm.valid ? '#ffb300' : '' }">
+            Sign Up
+            </button> -->
+
+
+
         </div>
 </div>
 

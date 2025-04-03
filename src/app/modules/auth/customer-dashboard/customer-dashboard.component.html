@@ -1,0 +1,585 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="bg-card sticky top-0 relative z-49 flex h-16 w-full items-center pr-4 pl-0 shadow dark:border-b dark:bg-transparent dark:shadow-none sm:h-20 md:px-6 print:hidden">
+        <div class="mx-2 flex items-center lg:mr-8" [ngStyle]="{ display: windowWidth >= 768 ? 'flex' : 'none' }">
+            
+          <div class="w-56">
+                <img src="images/logo/Quick_XeNbg.png">
+            </div>
+          
+        </div>
+  
+               
+    <div class="ml-auto flex items-center space-x-2 pl-2">
+      <div class="relative flex items-center">
+
+        <!-- <fuse-fullscreen class="hidden md:block"></fuse-fullscreen> -->
+        <!-- <user></user> -->
+
+        <!-- Button -->
+
+<button mat-icon-button [matMenuTriggerFor]="userActions">
+  <span>
+      <mat-icon class="icon-size-10" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+  </span>
+</button>
+
+<!-- <mat-menu [xPosition]="'before'" #userActions="matMenu">
+  <button mat-menu-item>
+      <span class="flex flex-col leading-none">
+          <span>Signed in as</span>
+          <span class="mt-1.5 text-md font-medium">{{name}}</span>
+      </span>
+  </button>
+
+  <mat-divider class="p-2 mb-0"></mat-divider>
+  <button mat-menu-item (click)="openUpdateProfileForm()">
+      <mat-icon class="icon-size-8" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+      <span>Profile</span>
+  </button>
+
+  <mat-divider class="p-2 mb-0"></mat-divider>
+  <button mat-menu-item class="mt-0" (click)="changePassword()">
+      <mat-icon class="icon-size-8" [svgIcon]="'heroicons_outline:shopping-bag'"></mat-icon>
+      <span>My Orders</span>
+  </button>
+
+  <mat-divider class="p-2 mb-0"></mat-divider>
+  <button mat-menu-item (click)="signOut()">
+      <mat-icon class="icon-size-8"
+          [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"
+      ></mat-icon>
+      <span>Sign out</span>
+  </button>
+</mat-menu> -->
+
+
+<mat-menu [xPosition]="'before'" #userActions="matMenu">
+  <!-- <button mat-menu-item>
+    <span class="flex flex-col leading-none">
+      <span>Signed in as</span>
+      <span class="mt-1.5 text-md font-medium">{{ name }}</span>
+    </span>
+  </button> -->
+
+  <!-- <mat-divider class="p-2 mb-0"></mat-divider> -->
+  <button mat-menu-item class="hover-bg p-2">
+    <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:user'"></mat-icon>
+    <span>Profile</span>
+  </button>
+
+  <!-- <mat-divider class="p-2 mb-0"></mat-divider> -->
+  <button (click)="openMyDocuments()" mat-menu-item class="hover-bg mt-0 p-2">
+    <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:shopping-bag'"></mat-icon>
+    <span>My Documents</span>
+  </button>
+
+  <button mat-menu-item class="hover-bg mt-0 p-2">
+    <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:shopping-cart'"></mat-icon>
+    <span>My Orders</span>
+  </button>
+
+  <!-- <mat-divider class="p-2 mb-0"></mat-divider> -->
+  <button mat-menu-item class="hover-bg p-2" (click)="signOut()">
+    <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
+    <span>Sign out</span>
+  </button>
+</mat-menu>
+
+
+
+
+<!-- <mat-menu class="user-status-menu" #userStatus="matMenu">
+  <button mat-menu-item (click)="updateUserStatus('online')">
+      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-green-500"></span>
+      <span>Online</span>
+  </button>
+  <button mat-menu-item (click)="updateUserStatus('away')">
+      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-amber-500"></span>
+      <span>Away</span>
+  </button>
+  <button mat-menu-item (click)="updateUserStatus('busy')">
+      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-red-500"></span>
+      <span>Busy</span>
+  </button>
+  <button mat-menu-item (click)="updateUserStatus('not-visible')">
+      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-gray-400"></span>
+      <span>Invisible</span>
+  </button>
+</mat-menu> -->
+
+  
+      </div>
+  </div>
+  
+    </div>
+  
+  
+
+    <!-- <form [formGroup]="orderForm">
+
+    <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
+
+      <mat-form-field>
+        <mat-label>Enter Amount</mat-label>
+        <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
+    </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>From</mat-label>
+        <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
+          @for (food of foods; track food) {
+            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field>
+        <mat-label>To</mat-label>
+        <mat-select [(ngModel)]="selectedValue1" name="food" aria-placeholder="Select Currency">
+          @for (food of foods; track food) {
+            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      </div>
+
+
+      <button
+      mat-flat-button
+      [disabled]="!orderForm.valid"
+      [ngStyle]="{ 'background-color': (orderForm.valid) ? '#ffb300' : '' }"
+      class="w-50"
+      >
+      Book
+      </button>
+
+    </form> -->
+
+    <!-- <form [formGroup]="orderForm" class="order-form">
+      <div class="form-container mt-4">
+        <h2 class="title">Currency Exchange</h2>
+    
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Enter Amount</mat-label>
+          <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>From</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="fromCurrency">
+            @for (food of foods; track food) {
+              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>To</mat-label>
+          <mat-select [(ngModel)]="selectedValue1" name="toCurrency">
+            @for (food of foods; track food) {
+              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+    
+        <button
+          mat-flat-button
+          [disabled]="!orderForm.valid"
+          [ngStyle]="{ 'background-color': orderForm.valid ? '#ffb300' : '#ccc' }"
+          class="book-button"
+        >
+          Book
+        </button>
+      </div>
+    </form> -->
+    
+    <div class="home-container">
+      <!-- Left Section - Introduction or Banner -->
+      <div class="left-section">
+        <!-- <h1>Welcome to QuickXe</h1>
+        <p>
+          Get the best exchange rates instantly and securely. Book your exchange in just a few clicks!
+        </p> -->
+        <!-- <img src="images/logo/image.jpeg" alt="Currency Exchange" class="banner-image"/> -->
+        <h1>Welcome, {{ name }}!</h1>
+  <p style="text-align: justify;">
+    Ready to exchange your currency at the best rates? We offer <strong>real-time rates</strong>, 
+    <strong> zero hidden fees</strong>, and a <strong>secure transaction process</strong> to make your exchange hassle-free.
+  </p>
+  
+  <ul class="benefits-list">
+    <li>✅ Competitive exchange rates updated in real-time</li>
+    <li>✅ Fast and secure transactions with trusted partners</li>
+    <li>✅ 24/7 customer support for seamless exchanges</li>
+  </ul>
+
+  <p style="text-align: justify;">Start exchanging today and <strong>get the best value for your money!</strong></p>
+      </div>
+    
+      <!-- Right Section - Currency Exchange Form -->
+      <!-- <div class="bg-card mt-8 flex flex-col overflow-hidden rounded-2xl mr-4 w-50 p-8 pb-4 shadow"> -->
+        <!-- .right-section {
+          flex: 0.4;
+          background: #ffffff;
+          padding: 30px;
+          border-radius: 12px;
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        } -->
+
+      <!-- <div class="right-section"> -->
+
+
+
+
+        <!-- <form
+                class="bg-card mt-8 w-50 mr-4 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow"
+            >
+            <h2 class="form-title">Exchange Currency</h2>
+
+                <div class="gt-xs:flex-row flex flex-col">
+                    <mat-form-field
+                    appearance="outline"
+                        class="gt-xs:pr-3 flex-auto"
+                    >
+                    <mat-label>Enter Amount</mat-label>
+                    <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
+                       
+                    </mat-form-field>
+               
+                    <mat-form-field
+                    appearance="outline"
+                        class="gt-xs:pl-3 flex-auto"
+                    >
+                    <mat-label>From</mat-label>
+                    <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
+                      @for (food of foods; track food) {
+                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                      }
+                    </mat-select>
+                       
+                    </mat-form-field>
+
+
+                    <mat-form-field
+                    appearance="outline"
+                        class="gt-xs:pl-3 flex-auto"
+                    >
+                    <mat-label>To</mat-label>
+                    <mat-select [(ngModel)]="selectedValue1" name="food" aria-placeholder="Select Currency">
+                      @for (food of foods; track food) {
+                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                      }
+                    </mat-select>
+                        
+                    </mat-form-field>
+
+
+                    <button
+          class="gt-xs:pl-3 flex-auto p-4"
+            mat-flat-button
+            style="background-color:#ffb300;"
+          >
+            Book Exchange
+          </button>
+
+
+                
+
+                </div>
+        </form> -->
+
+
+        <form
+        class="bg-card mt-4 mr-4 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow"
+    >
+    <h2 class="form-title">Exchange Currency</h2>
+
+        <div class="gt-xs:flex-row flex flex-col">
+            <mat-form-field
+            appearance="outline"
+                class="gt-xs:pr-3 flex-auto"
+            >
+            <mat-label>Enter Amount</mat-label>
+            <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
+              
+            </mat-form-field>
+            
+
+            <mat-form-field
+            appearance="outline"
+
+                class="gt-xs:pl-3 flex-auto"
+            >
+                <mat-label>From</mat-label>
+                    <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
+                      @for (food of foods; track food) {
+                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                      }
+                    </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field
+            appearance="outline"
+
+                class="gt-xs:pl-3 flex-auto"
+            >
+                <mat-label>To</mat-label>
+                    <mat-select [(ngModel)]="selectedValue1" name="food1" aria-placeholder="Select Currency">
+                      @for (food of foods; track food) {
+                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                      }
+                    </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <button
+          class="gt-xs:pr-3 flex-auto"
+            mat-flat-button
+            style="background-color:#ffb300;"
+          >
+            Book Exchange
+          </button>
+
+
+        <!-- <div class="flex">
+            <mat-form-field
+                class="flex-auto"
+            >
+                <mat-label>Address</mat-label>
+                <textarea
+                    matInput
+                    cdkTextareaAutosize
+                    [cdkAutosizeMinRows]="3"
+                ></textarea>
+                <mat-icon
+                    class="icon-size-5"
+                    matSuffix
+                    [svgIcon]="'heroicons_solid:map-pin'"
+                ></mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="gt-md:flex-row flex flex-col">
+            <mat-form-field
+                class="gt-md:pr-3 flex-auto"
+            >
+                <mat-label>City</mat-label>
+                <input matInput />
+                <mat-icon
+                    class="icon-size-5"
+                    matSuffix
+                    [svgIcon]="'heroicons_solid:map-pin'"
+                ></mat-icon>
+            </mat-form-field>
+            <mat-form-field
+                class="gt-md:pl-3 flex-auto"
+            >
+                <mat-label>State</mat-label>
+                <input matInput />
+                <mat-icon
+                    class="icon-size-5"
+                    matSuffix
+                    [svgIcon]="'heroicons_solid:map-pin'"
+                ></mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field
+                class="flex-auto"
+            >
+                <mat-label>Postal code</mat-label>
+                <input matInput maxlength="5" #postalCode />
+                <mat-hint align="end"
+                    >{{ postalCode.value.length }} / 5</mat-hint
+                >
+                <mat-icon
+                    class="icon-size-5"
+                    matSuffix
+                    [svgIcon]="'heroicons_solid:envelope'"
+                ></mat-icon>
+            </mat-form-field>
+        </div> -->
+    </form>
+
+
+
+                <!-- </div>
+                <div class="flex">
+                    <mat-form-field
+                        class="flex-auto"
+                    >
+                        <mat-label>Address</mat-label>
+                        <textarea
+                            matInput
+                            cdkTextareaAutosize
+                            [cdkAutosizeMinRows]="3"
+                        ></textarea>
+                        <mat-icon
+                            class="icon-size-5"
+                            matSuffix
+                            [svgIcon]="'heroicons_solid:map-pin'"
+                        ></mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="gt-md:flex-row flex flex-col">
+                    <mat-form-field
+                        class="gt-md:pr-3 flex-auto"
+                    >
+                        <mat-label>City</mat-label>
+                        <input matInput />
+                        <mat-icon
+                            class="icon-size-5"
+                            matSuffix
+                            [svgIcon]="'heroicons_solid:map-pin'"
+                        ></mat-icon>
+                    </mat-form-field>
+                    <mat-form-field
+                        class="gt-md:pl-3 flex-auto"
+                    >
+                        <mat-label>State</mat-label>
+                        <input matInput />
+                        <mat-icon
+                            class="icon-size-5"
+                            matSuffix
+                            [svgIcon]="'heroicons_solid:map-pin'"
+                        ></mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field
+                        class="flex-auto"
+                    >
+                        <mat-label>Postal code</mat-label>
+                        <input matInput maxlength="5" #postalCode />
+                        <mat-hint align="end"
+                            >{{ postalCode.value.length }} / 5</mat-hint
+                        >
+                        <mat-icon
+                            class="icon-size-5"
+                            matSuffix
+                            [svgIcon]="'heroicons_solid:envelope'"
+                        ></mat-icon>
+                    </mat-form-field>
+                </div> -->
+            <!-- </form> -->
+
+
+
+        <!-- <form [formGroup]="orderForm" class="exchange-form">
+          <h2 class="form-title">Exchange Currency</h2>
+
+        <div class="gt-xs:flex-row flex flex-col">
+          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto"
+          >
+            <mat-label>Enter Amount</mat-label>
+            <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto"
+          >
+            <mat-label>From</mat-label>
+            <mat-select [(ngModel)]="selectedValue" name="fromCurrency">
+              @for (food of foods; track food) {
+                <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto"
+          >
+            <mat-label>To</mat-label>
+            <mat-select [(ngModel)]="selectedValue1" name="toCurrency">
+              @for (food of foods; track food) {
+                <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+    
+          <button
+          class="gt-xs:pr-3 flex-auto book-button"
+            mat-flat-button
+            style="background-color:#ffb300;"
+          >
+            Book Exchange
+          </button>
+        </div>
+        </form> -->
+      
+      <!-- </div> -->
+    <!-- </div> -->
+    
+    
+
+<!-- <mat-form-field>
+    <mat-label>Buy Rate</mat-label>
+    <input matInput [(ngModel)]="buyRate" />
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Sell Rate</mat-label>
+    <input matInput [(ngModel)]="sellRate" />
+</mat-form-field>
+</div>
+
+
+<div class="w-full">
+
+  <form [formGroup]="orderForm">
+
+    <mat-form-field>
+      <mat-label>Enter Amount</mat-label>
+      <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
+  </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>From</mat-label>
+      <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
+        @for (food of foods; track food) {
+          <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label>To</mat-label>
+      <mat-select [(ngModel)]="selectedValue1" name="food" aria-placeholder="Select Currency">
+        @for (food of foods; track food) {
+          <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+      <button
+      mat-flat-button
+      [disabled]="!orderForm.valid"
+      [ngStyle]="{ 'background-color': (orderForm.valid) ? '#ffb300' : '' }"
+      class="order-first sm:order-last w-24"
+      >
+      Book
+      </button>
+
+
+  
+    
+  </form>
+</div> -->
+    </div>
+ 
+      <footer>
+          <p class="mt-2 mb-2" style="font-size: 16px;">&copy; 2025 QuickXe. All rights reserved.</p>
+      </footer>
+  
+  </div>
+  
+  
+  
+  
+
+
+  
+
+

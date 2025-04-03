@@ -17,6 +17,11 @@ import { Router } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { Subject, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateprofileComponent } from 'app/modules/admin/example/updateprofile/updateprofile.component';
+import { UpdateprofileService } from 'app/modules/admin/example/updateprofile/updateprofile.service';
+
+
 
 @Component({
     selector: 'user',
@@ -31,6 +36,7 @@ import { Subject, takeUntil } from 'rxjs';
         MatIconModule,
         NgClass,
         MatDividerModule,
+        UpdateprofileComponent,
     ],
 })
 export class UserComponent implements OnInit, OnDestroy {
@@ -42,6 +48,7 @@ export class UserComponent implements OnInit, OnDestroy {
     user: User;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    Id: string;
 
     /**
      * Constructor
@@ -49,7 +56,9 @@ export class UserComponent implements OnInit, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private dialog: MatDialog,
+        private updateprofileService: UpdateprofileService,
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,6 +72,7 @@ export class UserComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // Subscribe to user changes
         this.userName=sessionStorage.getItem('userName')
+        this.Id = sessionStorage.getItem('loggedInUserId')
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
@@ -105,6 +115,46 @@ export class UserComponent implements OnInit, OnDestroy {
             })
             .subscribe();
     }
+
+//     updateProfileDetails() {
+// this._router.navigate(['updateprofile'])
+//       }
+
+      changePassword() {
+        this._router.navigate(['changepassword'])
+        }
+
+//   openUpdateProfileForm(Id: string): void {
+//     debugger
+//     this.updateprofileService.getUserById(Id).subscribe((resp: any) => {
+//       if (resp) {
+//         this._router.navigate(['updateprofile'], {
+//             state: { userData: resp } // Passing data to the next component
+//           });
+//         }
+//     });
+//   }        
+
+
+openUpdateProfileForm(): void {
+    if (!this.Id) {
+      console.error("User ID not found in sessionStorage.");
+      return;
+    }
+  
+    this.updateprofileService.getUserById(this.Id).subscribe(
+      (resp: any) => {
+        if (resp) {
+          this._router.navigate(['updateprofile'], {
+            state: { userData: resp } // Passing data to the next component
+          });
+        }
+      },
+      (error) => {
+        console.error("Error fetching user data:", error);
+      }
+    );
+  }
 
     /**
      * Sign out

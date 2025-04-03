@@ -16,6 +16,7 @@ export class AuthService {
     private _httpClient = inject(HttpClient);
     private _userService = inject(UserService);
     private router: Router
+    invalidCredentials: string;
    
     
 constructor(){
@@ -29,13 +30,6 @@ constructor(){
     /**
      * Setter & getter for access token
      */
-    // set accessToken(token: string) {
-    //     localStorage.setItem('accessToken', token);
-    // }
-
-    // get accessToken(): string {
-    //     return localStorage.getItem('accessToken') ?? '';
-    // }
 
     set accessToken(token: string) {
         sessionStorage.setItem('accessToken', token);
@@ -44,25 +38,6 @@ constructor(){
     get accessToken(): string {
         return sessionStorage.getItem('accessToken') ?? '';
     }
-
-
-    // //Setter & getter for loggged in user role
-    // set loggedInUserRole(roleName: string) {
-    //     localStorage.setItem('loggedInUserRole', roleName);
-    // }
-
-    // get loggedInUserRole(): string {
-    //     return localStorage.getItem('loggedInUserRole') ?? '';
-    // }
-
-    // //Setter & getter for loggged in user id
-    // set loggedInUserId(userId: string) {
-    //     localStorage.setItem('loggedInUserId', userId);
-    // }
-
-    // get loggedInUserId(): string {
-    //     return localStorage.getItem('loggedInUserId') ?? '';
-    // }    
 
 
     //Setter & getter for loggged in user role
@@ -83,16 +58,14 @@ constructor(){
         return sessionStorage.getItem('loggedInUserId') ?? '';
     }   
     
-       //Setter & getter for loggged in user id
-        set userName(username: string) {
+    //Setter & getter for username
+    set userName(username: string) {
             sessionStorage.setItem('userName', username);
-        }
+    }
     
-        get userName(): string {
+    get userName(): string {
             return sessionStorage.getItem('userName') ?? '';
-        }  
-
-
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -121,49 +94,6 @@ constructor(){
      *
      * @param credentials
      */
-    // signIn(credentials: { emailAddressOrPhoneNumber: string; password: string }): Observable<any> {
-    //     debugger
-    //     // Throw error, if the user is already logged in
-    //     if (this._authenticated) {
-    //         return throwError('User is already logged in.');
-    //     }
-
-    //     return this._httpClient.post('https://localhost:7034/api/Accounts/signIn', credentials).pipe(
-    //         switchMap((response: any) => {
-    //             debugger
-               
-    //             this.accessToken = response.accessToken;
-    //             this._authenticated = true;
-    //             this._userService.user = response.user;
-    //             return of(response);
-    //         }),
-    //         catchError((error) => {
-    //             console.error('Sign-in error:', error);
-    //             return throwError(error);
-    //         })
-    //     );
-    // }
-
-    // isValidJwt(token: string): boolean {
-    //     try {
-    //       const payload = JSON.parse(atob(token.split('.')[1]));
-    //       return !!payload; // Returns true if payload exists
-    //     } catch (error) {
-    //       console.error('Invalid JWT:', error);
-    //       return false;
-    //     }
-    //   }
-
-      
-    // accesToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzkyNTU0MTEsImlzcyI6IkZ1c2UiLCJleHAiOjE3Mzk4NjAyMTF9.G5GGKkqYLGwC4G4ElXNJfcCnVZC_Fmuj1G4cXPRPx-c"
-      
-    // useer={
-    // "id": "cfaad35d-07a3-4447-a6c3-d8c3d54fd5df",
-    // "name": "Tenant",
-    // "email": "tenant@gmail.com",
-    // "avatar": "images/avatars/brian-hughes.jpg",
-    // "status": "online"
-    // }
 
     signIn(credentials: { email: string; password: string }): Observable<any> {
         debugger
@@ -174,6 +104,21 @@ constructor(){
 
         return this._httpClient.post(this.baseUrl+'Registration/login', credentials).pipe(
             switchMap((response: any) => {
+                if (response.data.message === 'Invalid user')
+                    {
+                        this.invalidCredentials = 'Invalid Email / Password';
+                        return of(response);
+                    
+                    }
+                    else if (response.data.message === 'User does not exist')
+                        {
+                            debugger
+                            this.invalidCredentials = 'Invalid Email / Password';
+                            return of(response);
+                        }
+                    else if (response.data.message === 'User exists')
+                    {
+
                 // Store the access token in the local storage
                 this.accessToken = response.data.token;
               //  this.accesToken=this.accesToken
@@ -185,11 +130,20 @@ constructor(){
                 // localStorage.setItem('loggedInUserId', response.data.userId);
 
 
-                // Store the logged in user role in the local storage
+                // Store the logged in user role in the session storage
                 sessionStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
                 sessionStorage.setItem('userName', response.data.username);
-                // Store the logged in user id in the local storage
+                // Store the logged in user id in the session storage
                 sessionStorage.setItem('loggedInUserId', response.data.userId);
+
+                // Store the logged in user full name in the session storage
+                // sessionStorage.setItem('loggedInUserFullName', response.data.contactName);
+
+                // Store the logged in user phone number in the session storage
+                // sessionStorage.setItem('loggedInUserPhoneNumber', response.data.contactNo);
+
+                // Store the logged in user company name in the session storage
+                // sessionStorage.setItem('loggedInUserCompanyName', response.data.companyName);
 
 
                 // Set the authenticated flag to true
@@ -201,6 +155,7 @@ constructor(){
 
                 // Return a new observable with the response
                 return of(response);
+                    }
             })
         );
     }
@@ -278,6 +233,29 @@ constructor(){
     }): Observable<any> {
         return this._httpClient.post(this.baseUrl+'Registration/register', user);
     }
+
+
+    addTenant(user: {
+        firstName: string;
+        email: string;
+        password: string;
+        companyName: string;
+        mobileNumber: string;
+        roleId: string;
+        roleName: string;
+        personalVisitForRegistration: string;
+    }): Observable<any> {
+        return this._httpClient.post(this.baseUrl+'Registration/register', user);
+    }
+
+    // sendEmail(data: {
+    //     toEmail: string;
+    //     subject: string;
+    //     body: string; 
+    // }): Observable<any> {
+    //     return this._httpClient.post(this.baseUrl+'mail/send', data);
+    // }
+
 
     /**
      * Unlock session

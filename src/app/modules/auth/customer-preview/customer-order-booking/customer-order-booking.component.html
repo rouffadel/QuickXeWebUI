@@ -1,0 +1,104 @@
+<div class="-m-6 flex max-h-screen max-w-240 flex-col md:min-w-160">
+    <!-- Header -->
+    <div class="flex h-16 flex-0 items-center justify-between bg-[#424242] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
+        <div class="text-lg font-medium">Enter Details</div>
+        <br>
+        <button mat-icon-button (click)="Close()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="customerDetailsForm">
+
+
+        <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
+
+              <!-- <mat-form-field>
+                <mat-select [(ngModel)]="country" name="country" (selectionChange)="Change($event)" aria-placeholder="Add">
+                  @for (item of countries; track countries) {
+                    <mat-option [value]="item">{{item.countryName}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field> -->
+
+              <!-- <lib-country-list></lib-country-list> -->
+
+<!-- 
+            <div class="flex flex-cols justify-between">
+                <div class="flex flex-cols">
+                Flag :&nbsp; <img *ngIf="selcountryCode"
+                [src]="'https://flagcdn.com/w40/' + selcountryCode + '.png'" 
+                alt="{{ selcountryCode }} flag"
+                class="country-flag"/>
+                </div>
+            <div>
+                Currency Name : {{selcurrencyName}}
+            </div>
+        </div> -->
+
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input type="text" matInput formControlName="name">
+            <mat-error *ngIf="customerDetailsForm.get('name').hasError('required')">
+                Name is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <input type="text" matInput formControlName="phoneNumber">
+            <mat-error *ngIf="customerDetailsForm.get('phoneNumber').hasError('required')">
+                Phone Number is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Email ID</mat-label>
+            <input type="email" matInput formControlName="email" />
+            <mat-error *ngIf="customerDetailsForm.get('email').hasError('required')">
+                Email ID is required
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-card-content>
+            <!-- <hello [name]="name"></hello> -->
+            <mat-form-field style="width: 100%;">
+                <mat-label>Choose File</mat-label>
+                <button mat-icon-button matPrefix (click)="f_input.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+                <input type="text" readonly matInput />
+                <input
+            type="file"
+            multiple
+            hidden
+            #f_input
+          />
+                <mat-error>Please upload</mat-error>
+            </mat-form-field>
+            <br><br>
+        </mat-card-content>
+
+
+        <div class="flex items-center justify-end mb-4 mr-4 sm:mt-0">
+
+
+            <!-- Save -->
+            <button
+            (click)="addCurrency()"
+            [ngStyle]="{'background-color': (!country || !buyRate || !sellRate) ? 'bg-gray' : '#ffb300', 'color': (!country || !buyRate || !sellRate) ? 'inherit' : 'white' }"
+            class="order-first sm:order-last"
+            mat-flat-button
+            [disabled]="!country || !buyRate || !sellRate"
+            >
+            Proceed
+            </button>
+            </div>
+    </div>
+
+
+       
+    </form>
+        </div>
+

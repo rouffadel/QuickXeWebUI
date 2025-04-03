@@ -16,11 +16,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { AddcurrencyService } from './addcurrency.service';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
 import { DataService } from '../../../../services/data.service';
+import { NgxCountriesDropdownModule } from 'ngx-countries-dropdown';
 
 
+export interface Countries {
+  country: string;
+  countryName: string;
+  countryCode: string;
+  currencyName: string;
+  buyRate: number;
+  sellRate: number;
+  tenantName: string;
+  // action: string;
+}
 
 @Component({
   selector: 'app-addcurrency',
@@ -35,6 +44,7 @@ import { DataService } from '../../../../services/data.service';
     QuillEditorComponent,
     MatSelectModule,
     CommonModule,
+    NgxCountriesDropdownModule,
   ],
   templateUrl: './addcurrency.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -43,11 +53,7 @@ import { DataService } from '../../../../services/data.service';
 
 export class AddcurrencyComponent implements OnInit {
 
-      currency = [
-        { countryName: 'Canada', countryCode: 'CA', currencyName: 'Canadian Dollar' },
-        { countryName: 'HKD', countryCode: 'HK', currencyName: 'Hong Kong Dollar' },
-        { countryName: 'IDR', countryCode: 'ID', currencyName: 'Indonesian Dollar' },
-      ];
+  countries: Countries[] = [];
 
 
   country: any;
@@ -78,6 +84,7 @@ export class AddcurrencyComponent implements OnInit {
      */
 
     ngOnInit() {
+      this.getService();
       this.tenantId = sessionStorage.getItem('loggedInUserId') || ''; // Fetch tenantId from local storage
 
     }
@@ -127,6 +134,30 @@ export class AddcurrencyComponent implements OnInit {
       );
     }
 
+
+      getService() {
+        this.addcurrencyService.getData().subscribe((resp: Countries[]) => {
+          if (resp) {
+            this.countries = resp;
+          }
+        });
+      }
+
+
+      // onlyNumbers(event: KeyboardEvent) {
+      //   const charCode = event.key.charCodeAt(0);
+      //   if (charCode < 48 || charCode > 57) {
+      //     event.preventDefault();
+      //   }
+      // }
+
+      onlyNumbers(event: KeyboardEvent) {
+        const charCode = event.key.charCodeAt(0);
+        if ((charCode < 48 || charCode > 57) && charCode !== 46) {
+          event.preventDefault();
+        }
+      }
+      
   
     Close(): void {
         this.matDialogRef.close();

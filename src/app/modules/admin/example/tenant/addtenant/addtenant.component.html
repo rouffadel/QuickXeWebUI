@@ -1,0 +1,141 @@
+<div class="-m-6 flex max-h-screen max-w-240 flex-col md:min-w-160">
+    <!-- Header -->
+    <div class="flex h-16 flex-0 items-center justify-between bg-[#424242] pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5">
+        <div class="text-lg font-medium">Add Agent</div>
+        <br>
+        <button mat-icon-button (click)="Close()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+        </button>
+    </div>
+
+
+    <form class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8"
+    [formGroup]="addTenantForm" #addTenantNgForm="ngForm">
+        <!-- <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8"> -->
+
+
+            <mat-form-field>
+                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
+                <!-- <mat-label>Email ID</mat-label> -->
+                <input type="email" matInput formControlName="email" placeholder="Email ID (Login ID)"/>
+                <mat-error *ngIf="addTenantForm.get('email').hasError('required')">
+                    Email ID is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:building-office-2"></mat-icon>
+                <mat-select [(ngModel)]="selectedValue" formControlName="personalVisitForRegistration" placeholder="Personal Visit For Registration">
+                  @for (item of options; track options) {
+                    <mat-option [value]="item.viewValue">{{item.viewValue}}</mat-option>
+                  }
+                </mat-select>
+                <mat-error *ngIf="addTenantForm.get('personalVisitForRegistration').hasError('required')">
+                    This field is required
+                </mat-error>
+              </mat-form-field>
+
+              
+        <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:building-office"></mat-icon>
+            <!-- <mat-label>Name</mat-label> -->
+            <input type="text" matInput formControlName="companyName" placeholder="Office Name">
+            <mat-error *ngIf="addTenantForm.get('companyName').hasError('required')">
+                Office Name is required
+            </mat-error>
+        </mat-form-field>
+
+  
+         <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
+            <!-- <mat-label>Name</mat-label> -->
+            <input type="text" matInput formControlName="firstName" placeholder="Contact Person">
+            <mat-error *ngIf="addTenantForm.get('firstName').hasError('required')">
+                Contact Person Name is required
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+            <!-- <mat-label>Name</mat-label> -->
+            <input type="tel" matInput formControlName="mobileNumber" placeholder="Mobile Number" (keypress)="onlyNumbers($event)" (input)="validateMobileNumber()">
+            <mat-error *ngIf="addTenantForm.get('mobileNumber').hasError('required')">
+                Mobile Number is required
+            </mat-error>
+            <mat-error *ngIf="addTenantForm.get('mobileNumber')?.hasError('minlength')">
+                Mobile Number must be at least 10 digits
+            </mat-error>
+        </mat-form-field>
+
+
+
+        <!-- <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+            <input type="tel"
+                   matInput
+                   formControlName="phoneNumber"
+                   [(ngModel)]="phoneNumber"
+                   placeholder="Phone Number"
+                   (keypress)="onlyNumbers($event)"
+                   (input)="validatePhoneNumber()">
+            <mat-error *ngIf="customerDetailsForm.get('phoneNumber')?.hasError('required')">
+                Phone Number is required
+            </mat-error>
+            <mat-error *ngIf="customerDetailsForm.get('phoneNumber')?.hasError('minlength')">
+                Phone Number must be at least 10 digits
+            </mat-error>
+        </mat-form-field> -->
+
+
+        <!-- <mat-form-field>
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:building-office-2"></mat-icon>
+            <input type="text" matInput formControlName="personalVisitForRegistration" placeholder="Personal Visit For Registration">
+            <mat-error *ngIf="addTenantForm.get('personalVisitForRegistration').hasError('required')">
+                Personal Visit is required
+            </mat-error>
+        </mat-form-field> -->
+
+     
+
+    <!-- </div> -->
+
+
+        <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+
+
+
+<!-- Save -->
+<button
+(click)="addTenant()"
+mat-flat-button
+[disabled]="addTenantForm.invalid"  
+[ngStyle]="{'background-color': addTenantForm.valid ? '#ffb300' : '' }"
+class="order-first sm:order-last"
+
+>
+Save
+</button>
+
+
+<!-- <button
+            (click)="addCustomer()"
+            mat-flat-button
+            [disabled]="customerDetailsForm.invalid"
+            [ngStyle]="{ 'background-color': customerDetailsForm.valid ? '#ffb300' : '' }">
+            Sign Up
+            </button> -->
+
+
+        </div>
+        </form>
+</div>
+
+
+
+
+
+
+
+
+
