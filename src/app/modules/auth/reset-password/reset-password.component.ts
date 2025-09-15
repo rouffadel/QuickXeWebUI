@@ -127,7 +127,7 @@ export class AuthResetPasswordComponent implements OnInit {
 
     getUserNameFromEmailCodeAndResetPassword(): void {
         this.resetpasswordService.getUserNameFromEmailCode(this.EmailCode).subscribe((res:any) => {
-            debugger
+            // debugger
             this.userName = res.data;
             this.resetPassword();
           },err=>{
@@ -137,7 +137,7 @@ export class AuthResetPasswordComponent implements OnInit {
     }
 
     changeIsActiveToActive(): void {
-        debugger
+        // debugger
         const username = this.userName
         const data = {
           // Id : this.Id.toString(),
@@ -169,7 +169,7 @@ export class AuthResetPasswordComponent implements OnInit {
 
 
     resetPassword(): void {
-        debugger
+        // debugger
 
         // this.getUserNameFromEmailCodeAndResetPassword();
 
@@ -218,7 +218,7 @@ export class AuthResetPasswordComponent implements OnInit {
 
         this.resetpasswordService.resetPassword(changePasswordRequest).subscribe({
             next: (res: any) => {
-                debugger;
+                // debugger;
                 if(res.status=="OK"){
                     this.changeIsActiveToActive();
                     this.router.navigate(['/success-set-password']);

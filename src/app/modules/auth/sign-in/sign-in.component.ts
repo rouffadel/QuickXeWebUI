@@ -158,7 +158,7 @@ export class AuthSignInComponent implements OnInit {
 userRole
 
 signIn(): void {
-    debugger
+    // debugger
     if (this.signInForm.invalid) {
         return;
     }
@@ -172,11 +172,11 @@ signIn(): void {
     // Sign in
     this._authService.signIn(this.signInForm.value).subscribe(
         (response) => {
-            debugger
+            // debugger
 
             if (response.data.message === 'Invalid user')
             {
-                debugger
+                // debugger
                 this.invalidCredentials = 'Invalid Email / Password';
                 // Re-enable the form in case of an error
                 this.signInForm.enable();
@@ -186,7 +186,7 @@ signIn(): void {
             }
             else if (response.data.message === 'User does not exist')
             {
-                debugger
+                // debugger
                 this.invalidCredentials = 'Invalid Email / Password';
                 // Re-enable the form in case of an error
                 this.signInForm.enable();
@@ -196,7 +196,7 @@ signIn(): void {
             else if (response.data.message === 'User exists')
             {
                 
-            debugger
+            // debugger
             // Log the successful response
             console.log('Sign-in success:', response);
             this.userRole=response.data.roles[0].roleName;
@@ -251,7 +251,7 @@ signIn(): void {
 
 
 signUp(): void {
-    debugger
+    // debugger
     // Do nothing if the form is invalid
     if (this.signUpForm.invalid) {
         return;

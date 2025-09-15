@@ -49,7 +49,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
-interface Food {
+interface Exchange {
   value: string;
   viewValue: string;
 }
@@ -119,7 +119,7 @@ export class CustomerDashboardComponent implements OnInit {
   orderForm: FormGroup;
   
 
-  foods: Food[] = [
+  exchanges: Exchange[] = [
     {value: 'steak-0', viewValue: 'Australia'},
     {value: 'pizza-1', viewValue: 'India'},
     {value: 'tacos-2', viewValue: 'Canada'},
@@ -300,7 +300,7 @@ export class CustomerDashboardComponent implements OnInit {
     }
 
     openMyDocuments(): void {
-      debugger
+      // debugger
       this._router.navigate(['/mydocuments']);
     }
   
@@ -349,7 +349,7 @@ openUpdateProfileForm(): void {
 
 
     signOut(): void {
-      debugger;
+      // debugger;
       const confirmation = this._fuseConfirmationService.open({
         title: 'Confirm Sign Out',
         message: 

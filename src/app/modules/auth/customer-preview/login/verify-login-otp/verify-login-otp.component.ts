@@ -113,7 +113,7 @@ export class VerifyLoginOtpComponent {
 
 
   sendPhoneNumberWithOTP() {
-    debugger
+    // debugger
     if (this.otpForm.invalid) {
       this.otpForm.markAllAsTouched(); // Show validation errors
       return;
@@ -172,7 +172,7 @@ export class VerifyLoginOtpComponent {
     this.phoneNumber = this.otpService.getPhoneNumber();
     console.log('Received PhoneNumber:', this.phoneNumber);
     this.countDown();
-    debugger
+    // debugger
   }
 
   countDown() {
@@ -190,7 +190,7 @@ export class VerifyLoginOtpComponent {
   }
 
   recreateCustomerOTP() {
-    debugger;
+    // debugger;
     const data = {
         phoneNumber: this.phoneNumber,
         otpType: this.otpForSignIn

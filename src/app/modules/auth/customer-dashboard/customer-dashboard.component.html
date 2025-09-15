@@ -113,87 +113,6 @@
   
     </div>
   
-  
-
-    <!-- <form [formGroup]="orderForm">
-
-    <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
-
-      <mat-form-field>
-        <mat-label>Enter Amount</mat-label>
-        <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
-    </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>From</mat-label>
-        <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
-          @for (food of foods; track food) {
-            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
-
-      <mat-form-field>
-        <mat-label>To</mat-label>
-        <mat-select [(ngModel)]="selectedValue1" name="food" aria-placeholder="Select Currency">
-          @for (food of foods; track food) {
-            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      </div>
-
-
-      <button
-      mat-flat-button
-      [disabled]="!orderForm.valid"
-      [ngStyle]="{ 'background-color': (orderForm.valid) ? '#ffb300' : '' }"
-      class="w-50"
-      >
-      Book
-      </button>
-
-    </form> -->
-
-    <!-- <form [formGroup]="orderForm" class="order-form">
-      <div class="form-container mt-4">
-        <h2 class="title">Currency Exchange</h2>
-    
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Enter Amount</mat-label>
-          <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
-        </mat-form-field>
-    
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>From</mat-label>
-          <mat-select [(ngModel)]="selectedValue" name="fromCurrency">
-            @for (food of foods; track food) {
-              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-    
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>To</mat-label>
-          <mat-select [(ngModel)]="selectedValue1" name="toCurrency">
-            @for (food of foods; track food) {
-              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-    
-        <button
-          mat-flat-button
-          [disabled]="!orderForm.valid"
-          [ngStyle]="{ 'background-color': orderForm.valid ? '#ffb300' : '#ccc' }"
-          class="book-button"
-        >
-          Book
-        </button>
-      </div>
-    </form> -->
-    
     <div class="home-container">
       <!-- Left Section - Introduction or Banner -->
       <div class="left-section">
@@ -217,78 +136,6 @@
   <p style="text-align: justify;">Start exchanging today and <strong>get the best value for your money!</strong></p>
       </div>
     
-      <!-- Right Section - Currency Exchange Form -->
-      <!-- <div class="bg-card mt-8 flex flex-col overflow-hidden rounded-2xl mr-4 w-50 p-8 pb-4 shadow"> -->
-        <!-- .right-section {
-          flex: 0.4;
-          background: #ffffff;
-          padding: 30px;
-          border-radius: 12px;
-          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        } -->
-
-      <!-- <div class="right-section"> -->
-
-
-
-
-        <!-- <form
-                class="bg-card mt-8 w-50 mr-4 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow"
-            >
-            <h2 class="form-title">Exchange Currency</h2>
-
-                <div class="gt-xs:flex-row flex flex-col">
-                    <mat-form-field
-                    appearance="outline"
-                        class="gt-xs:pr-3 flex-auto"
-                    >
-                    <mat-label>Enter Amount</mat-label>
-                    <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
-                       
-                    </mat-form-field>
-               
-                    <mat-form-field
-                    appearance="outline"
-                        class="gt-xs:pl-3 flex-auto"
-                    >
-                    <mat-label>From</mat-label>
-                    <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
-                      @for (food of foods; track food) {
-                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-                      }
-                    </mat-select>
-                       
-                    </mat-form-field>
-
-
-                    <mat-form-field
-                    appearance="outline"
-                        class="gt-xs:pl-3 flex-auto"
-                    >
-                    <mat-label>To</mat-label>
-                    <mat-select [(ngModel)]="selectedValue1" name="food" aria-placeholder="Select Currency">
-                      @for (food of foods; track food) {
-                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-                      }
-                    </mat-select>
-                        
-                    </mat-form-field>
-
-
-                    <button
-          class="gt-xs:pl-3 flex-auto p-4"
-            mat-flat-button
-            style="background-color:#ffb300;"
-          >
-            Book Exchange
-          </button>
-
-
-                
-
-                </div>
-        </form> -->
-
 
         <form
         class="bg-card mt-4 mr-4 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow"
@@ -312,9 +159,9 @@
                 class="gt-xs:pl-3 flex-auto"
             >
                 <mat-label>From</mat-label>
-                    <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
-                      @for (food of foods; track food) {
-                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                    <mat-select [(ngModel)]="selectedValue" name="exchange" aria-placeholder="Select Currency">
+                      @for (exchange of exchanges; track exchange) {
+                        <mat-option [value]="exchange.value">{{exchange.viewValue}}</mat-option>
                       }
                     </mat-select>
             </mat-form-field>
@@ -326,9 +173,9 @@
                 class="gt-xs:pl-3 flex-auto"
             >
                 <mat-label>To</mat-label>
-                    <mat-select [(ngModel)]="selectedValue1" name="food1" aria-placeholder="Select Currency">
-                      @for (food of foods; track food) {
-                        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                    <mat-select [(ngModel)]="selectedValue1" name="exchange1" aria-placeholder="Select Currency">
+                      @for (exchange of exchanges; track exchange) {
+                        <mat-option [value]="exchange.value">{{exchange.viewValue}}</mat-option>
                       }
                     </mat-select>
             </mat-form-field>
@@ -404,169 +251,6 @@
     </form>
 
 
-
-                <!-- </div>
-                <div class="flex">
-                    <mat-form-field
-                        class="flex-auto"
-                    >
-                        <mat-label>Address</mat-label>
-                        <textarea
-                            matInput
-                            cdkTextareaAutosize
-                            [cdkAutosizeMinRows]="3"
-                        ></textarea>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:map-pin'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="gt-md:flex-row flex flex-col">
-                    <mat-form-field
-                        class="gt-md:pr-3 flex-auto"
-                    >
-                        <mat-label>City</mat-label>
-                        <input matInput />
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:map-pin'"
-                        ></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="gt-md:pl-3 flex-auto"
-                    >
-                        <mat-label>State</mat-label>
-                        <input matInput />
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:map-pin'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex">
-                    <mat-form-field
-                        class="flex-auto"
-                    >
-                        <mat-label>Postal code</mat-label>
-                        <input matInput maxlength="5" #postalCode />
-                        <mat-hint align="end"
-                            >{{ postalCode.value.length }} / 5</mat-hint
-                        >
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:envelope'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div> -->
-            <!-- </form> -->
-
-
-
-        <!-- <form [formGroup]="orderForm" class="exchange-form">
-          <h2 class="form-title">Exchange Currency</h2>
-
-        <div class="gt-xs:flex-row flex flex-col">
-          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto"
-          >
-            <mat-label>Enter Amount</mat-label>
-            <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
-          </mat-form-field>
-    
-          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto"
-          >
-            <mat-label>From</mat-label>
-            <mat-select [(ngModel)]="selectedValue" name="fromCurrency">
-              @for (food of foods; track food) {
-                <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-    
-          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto"
-          >
-            <mat-label>To</mat-label>
-            <mat-select [(ngModel)]="selectedValue1" name="toCurrency">
-              @for (food of foods; track food) {
-                <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-    
-          <button
-          class="gt-xs:pr-3 flex-auto book-button"
-            mat-flat-button
-            style="background-color:#ffb300;"
-          >
-            Book Exchange
-          </button>
-        </div>
-        </form> -->
-      
-      <!-- </div> -->
-    <!-- </div> -->
-    
-    
-
-<!-- <mat-form-field>
-    <mat-label>Buy Rate</mat-label>
-    <input matInput [(ngModel)]="buyRate" />
-</mat-form-field>
-
-<mat-form-field>
-    <mat-label>Sell Rate</mat-label>
-    <input matInput [(ngModel)]="sellRate" />
-</mat-form-field>
-</div>
-
-
-<div class="w-full">
-
-  <form [formGroup]="orderForm">
-
-    <mat-form-field>
-      <mat-label>Enter Amount</mat-label>
-      <input matInput [(ngModel)]="amount"  placeholder="Enter Amount"/>
-  </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>From</mat-label>
-      <mat-select [(ngModel)]="selectedValue" name="food" aria-placeholder="Select Currency">
-        @for (food of foods; track food) {
-          <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-
-    <mat-form-field>
-      <mat-label>To</mat-label>
-      <mat-select [(ngModel)]="selectedValue1" name="food" aria-placeholder="Select Currency">
-        @for (food of foods; track food) {
-          <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-
-      <button
-      mat-flat-button
-      [disabled]="!orderForm.valid"
-      [ngStyle]="{ 'background-color': (orderForm.valid) ? '#ffb300' : '' }"
-      class="order-first sm:order-last w-24"
-      >
-      Book
-      </button>
-
-
-  
-    
-  </form>
-</div> -->
     </div>
  
       <footer>

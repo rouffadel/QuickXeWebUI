@@ -56,7 +56,7 @@ export class ChangepasswordComponent implements OnInit{
   }
 
   resetPassword() {
-    debugger
+    // debugger
     if (this.resetPasswordForm.invalid) {
       return;
     }
@@ -69,7 +69,7 @@ export class ChangepasswordComponent implements OnInit{
     };
 
     this.changepasswordService.changePassword(changePasswordRequest).subscribe((res:any) => {
-        debugger
+        // debugger
         if(res.status=="OK"){
           this.router.navigate(['/success-password']);
         }

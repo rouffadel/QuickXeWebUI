@@ -107,17 +107,6 @@ export class ExampleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getService();
-    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
-      if (result.matches) {
-        // Mobile screen, show all rows
-        this.displayedData = this.countries;
-      } else {
-        // Desktop screen, show only the first four rows
-        this.displayedData = this.countries.slice(0, 4);
-      }
-      this.updateFilteredData();
-    });
-
     this.dataService.dataUpdated$.subscribe((updated) =>{
       if(updated){
         this.getService();
@@ -145,7 +134,7 @@ export class ExampleComponent implements OnInit {
     this.currencyService.getData().subscribe((resp: Exchange[]) => {
       if (resp) {
         this.countries = resp;
-        this.displayedData = this.countries.slice(0, 4);
+        this.displayedData = this.countries
         this.updateFilteredData();
       }
     });
@@ -166,7 +155,7 @@ export class ExampleComponent implements OnInit {
     }
 
       openUpdateCurrencyDialog(countryId): void {
-        debugger
+        // debugger
         this.updatecurrencyService.getCurrencyByCountryId(countryId).subscribe((resp: any) => {
           if (resp) {
             this.dialog.open(UpdatecurrencyComponent, {

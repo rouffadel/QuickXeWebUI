@@ -211,7 +211,7 @@ export class TenantComponent implements OnInit{
       // }
 
       getEmailCodeByEmail(email: string) {
-        debugger;
+        // debugger;
         const confirmation = this._fuseConfirmationService.open({
           title: `Resend Email to ${email}`,
           message: 

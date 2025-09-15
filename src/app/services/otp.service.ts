@@ -8,22 +8,22 @@ export class OtpService {
   private phoneNumber: string = '';
 
   setOtp(phoneNumberForSignup: string) {
-    debugger
+    // debugger
     this.phoneNumberForSignup = phoneNumberForSignup;
   }
 
   getOtp(): string {
-    debugger
+    // debugger
     return this.phoneNumberForSignup;
   }
 
   setPhoneNumber(phoneNumber: string) {
-    debugger
+    // debugger
     this.phoneNumber = phoneNumber;
   }
 
   getPhoneNumber(): string {
-    debugger
+    // debugger
     return this.phoneNumber;
   }
 }

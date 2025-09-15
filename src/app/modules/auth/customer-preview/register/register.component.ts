@@ -123,7 +123,7 @@ export class RegisterComponent implements OnInit {
 
 
     navigateToOtpService(phoneNumber: string) {
-      debugger
+      // debugger
       this.otpService.setOtp(phoneNumber);
 
     }
@@ -154,7 +154,7 @@ export class RegisterComponent implements OnInit {
 
 
   addCustomer() {
-    debugger;
+    // debugger;
     const customerData = {
       name:this.name,
       phoneNumber:this.phoneNumber,
@@ -190,7 +190,7 @@ export class RegisterComponent implements OnInit {
   }
 
   createCustomerOTP() {
-    debugger;
+    // debugger;
     const data = {
         phoneNumber: this.phoneNumber,
         otpType: this.otpType

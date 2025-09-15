@@ -230,7 +230,7 @@ export class VerifyOtpComponent implements OnInit {
   
 
   sendPhoneNumberWithOTP(): void {
-    debugger
+    // debugger
     if (this.otpForm.invalid) {
       this.otpForm.markAllAsTouched();
       return;
@@ -262,9 +262,9 @@ export class VerifyOtpComponent implements OnInit {
     
     apiCall.subscribe(
       (response) => {
-        debugger
+        // debugger
         if (response.status === 'OK') {
-          debugger
+          // debugger
           if (isSignUp == true) 
           {
             this.handleOtpSuccess();

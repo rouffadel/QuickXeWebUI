@@ -130,7 +130,7 @@ export class LoginComponent implements OnInit {
     }
 
       navigateToVerifyOtp(phoneNumber: string) {
-        debugger
+        // debugger
         this.otpService.setPhoneNumber(phoneNumber);
   
         this.dialog.open(VerifyOtpComponent,
@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit {
 
 
   createCustomerInLogin() {
-    debugger;
+    // debugger;
     const phoneNumber = this.customerDetailsForm.value.phoneNumber;
   
     if (!phoneNumber) {

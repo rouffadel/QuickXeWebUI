@@ -135,7 +135,7 @@ export class CustomerOrderBookingComponent implements OnInit {
 
 
   Change(event){
-    debugger
+    // debugger
       this.selcountryCode = event.value.countryCode.toLowerCase()
       this.selcurrencyName = event.value.currencyName
       this.selcountryName = event.value.countryName
@@ -146,7 +146,7 @@ export class CustomerOrderBookingComponent implements OnInit {
     buyRate
     sellRate
     addCurrency() {
-      debugger
+      // debugger
       const currencyData = {
         countryName: this.selcountryName,
         countryCode: this.selcountryCode.toUpperCase(),

@@ -151,7 +151,7 @@ export class AddtenantComponent implements OnInit {
     // }
 
     addTenant(): void {
-      debugger
+      // debugger
       // Do nothing if the form is invalid
       if (this.addTenantForm.invalid) {
           return;
@@ -209,7 +209,7 @@ export class AddtenantComponent implements OnInit {
   }
 
   getEmailCodeByEmail() {
-    debugger
+    // debugger
     const email = this.addTenantForm.value.email;
     this.addtenantService.getEmailCodeByEmail(email).subscribe(
       

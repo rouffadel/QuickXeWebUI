@@ -69,7 +69,7 @@ export class UpdatecurrencyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger
+    // debugger
     // Fetch tenantId from session storage
     this.tenantId = sessionStorage.getItem('loggedInUserId') || '';
 
@@ -88,7 +88,7 @@ export class UpdatecurrencyComponent implements OnInit {
   }
 
     Change(event){
-    debugger
+    // debugger
       this.country = event.value;
       this.selcountryCode = event.value.countryCode.toLowerCase()
       this.selcurrencyName = event.value.currencyName
@@ -98,7 +98,7 @@ export class UpdatecurrencyComponent implements OnInit {
     }
 
   updateCurrency() {
-    debugger;
+    // debugger;
     const countryId = this.countryId.toString()
     const currencyData = {
       countryId : this.countryId.toString(),
@@ -112,7 +112,7 @@ export class UpdatecurrencyComponent implements OnInit {
 
     // Call update service
     this.updatecurrencyService.updateCurrency(countryId, currencyData).subscribe((response) => {
-      debugger
+      // debugger
       console.log('Currency updated:', response);
       // Show Snackbar Notification
       this.snackBar.open('Currency Updated!', 'Close', {

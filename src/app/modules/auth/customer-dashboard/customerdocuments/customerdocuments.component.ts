@@ -396,7 +396,7 @@ handleFile(file: File, field: string) {
   
   
       signOut(): void {
-        debugger;
+        // debugger;
         const confirmation = this._fuseConfirmationService.open({
           title: 'Confirm Sign Out',
           message: 

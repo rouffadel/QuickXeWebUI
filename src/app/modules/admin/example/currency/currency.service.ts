@@ -73,7 +73,7 @@ export class CurrencyService {
     }
 
   getCurrencyByCountryId(countryId: string): Observable<any[]> {
-    debugger
+    // debugger
     const encodedCountryId = encodeURIComponent(countryId); // Encode properly
     const url = `${this.baseUrl}Countries/${encodedCountryId}`;
     return this.http.get<any[]>(url);

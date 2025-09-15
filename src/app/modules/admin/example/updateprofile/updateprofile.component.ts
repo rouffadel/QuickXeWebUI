@@ -121,7 +121,7 @@ export class UpdateprofileComponent implements OnInit{
 
   
   ngOnInit() {
-    debugger
+    // debugger
     this.username = sessionStorage.getItem('userName') || '';
     this.Id = sessionStorage.getItem('loggedInUserId') || '';
 
@@ -151,7 +151,7 @@ export class UpdateprofileComponent implements OnInit{
   }
 
   updateUserDetails() {
-    debugger;
+    // debugger;
     const Id = this.Id.toString()
     const userdata = {
       // Id : this.Id.toString(),
@@ -167,7 +167,7 @@ export class UpdateprofileComponent implements OnInit{
 
     // Call update service
     this.updateprofileService.updateUserDetails(Id, userdata).subscribe((response) => {
-      debugger
+      // debugger
 
     if(response.status=="OK"){
       console.log('Profile details updated:', response);

@@ -103,12 +103,61 @@ Contact Us
   </div> -->
 
 
-  <div class="menu-links" [ngClass]="{ 'mobile-menu': windowWidth <= 768, 'open': isMenuOpen || windowWidth > 768 }">
+  <!-- <div class="menu-links" [ngClass]="{ 'mobile-menu': windowWidth <= 768, 'open': isMenuOpen || windowWidth > 768 }">
+    <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToExchangeRates()" class="menu-item">Exchange Rates</div>
     <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToAboutUs()" class="menu-item">About Us</div>
     <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToServices()" class="menu-item">Services</div>
     <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToContactUs()" class="menu-item">Contact Us</div>
-    <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="goToSignIn()" class="menu-item">AGENT LOGIN</div>
+  </div> -->
+
+
+  <!-- Three-dot menu icon (mobile only) -->
+<div class="three-dot-menu" *ngIf="windowWidth <= 768" (click)="toggleMobileMenu()">
+  &#9776; <!-- Unicode hamburger menu (☰) -->
+</div>
+
+<!-- Dropdown menu links -->
+<div class="menu-links"
+  [ngClass]="{
+    'mobile-menu': windowWidth <= 768,
+    'open': isMenuOpen || windowWidth > 768
+  }"
+  *ngIf="isMenuOpen || windowWidth > 768"
+>
+  <div
+    (mouseover)="hoverStyle($event, true)"
+    (mouseout)="hoverStyle($event, false)"
+    (click)="scrollToExchangeRates()"
+    class="menu-item"
+  >
+    Exchange Rates
   </div>
+  <div
+    (mouseover)="hoverStyle($event, true)"
+    (mouseout)="hoverStyle($event, false)"
+    (click)="scrollToAboutUs()"
+    class="menu-item"
+  >
+    About Us
+  </div>
+  <div
+    (mouseover)="hoverStyle($event, true)"
+    (mouseout)="hoverStyle($event, false)"
+    (click)="scrollToServices()"
+    class="menu-item"
+  >
+    Services
+  </div>
+  <div
+    (mouseover)="hoverStyle($event, true)"
+    (mouseout)="hoverStyle($event, false)"
+    (click)="scrollToContactUs()"
+    class="menu-item"
+  >
+    Contact Us
+  </div>
+</div>
+
   
 
   <!-- <div class="ml-auto flex items-center space-x-2 pl-2">
@@ -168,6 +217,11 @@ Contact Us
       <button mat-menu-item (click)="openLogin()">
           <span>Login</span>
       </button>
+      <mat-divider class="mt-0 mb-0"></mat-divider>
+
+      <button mat-menu-item (click)="goToSignIn()">
+        <span>Agent Login</span>
+    </button>
 
       <mat-divider class="mt-0 mb-0"></mat-divider>
       <button mat-menu-item (click)="openRegister()">
@@ -225,16 +279,16 @@ Contact Us
         <div class="carousel-item active">
           <img src="images/logo/webbanner.png" class="d-block w-100" alt="Image 2">
         </div>
-        <div class="carousel-item">
+        <!-- <div class="carousel-item">
           <img src="images/logo/image_fit_size.jpeg" class="d-block w-100" alt="Image 1">
-        </div>
+        </div> -->
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       </button>
       <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      </button>
+      </button> -->
     </div>
 
 
@@ -251,181 +305,283 @@ Contact Us
         </section>
       </div> -->
 
+      <div id="exchange-rates">        
+        <section #ExchangeRatesSection>
+        <div class="flex min-w-0 flex-auto flex-col">
+          <!-- Main -->
+          <div class="flex-auto p-6 sm:p-10">
+            <h2 style="text-align: center;">Exchange Rates</h2>
+        
+            <div class="search-container">
+        
+              <mat-form-field class="search-field">
+                <!-- <mat-label>Search</mat-label> -->
+                <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
+              </mat-form-field>
+              
+            </div>
+        
+              <!-- CONTENT GOES HERE -->
+              <div class="">          
+        
+          <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing" style="max-height: 400px; overflow: auto;">
+            <ng-container matColumnDef="countryName">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white;  text-align: left;">
+            <mat-icon style="vertical-align: middle; margin-right: 5px; color: white;">public</mat-icon> <!-- Country icon aligned to middle -->
+            <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle --> </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;"> 
+            <div class="country-wrapper">
+              <div class="country-info">
+                <img
+                  [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
+                  alt="{{ element.countryName }} flag"
+                  class="country-flag"
+                />
+                <span class="country-text">{{ element.countryName }}</span>
+              </div>
+              <div class="currency-text">{{ element.currencyName }}</div>
+            </div>
+          </td>
+        </ng-container> 
+        
+          <!-- Buy Rate Column (centered) -->
+          <ng-container matColumnDef="buyRate">
+            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
+              <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
+              <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+              <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;">
+              {{element.buyRate}}
+            </td>
+          </ng-container>
+        
+          <!-- Sell Rate Column (centered) -->
+          <ng-container matColumnDef="sellRate">
+            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
+              <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
+              <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+              <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;">
+              {{element.sellRate}}
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+        </table>
+        <!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
+        <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+        
+        
+                </div>
+          </div>
+        </div>
+        
+        </section>
+        </div>
+
+
       <div id="about-us" class="about-container">
         <section #aboutUsSection class="section">
+          <h2 style="text-align: center;">About QuickXe</h2>
             <div class="content">
                 <div class="text-section">
-                    <h2>About QuickXe</h2>
                     <p style="text-align: justify;">
-                      QuickXe is a pioneering forensics company offering cutting-edge digital investigations, forensic analysis, and evidence management solutions. Our mission is to provide law enforcement, legal professionals, and businesses with reliable tools to uncover critical digital evidence efficiently.
-                      With a team of highly skilled forensic experts and state-of-the-art technology, we specialize in data recovery, cybercrime investigations, and forensic intelligence, ensuring precision and accuracy in every case.
-                    </p>
+                      At QuickXe, we are a trusted name in the world of international finance, delivering seamless and secure forex solutions tailored to your global needs. Specializing in foreign exchange, international money transfers, and forex card services, we empower travelers, students, businesses, and individuals to manage cross-border financial transactions with ease and confidence.</p>
                     <p>
-                        <strong>Our expertise spans across:</strong>
+                        <strong>At the heart of our operations is a commitment to integrity, compliance, and customer-centricity. Our services are backed by:</strong>
                     </p>
                     <ul>
-                        <li>✅ Data Recovery & Digital Evidence Extraction</li>
-                        <li>✅ Cybercrime & Fraud Investigations</li>
-                        <li>✅ Mobile & Computer Forensics</li>
-                        <li>✅ Forensic Intelligence & Risk Analysis</li>
-                        <li>✅ Incident Response & Threat Detection</li>
+                        <li>✅ A team of knowledgeable forex professionals</li>
+                        <li>✅ Advanced, secure transaction systems</li>
+                        <li>✅ Regulatory compliance and financial transparency</li>
+                        <li>✅ Personalized support tailored to each customer’s needs</li>
                     </ul>
                     <p style="text-align: justify;">
-                        With a commitment to accuracy, security, and innovation, QuickXe ensures seamless 
-                        forensic operations tailored to the needs of our clients. 
+                      We take pride in being more than just a service provider—we are a partner in your global financial journey. Whether you’re a frequent traveler, an international student, an expat, or a business navigating cross-border operations, QuickXe delivers the tools and support you need to manage your money with confidence. 
                     </p>
-                    <strong>Secure. Investigate. Resolve.</strong>
+                    <strong>QuickXe – Exchange Smarter. Transfer Safer. Travel Easier.</strong>
                 </div>
                 <div class="image-section">
-                    <img src="images/logo/image.jpeg" alt="Forensics Lab">
-                    <!-- <img src="digital_investigation.jpg" alt="Digital Investigation"> -->
+                    <!-- <img src="images/logo/image.jpeg" alt="Forensics Lab"> -->
+                    <div id="carouselExample1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="images/logo/image.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency1.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency2.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency3.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency4.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency5.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency6.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency7.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency8.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency9.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency10.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency11.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency12.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency13.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency14.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency15.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency16.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency17.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency18.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency19.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency20.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency21.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency22.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency23.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency24.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency25.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency26.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency27.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency28.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency29.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency30.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency31.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency32.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency33.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency34.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency35.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency36.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency37.jpeg" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="images/logo/currency38.jpeg" class="d-block w-100">
+                        </div>
+
+                        
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample1" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      </button>
+                    </div>
                 </div>
+
+                
+
             </div>
         </section>
     </div>
-
-
-
-
-
-<div class="flex min-w-0 flex-auto flex-col">
-  <!-- Main -->
-  <div class="flex-auto p-6 sm:p-10">
-
-    <div class="search-container">
-
-      <mat-form-field class="search-field">
-        <!-- <mat-label>Search</mat-label> -->
-        <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
-      </mat-form-field>
-      
-    </div>
-
-      <!-- CONTENT GOES HERE -->
-      <div class="">          
-
-  <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing" style="max-height: 400px; overflow: auto;">
-    <ng-container matColumnDef="countryName">
-  <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white;  text-align: left;">
-    <mat-icon style="vertical-align: middle; margin-right: 5px; color: white;">public</mat-icon> <!-- Country icon aligned to middle -->
-    <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle --> </th>
-  <td mat-cell *matCellDef="let element" style="text-align: left;"> 
-    <div class="country-wrapper">
-      <div class="country-info">
-        <img
-          [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
-          alt="{{ element.countryName }} flag"
-          class="country-flag"
-        />
-        <span class="country-text">{{ element.countryName }}</span>
-      </div>
-      <div class="currency-text">{{ element.currencyName }}</div>
-    </div>
-  </td>
-</ng-container> 
-
-  <!-- Buy Rate Column (centered) -->
-  <ng-container matColumnDef="buyRate">
-    <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
-      <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
-      <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
-      <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
-    </th>
-    <td mat-cell *matCellDef="let element" style="text-align: center;">
-      {{element.buyRate}}
-    </td>
-  </ng-container>
-
-  <!-- Sell Rate Column (centered) -->
-  <ng-container matColumnDef="sellRate">
-    <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
-      <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
-      <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
-      <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
-    </th>
-    <td mat-cell *matCellDef="let element" style="text-align: center;">
-      {{element.sellRate}}
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-</table>
-<!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
-<mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
-
-
-        </div>
-  </div>
-</div>
-
-
-
-    
 
         <div id="services" class="about-container">
         <section #Servicessection class="section">
             <h2>Our Services</h2>
             <div class="services">
                 <div class="service-box">
-                    <h3>Digital Forensics</h3>
-                    <p>Recover and analyze digital evidence with precision.</p>
+                    <h3>Forex Exchange</h3>
+                    <p>Offer reliable and efficient foreign currency exchange solutions at highly competitive rates.</p>
                 </div>
                 <div class="service-box">
-                    <h3>Cybercrime Investigations</h3>
-                    <p>Detect and prevent cyber threats effectively.</p>
+                    <h3>Transfer Money Abroad </h3>
+                    <p>Facilitate personal and business transfers with real-time tracking, favorable exchange rates, and minimal processing times.</p>
                 </div>
                 <div class="service-box">
-                    <h3>Data Recovery</h3>
-                    <p>Restore lost or deleted data securely.</p>
+                    <h3>Reload and Unload Forex Card</h3>
+                    <p>Provide a convenient and secure way to handle foreign currency during international travel.</p>
                 </div>
-                <div class="service-box">
-                  <h3>Mobile & Computer Forensics</h3>
-                  <p>Mobile forensic investigations including call logs, messages, app data, and GPS tracking.</p>
-              </div>
-              <div class="service-box">
-                <h3>Incident Response & Threat Intelligence</h3>
-                <p>Rapid response to data breaches, insider threats, and unauthorized system intrusions.</p>
-            </div>
-            <div class="service-box">
-              <h3>Expert Witness & Legal Support</h3>
-              <p>Professional forensic reports and documentation for legal cases.</p>
-          </div>
             </div>
         </section>
         </div>
         
         <div id="contact-us" class="about-container">
-        <!-- <section #contactUsSection class="section contact"> -->
-            <!-- <h2>Contact Us</h2>
-            <p>Email: support&#64;quickxe.com</p>
-            <p>Phone: +123 456 7890</p> -->
             <section #contactUsSection class="contact-section">
               <h2>Contact Us</h2>
-              <p>We’re here to help! Whether you have questions about our forensic services, need technical support, or require expert consultation, our team is ready to assist you.</p>
+              <p>We're here to assist you! Whether you need guidance on currency exchange, support with international money transfers, or help managing your forex card, our dedicated team is always ready to provide expert assistance and personalized solutions.</p>
       
               <div class="contact-details">
                   <div class="contact-info">
                       <h3>Get in Touch</h3>
-                      <p><strong>Email:</strong> <a href="mailto:support@quickxe.com">support&#64;quickxe.com</a></p>
-                      <p style="margin-bottom: 30px;"><strong>Phone:</strong> <a href="tel:+1234567890">+123 456 7890</a></p>
+                      <p><strong>Email: </strong> <a style="color: #ffb300;" href="mailto:forex@kaabatravelcare.com">forex&#64;kaabatravelcare.com</a></p>
+                      <p><strong>CIN No: </strong><span style="color: #ffb300;">U66110TS2025PTC193108</span></p>
+                      <p style="margin-bottom: 30px;"><strong>Phone: </strong> <a style="color: #ffb300;" href="tel:+91 9849325656">+91 9849325656</a></p>
       
-                      <h3>Our Office</h3>
-                      <p style="margin-bottom: 30px;"><strong>Headquarters:</strong> 123 Forensics Street, Cyber City, Techland 56789</p>
+                      <h3>Corporate Office</h3>
+                      <p style="margin-bottom: 30px;"><strong>KAABA TRAVELCARE FOREX PRIVATE LIMITED.</strong> <br> Shop No 7, Anand Vihar Apartment,
+                        8-1-329/1,<br> Shaikpet Road, Aziz Bagh Colony,Toli Chowki,<br> Hyderabad, Telangana 500008</p>
       
-                      <h3>Business Hours</h3>
-                      <p>Monday – Friday: 9:00 AM – 6:00 PM</p>
-                      <p>Saturday: 10:00 AM – 4:00 PM</p>
-                      <p>Sunday: Closed</p>
-      
-                      <!-- <h3>Follow Us</h3>
-                      <p>Stay connected with QuickXe for the latest updates on digital forensics and cybersecurity.</p>
-                      <ul class="social-links">
-                          <li><a href="https://www.linkedin.com/company/quickxe" target="_blank">LinkedIn</a></li>
-                          <li><a href="https://twitter.com/quickxe" target="_blank">Twitter</a></li>
-                          <li><a href="https://facebook.com/quickxe" target="_blank">Facebook</a></li>
-                      </ul> -->
+                      <h3>Office Hours</h3>
+                      <p>Monday – Saturday: 10:00 AM – 7:00 PM</p>
                   </div>
       
                 
@@ -433,7 +589,120 @@ Contact Us
           </section>
         <!-- </section> -->
       </div>
+
+      <div id="exchange-currency" class="about-container" style="margin-top: 10%;">
+      <section #ExchangeCurrencySection class="ExchangeCurrency-section">
+        <h2>Exchange Currency</h2>
+        <div>
+      <form [formGroup]="orderForm"
+      
+  >
+
+      <div class="grid sm:grid-cols-1 lg:grid-cols-2 px-4 flex w-full">
+
+        <mat-form-field class="p-2">
+          <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
+          <!-- <mat-label>Name</mat-label> -->
+          <input type="text" [(ngModel)]="name" matInput formControlName="name" placeholder="Name">
+          <mat-error *ngIf="orderForm.get('name').hasError('required')">
+              Name is required
+          </mat-error>
+      </mat-form-field>
+  
+    <mat-form-field class="p-2">
+      <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
+      <!-- <mat-label>Email ID</mat-label> -->
+      <input type="email" [(ngModel)]="email" matInput formControlName="email" placeholder="Email ID"/>
+      <mat-error *ngIf="orderForm.get('email').hasError('required')">
+          Email ID is required
+      </mat-error>
+  </mat-form-field>
+     
+      <mat-form-field class="p-2">
+        <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+        <input type="tel"
+               matInput
+               formControlName="phoneNumber"
+               [(ngModel)]="phoneNumber"
+               placeholder="Phone Number"
+               (keypress)="onlyNumbers($event)"
+               (input)="validatePhoneNumber()">
+        <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('required')">
+            Phone Number is required
+        </mat-error>
+        <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('minlength')">
+            Phone Number must be at least 10 digits
+        </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="p-2">
+      <i class="fa fa-money" style="margin-right: 5px; font-size:20px; color:#65758c"></i>
+      <!-- <mat-label>Name</mat-label> -->
+      <input type="text" [(ngModel)]="amount" matInput formControlName="amount" placeholder="Enter Amount">
+      <mat-error *ngIf="orderForm.get('amount').hasError('required')">
+          Amount is required
+      </mat-error>
+  </mat-form-field>
+          
+          <mat-form-field class="p-2">
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
+            <mat-select [(ngModel)]="selectedValue" name="country" formControlName="selectedValue" placeholder="From">
+              @for (item of countries; track countries) {
+                <mat-option [value]="item">{{item.countryName}}</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="orderForm.get('selectedValue').hasError('required')">
+                This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="p-2">
+            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
+            <mat-select [(ngModel)]="selectedValue1" name="exchange1" formControlName="selectedValue1" placeholder="To">
+              @for (item of countries; track countries) {
+                <mat-option [value]="item">{{item.countryName}}</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="orderForm.get('selectedValue1').hasError('required')">
+                This field is required
+            </mat-error>
+          </mat-form-field>
+
+
+      </div>
+
+      <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+        <!-- Save -->
+        <button
+            class="order-first sm:order-last" 
+            style="margin-right: 18px;"
+            mat-flat-button
+            [disabled]="!orderForm.valid"
+            [ngStyle]="{ 'background-color': (orderForm.valid)  ? '#ffb300' : '' }">
+            Book Exchange
+        </button>
     </div>
+
+
+
+      <!-- <button
+          mat-flat-button
+          style="background-color:#ffb300; width: 100%;"
+        >
+          Book Exchange
+        </button> -->
+
+</form>
+        </div>
+      </section>
+      </div>
+
+
+
+      
+    </div>
+
+
 
     
     <footer>

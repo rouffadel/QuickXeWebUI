@@ -1,5 +1,5 @@
 import {Inject, ViewChild, ViewEncapsulation,HostListener, AfterViewInit} from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
@@ -47,6 +47,7 @@ import { DataService } from 'app/services/data.service';
 // import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginator } from '@angular/material/paginator';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { AddcurrencyService } from 'app/modules/admin/example/addcurrency/addcurrency.service';
 
 
 
@@ -60,6 +61,24 @@ export interface Currency {
   sellRate: number;
   // action: string;
 }
+
+
+interface Countries {
+  country: string;
+  countryName: string;
+  countryCode: string;
+  currencyName: string;
+  buyRate: number;
+  sellRate: number;
+  tenantName: string;
+  // action: string;
+}
+
+interface Exchange {
+  value: string;
+  viewValue: string;
+}
+
 
 @Component({
   selector: 'app-customer-preview',
@@ -108,6 +127,18 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
   currencies = [];
   countryId: string;
 
+  countries: Countries[] = [];
+  countries1: Countries[] = [];
+  countries2: Countries[] = [];
+
+  country: any;
+  selcountryCode: string = '';
+  selcurrencyName: string = '';
+  selcountryName: string = '';
+  inputBuyRate: number = 0;
+  inputSellRate: number = 0;
+  
+
   // p: number = 1;
   // size: number = 5;
 
@@ -148,6 +179,13 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
       }
       this.updateFilteredData();
     });
+
+    this.addcurrencyService.getData().subscribe((resp: Countries[]) => {
+      if (resp) {
+        this.countries = resp;        
+      }
+    });        
+    
   }
 
 
@@ -176,7 +214,7 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
 
 
   openUpdateCurrencyDialog(countryId: string): void {
-    debugger
+    // debugger
     this.updatecurrencyService.getCurrencyByCountryId(countryId).subscribe((resp: any) => {
       if (resp) {
         this.dialog.open(UpdatecurrencyComponent, {
@@ -275,7 +313,7 @@ confirmation.afterClosed().subscribe((result) => {
   // }
 
 }
-    isMenuOpen: boolean;
+    // isMenuOpen: boolean;
   //  windowWidth: number;
   
     windowWidth: number = window.innerWidth;
@@ -296,7 +334,19 @@ confirmation.afterClosed().subscribe((result) => {
   @ViewChild('contactUsSection') contactUsSection!: ElementRef;
   @ViewChild('aboutUsSection') aboutUsSection!: ElementRef;
   @ViewChild('Servicessection') Servicessection!: ElementRef;
+  @ViewChild('ExchangeRatesSection') ExchangeRatesSection!: ElementRef;
+  @ViewChild('ExchangeCurrencySection') ExchangeCurrencySection!: ElementRef;
 
+
+  scrollToExchangeRates() {
+    document.getElementById('exchange-rates')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  
+  scrollToExchangeCurrency() {
+    document.getElementById('exchange-currency')?.scrollIntoView({ behavior: 'smooth' });
+  }
+  
   scrollToAboutUs() {
     document.getElementById('about-us')?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -346,8 +396,21 @@ confirmation.afterClosed().subscribe((result) => {
     currencysymbol: string = '';
     isp: string = '';
     city: string = '';
-    country: string = '';
     province: string = '';
+    orderForm: FormGroup;
+    name: string = '';
+    selectedValue: string;
+    selectedValue1: string;
+    amount: string;
+    phoneNumber: string = '';
+    email: string = '';
+
+    exchanges: Exchange[] = [
+      {value: 'steak-0', viewValue: 'Australia'},
+      {value: 'pizza-1', viewValue: 'India'},
+      {value: 'tacos-2', viewValue: 'Canada'},
+    ];
+
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     loginDisplay = false;
     alert: { type: FuseAlertType; message: string } = {
@@ -374,6 +437,7 @@ confirmation.afterClosed().subscribe((result) => {
     private updatecurrencyService: UpdatecurrencyService,
     private snackBar: MatSnackBar,
     private dataService: DataService,
+    private addcurrencyService: AddcurrencyService,
     ) {
            // Generate Mock Data
     const currencies_list: Currency[] = [];
@@ -402,10 +466,52 @@ confirmation.afterClosed().subscribe((result) => {
             rememberMe: ['']
         });
         this.isMenuOpen = false;
+
+        this.orderForm = this._formBuilder.group({
+          name: ['', [Validators.required]],
+          email: ['', [Validators.required, Validators.email]],
+          phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
+          amount: ['', [Validators.required]],
+          selectedValue: ['', Validators.required],
+          selectedValue1: ['', Validators.required],
+        });
     }
 
+    isMenuOpen = false;
 
- 
+
+    toggleMobileMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    }
+
+    // Change(event){
+    //   debugger
+    //     this.name = event.value.name
+    //     this.email = event.value.email
+    //     this.phoneNumber = event.value.phoneNumber
+    //     this.amount = event.value.amount
+    //     this.selectedValue = event.value.selectedValue
+    //     this.selectedValue1 = event.value.selectedValue1
+    //     this.countries = this.countries.filter(country => 
+    //       country.countryName.toLowerCase() !== event.value.countryName.toLowerCase()
+    //     );
+    //     this.inputBuyRate = Number(event.value.buyRate)
+    //     this.inputSellRate = Number(event.value.sellRate)
+    //   }
+
+    onlyNumbers(event: KeyboardEvent) {
+      const charCode = event.key.charCodeAt(0);
+      if (charCode < 48 || charCode > 57) {
+        event.preventDefault();
+      }
+    }
+  
+    validatePhoneNumber() {
+      const phoneControl = this.orderForm.get('phoneNumber');
+      if (phoneControl?.value.length < 10) {
+        phoneControl.setErrors({ minlength: true });
+      }
+    } 
 
 
     signIn(): void {

@@ -96,7 +96,7 @@ constructor(){
      */
 
     signIn(credentials: { email: string; password: string }): Observable<any> {
-        debugger
+        // debugger
         // Throw error, if the user is already logged in
         if (this._authenticated) {
             return throwError('User is already logged in.');
@@ -112,7 +112,7 @@ constructor(){
                     }
                     else if (response.data.message === 'User does not exist')
                         {
-                            debugger
+                            // debugger
                             this.invalidCredentials = 'Invalid Email / Password';
                             return of(response);
                         }

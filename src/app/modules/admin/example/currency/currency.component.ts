@@ -68,7 +68,7 @@ export class CurrencyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    debugger
+    // debugger
     this.tenantId = sessionStorage.getItem('loggedInUserId') || ''; // Fetch tenantId from local storage
     if (this.tenantId) {
       this.getService();
@@ -119,7 +119,7 @@ export class CurrencyComponent implements OnInit {
 
 
   openUpdateCurrencyDialog(countryId: string): void {
-    debugger
+    // debugger
     this.updatecurrencyService.getCurrencyByCountryId(countryId).subscribe((resp: any) => {
       if (resp) {
         this.dialog.open(UpdatecurrencyComponent, {

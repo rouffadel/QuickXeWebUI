@@ -105,7 +105,6 @@ body {
   background-color: #f4f4f4;
 }   
 .container {
-  max-width: 1100px;
   margin: 20px auto;
   padding: 20px;
   background: white;
@@ -120,6 +119,7 @@ body {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 .service-box {
   background: #eee;
@@ -127,6 +127,8 @@ body {
   margin: 10px;
   width: 30%;
   border-radius: 5px;
+  width: 100%;
+  border: 2px dashed #ffb300;
 }
 /* .contact {
   text-align: justify;
@@ -136,10 +138,11 @@ body {
   width: 100%;
   max-width: 1200px;
   background: #fff;
-  padding: 30px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  border: 2px dashed #ffb300;
 }
 
 .contact-section h2 {
@@ -147,6 +150,24 @@ body {
   color: #333;
   margin-bottom: 20px;
 }
+
+.ExchangeCurrency-section {
+  width: 100%;
+  max-width: 1200px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* text-align: center; */
+  border: 2px dashed #ffb300;
+}
+
+.ExchangeCurrency-section h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
 
 .contact-details {
   display: flex;
@@ -264,6 +285,12 @@ body {
 }
 
 
+/* .exchangeCurrency {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+} */
+
 
 
 
@@ -338,6 +365,12 @@ footer {
   padding: 20px;
 }
 
+@media (max-width: 768px) {
+  .about-container {
+    padding: 0;
+  }
+}
+
 .content {
   display: flex;
   max-width: 1200px;
@@ -355,7 +388,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 40px;
+  /* margin-top: 40px; */
 }
 
 .image-section img {
@@ -477,3 +510,39 @@ tr:nth-child(even) {
 
 
 
+
+.three-dot-menu {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+  padding: 10px;
+}
+
+/* Show only on mobile */
+@media (max-width: 768px) {
+  .three-dot-menu {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    top: 50px; /* adjust depending on your layout */
+    right: 10px;
+    z-index: 999;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .mobile-menu .menu-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mobile-menu .menu-item:last-child {
+    border-bottom: none;
+  }
+}

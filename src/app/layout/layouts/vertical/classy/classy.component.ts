@@ -167,7 +167,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-      debugger
+      // debugger
 
         // Subscribe to navigation data
         this.roleName = sessionStorage.getItem('loggedInUserRole') ?? '';
