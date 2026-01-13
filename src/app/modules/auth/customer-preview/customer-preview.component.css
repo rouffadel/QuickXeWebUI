@@ -546,3 +546,12 @@ tr:nth-child(even) {
     border-bottom: none;
   }
 }
+
+/* Fix for smooth scrolling offset due to sticky header */
+#exchange-rates,
+#about-us,
+#services,
+#contact-us,
+#exchange-currency {
+  scroll-margin-top: 100px; /* Adjusts scroll position to account for fixed header */
+}

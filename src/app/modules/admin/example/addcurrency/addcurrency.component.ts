@@ -60,106 +60,155 @@ export class AddcurrencyComponent implements OnInit {
   selcountryCode: string = '';
   selcurrencyName: string = '';
   selcountryName: string = '';
-  inputBuyRate: number = 0;
-  inputSellRate: number = 0;
+  buyRate: number;
+  sellRate: number;
   tenantId: string = '';
 
-    /**
-     * Constructor
-     */
-    constructor(
-        public matDialogRef: MatDialogRef<AddcurrencyComponent>,
-        private _formBuilder: UntypedFormBuilder,
-        private addcurrencyService: AddcurrencyService,
-        private snackBar: MatSnackBar,
-        private dataService: DataService
-    ) {}
+  /**
+   * Constructor
+   */
+  constructor(
+    public matDialogRef: MatDialogRef<AddcurrencyComponent>,
+    private _formBuilder: UntypedFormBuilder,
+    private addcurrencyService: AddcurrencyService,
+    private snackBar: MatSnackBar,
+    private dataService: DataService
+  ) { }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * On init
-     */
+  /**
+   * On init
+   */
 
-    ngOnInit() {
-      this.getService();
-      this.tenantId = sessionStorage.getItem('loggedInUserId') || ''; // Fetch tenantId from local storage
+  ngOnInit() {
+    this.getService();
+    this.tenantId = sessionStorage.getItem('loggedInUserId') || ''; // Fetch tenantId from local storage
 
-    }
+  }
 
 
-  Change(event){
+  Change(event) {
     // debugger
-      this.selcountryCode = event.value.countryCode.toLowerCase()
-      this.selcurrencyName = event.value.currencyName
-      this.selcountryName = event.value.countryName
-      this.inputBuyRate = Number(event.value.buyRate)
-      this.inputSellRate = Number(event.value.sellRate)
-    }
+    this.selcountryCode = event.value.countryCode.toLowerCase()
+    this.selcurrencyName = event.value.currencyName
+    this.selcountryName = event.value.countryName
+    this.buyRate = Number(event.value.buyRate)
+    this.sellRate = Number(event.value.sellRate)
+  }
+  // addCurrency() {
+  //   // debugger
+  //   const currencyData = {
+  //     countryName: this.selcountryName,
+  //     countryCode: this.selcountryCode.toUpperCase(),
+  //     currencyName: this.selcurrencyName,
+  //     buyRate: this.buyRate,
+  //     sellRate: this.sellRate,
+  //     tenantId: this.tenantId, // Include tenantId
+  //   };
 
-    buyRate
-    sellRate
-    addCurrency() {
-      // debugger
-      const currencyData = {
-        countryName: this.selcountryName,
-        countryCode: this.selcountryCode.toUpperCase(),
-        currencyName: this.selcurrencyName,
-        buyRate: this.buyRate,
-        sellRate: this.sellRate,
-        tenantId: this.tenantId, // Include tenantId
-      };
+  //   this.addcurrencyService.createCurrency(currencyData).subscribe(
+  //     (response) => {
+  //       console.log('Currency added:', response);
 
-      this.addcurrencyService.createCurrency(currencyData).subscribe(
-        (response) => {
-          console.log('Currency added:', response);
+  //       // Show Snackbar Notification
+  //       this.snackBar.open('Currency Added!', 'Close', {
+  //       duration: 3000, // Time in milliseconds
+  //       verticalPosition: 'top', // Position (top/bottom)
+  //       horizontalPosition: 'right', // Position (start/center/end/right/left)
+  //       panelClass: ['snackbar-success'] // Custom styling
+  //       });
+  //       this.dataService.notifyDataChange();
 
-          // Show Snackbar Notification
-          this.snackBar.open('Currency Added!', 'Close', {
-          duration: 3000, // Time in milliseconds
-          verticalPosition: 'top', // Position (top/bottom)
-          horizontalPosition: 'right', // Position (start/center/end/right/left)
-          panelClass: ['snackbar-success'] // Custom styling
-          });
-          this.dataService.notifyDataChange();
+  //       this.Close();
 
-          this.Close();
-
-        },
-        (error) => {
-          console.error('Error:', error);
-        }
-      );
-    }
+  //     },
+  //     (error) => {
+  //       console.error('Error:', error);
+  //     }
+  //   );
+  // }
 
 
-      getService() {
-        this.addcurrencyService.getData().subscribe((resp: Countries[]) => {
-          if (resp) {
-            this.countries = resp;
-          }
+  addCurrency() {
+    const currencyData = {
+      countryName: this.selcountryName,
+      countryCode: this.selcountryCode.toUpperCase(),
+      currencyName: this.selcurrencyName,
+      buyRate: this.buyRate,
+      sellRate: this.sellRate,
+      tenantId: this.tenantId,
+    };
+
+    this.addcurrencyService.createCurrency(currencyData).subscribe(
+      (response) => {
+        console.log('Currency added:', response);
+
+        // ✅ Success Snackbar (5 seconds)
+        this.snackBar.open('Currency added successfully!', 'Close', {
+          duration: 5000, // ⏱ 5 seconds
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          panelClass: ['snackbar-success']
         });
-      }
 
+        this.dataService.notifyDataChange();
+        this.Close();
+      },
+      (error) => {
+        console.error('Error:', error);
 
-      // onlyNumbers(event: KeyboardEvent) {
-      //   const charCode = event.key.charCodeAt(0);
-      //   if (charCode < 48 || charCode > 57) {
-      //     event.preventDefault();
-      //   }
-      // }
-
-      onlyNumbers(event: KeyboardEvent) {
-        const charCode = event.key.charCodeAt(0);
-        if ((charCode < 48 || charCode > 57) && charCode !== 46) {
-          event.preventDefault();
+        // ✅ Duplicate record (409)
+        if (error.status === 409) {
+          this.snackBar.open(error.error?.message || 'Already exists', 'Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass: ['snackbar-warning']
+          });
+        }
+        // ❌ Other errors
+        else {
+          this.snackBar.open('Something went wrong. Please try again.', 'Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass: ['snackbar-error']
+          });
         }
       }
-      
-  
-    Close(): void {
-        this.matDialogRef.close();
+    );
+  }
+
+
+
+  getService() {
+    this.addcurrencyService.getData().subscribe((resp: Countries[]) => {
+      if (resp) {
+        this.countries = resp;
+      }
+    });
+  }
+
+
+  // onlyNumbers(event: KeyboardEvent) {
+  //   const charCode = event.key.charCodeAt(0);
+  //   if (charCode < 48 || charCode > 57) {
+  //     event.preventDefault();
+  //   }
+  // }
+
+  onlyNumbers(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if ((charCode < 48 || charCode > 57) && charCode !== 46) {
+      event.preventDefault();
     }
+  }
+
+
+  Close(): void {
+    this.matDialogRef.close();
+  }
 }

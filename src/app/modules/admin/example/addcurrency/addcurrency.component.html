@@ -8,35 +8,53 @@
         </button>
     </div>
 
-        <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
+    <div class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8">
 
-              <mat-form-field>
-                <mat-select [(ngModel)]="country" name="country" (selectionChange)="Change($event)" aria-placeholder="Add">
-                  @for (item of countries; track countries) {
-                    <mat-option [value]="item">{{item.countryName}}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Select Country</mat-label>
+            <mat-select [(ngModel)]="country" name="country" (selectionChange)="Change($event)">
+                <mat-select-trigger>
+                    <span class="flex items-center">
+                        @if(country){
+                        <img [src]="'https://flagcdn.com/w40/' + country.countryCode.toLowerCase() + '.png'"
+                            class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                        <span>{{country.countryName}}</span>
+                        }
+                    </span>
+                </mat-select-trigger>
+                @for (item of countries; track item) {
+                <mat-option [value]="item">
+                    <span class="flex items-center">
+                        <img [src]="'https://flagcdn.com/w40/' + item.countryCode.toLowerCase() + '.png'"
+                            class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                        {{item.countryName}}
+                    </span>
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
-              <!-- <lib-country-list></lib-country-list> -->
+        <!-- <lib-country-list></lib-country-list> -->
 
 
-            <div class="flex flex-cols justify-between">
-                <div class="flex flex-cols">
-                Flag :&nbsp; <img *ngIf="selcountryCode"
-                [src]="'https://flagcdn.com/w40/' + selcountryCode + '.png'" 
-                alt="{{ selcountryCode }} flag"
-                class="country-flag"/>
-                </div>
-            <div>
-                Currency Name : {{selcurrencyName}}
+        <div class="flex flex-col justify-between mt-4">
+            <div class="flex flex-col mb-2">
+                <span class="font-medium">Selected Currency Details:</span>
+            </div>
+            <div class="flex items-center mb-2" *ngIf="selcountryCode">
+                <span class="mr-2">Flag:</span>
+                <img [src]="'https://flagcdn.com/w40/' + selcountryCode + '.png'" alt="{{ selcountryCode }} flag"
+                    class="h-6 w-10 object-cover rounded shadow-sm country-flag" />
+            </div>
+            <div *ngIf="selcurrencyName">
+                Currency Name : <span class="font-semibold">{{selcurrencyName}}</span>
             </div>
         </div>
 
-  
+
         <mat-form-field>
             <mat-label>Buy Rate</mat-label>
-            <input type="number" matInput [(ngModel)]="buyRate" (keypress)="onlyNumbers($event)"/>
+            <input type="number" matInput [(ngModel)]="buyRate" (keypress)="onlyNumbers($event)" />
         </mat-form-field>
 
         <!-- <mat-form-field>
@@ -53,26 +71,23 @@
 
         <mat-form-field>
             <mat-label>Sell Rate</mat-label>
-            <input type="number" matInput [(ngModel)]="sellRate" (keypress)="onlyNumbers($event)"/>
+            <input type="number" matInput [(ngModel)]="sellRate" (keypress)="onlyNumbers($event)" />
         </mat-form-field>
     </div>
 
 
-        <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+    <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
 
 
-<!-- Save -->
-<button
-(click)="addCurrency()"
-mat-flat-button
-[disabled]="!country || !buyRate || !sellRate"
-[ngStyle]="{ 'background-color': (country && buyRate && sellRate) ? '#ffb300' : '' }"
-class="order-first sm:order-last">
-Save
-</button>
+        <!-- Save -->
+        <button (click)="addCurrency()" mat-flat-button [disabled]="!country || !buyRate || !sellRate"
+            [ngStyle]="{ 'background-color': (country && buyRate && sellRate) ? '#ffb300' : '' }"
+            class="order-first sm:order-last">
+            Save
+        </button>
 
 
-<!-- <button
+        <!-- <button
             (click)="addCustomer()"
             mat-flat-button
             [disabled]="customerDetailsForm.invalid"
@@ -82,6 +97,5 @@ Save
 
 
 
-        </div>
+    </div>
 </div>
-
