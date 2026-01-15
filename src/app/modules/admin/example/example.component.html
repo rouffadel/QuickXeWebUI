@@ -1,10 +1,10 @@
 <!-- <div class="fixed-background"></div> -->
 
 <div class="flex min-w-0 flex-auto flex-col">
-    <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
 
-      <!-- <div class="search-container">
+    <!-- <div class="search-container">
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Search</mat-label>
           <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
@@ -27,19 +27,19 @@
 
 
 
-      <div class="search-container">
+    <div class="search-container">
 
-        <mat-form-field class="search-field">
-          <!-- <mat-label>Search</mat-label> -->
-          <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
-        </mat-form-field>
+      <mat-form-field class="search-field">
+        <!-- <mat-label>Search</mat-label> -->
+        <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
+      </mat-form-field>
 
-        <button mat-flat-button (click)="addCurrency()" style="background-color: #ffb300; color: white;">
-          <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>
-          <span class="ml-2">Add</span>
+      <button mat-flat-button (click)="addCurrency()" style="background-color: #ffb300; color: white;">
+        <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>
+        <span class="ml-2">Add</span>
       </button>
 
-        <!-- <form>
+      <!-- <form>
           <mat-form-field>
             <mat-select [(ngModel)]="selectedValue" name="food" placeholder="Add">
               @for (food of foods; track food) {
@@ -48,60 +48,62 @@
             </mat-select>
           </mat-form-field>
         </form> -->
-        
-      </div>
 
-        <!-- CONTENT GOES HERE -->
-        <div class="">          
+    </div>
 
-    <!-- <table mat-table [dataSource]="filteredData" class="mat-elevation-z8" style="max-height: 400px; overflow: auto;"> -->
-    <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing" style="max-height: 400px; overflow: auto;">
-      <ng-container matColumnDef="country">
-    <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: left;">
-      <mat-icon style="vertical-align: middle; margin-right: 5px; color: white">public</mat-icon>
-      <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle --> </th>
-    <td mat-cell *matCellDef="let element" style="text-align: left;"> 
-      <div class="country-wrapper">
-        <div class="country-info">
-          <img
-            [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
-            alt="{{ element.countryName }} flag"
-            class="country-flag"
-          />
-          <span class="country-text">{{ element.countryName }}</span>
-        </div>
-        <div class="currency-text">{{ element.currencyName }}</div>
-      </div>
-    </td>
-  </ng-container> 
+    <!-- CONTENT GOES HERE -->
+    <div class="">
 
-    <!-- Buy Rate Column (centered) -->
-    <ng-container matColumnDef="buyRate">
-      <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: center;">
-        <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
-        <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
-        <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
-      </th>
-      <td mat-cell *matCellDef="let element" style="text-align: center;">
-        {{element.buyRate}}
-      </td>
-    </ng-container>
-  
-    <!-- Sell Rate Column (centered) -->
-    <ng-container matColumnDef="sellRate">
-      <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: center;">
-        <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
-        <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
-        <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
-      </th>
-      <td mat-cell *matCellDef="let element" style="text-align: center;">
-        {{element.sellRate}}
-      </td>
-    </ng-container>
+      <!-- <table mat-table [dataSource]="filteredData" class="mat-elevation-z8" style="max-height: 400px; overflow: auto;"> -->
+      <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing"
+        style="max-height: 400px; overflow: auto;">
+        <ng-container matColumnDef="country">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: left;">
+            <mat-icon style="vertical-align: middle; margin-right: 5px; color: white">public</mat-icon>
+            <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle -->
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;">
+            <div class="country-wrapper">
+              <div class="country-info">
+                <img [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
+                  alt="{{ element.countryName }} flag" class="country-flag" />
+                <span class="country-text">{{ element.countryName }}</span>
+              </div>
+              <div class="currency-text">{{ element.currencyName }}</div>
+            </div>
+          </td>
+        </ng-container>
 
-    
-    <!-- Action Column (centered) -->
-    <!-- <ng-container matColumnDef="action">
+        <!-- Buy Rate Column (centered) -->
+        <ng-container matColumnDef="buyRate">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: center;">
+            <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
+            <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+            <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;">
+            {{element.buyRate}}
+          </td>
+        </ng-container>
+
+        <!-- Sell Rate Column (centered) -->
+        <ng-container matColumnDef="sellRate">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: center;">
+            <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
+            <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+            <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;">
+            {{element.sellRate}}
+          </td>
+        </ng-container>
+
+
+        <!-- Action Column (centered) -->
+        <!-- <ng-container matColumnDef="action">
       <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white; text-align: center;">
         <span style="vertical-align: middle;">Action</span>
       </th>
@@ -116,32 +118,34 @@
     </ng-container> -->
 
 
-    <!-- Action Column (centered) -->
-    <ng-container matColumnDef="action">
-      <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: center;">
-        <span style="vertical-align: middle;">Action</span>
-      </th>
-      <td mat-cell *matCellDef="let element" style="text-align: center;">
-        <span (click)="openUpdateCurrencyDialog(element.countryId)">
-      <mat-icon svgIcon="heroicons_outline:pencil-square"></mat-icon>
-    </span>
-    <span (click)="deleteCurrency(element.countryId)">
-      <mat-icon class="text-red-600" svgIcon="heroicons_outline:trash"></mat-icon>
-    </span>
-      </td>
-    </ng-container>
+        <!-- Action Column (centered) -->
+        <ng-container matColumnDef="action">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: center;">
+            <span style="vertical-align: middle;">Action</span>
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;">
+            <button mat-icon-button (click)="openUpdateCurrencyDialog(element.countryId)"
+              class="mr-2 text-primary-500 hover:bg-primary-50">
+              <mat-icon svgIcon="heroicons_outline:pencil-square"></mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCurrency(element.countryId)" class="text-red-500 hover:bg-red-50">
+              <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    <!-- <tr mat-row 
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- <tr mat-row 
     *matRowDef="let row; columns: displayedColumns; let i = index" 
     [ngClass]="{'alternate-row': i % 2 != 0}">
     </tr> -->
-  </table>
+      </table>
 
-            
-          </div>
+
     </div>
+  </div>
 </div>
 
 
@@ -165,7 +169,7 @@
 
 
 
-                 <!-- <td mat-cell *matCellDef="let element">
+<!-- <td mat-cell *matCellDef="let element">
                     <div class="country-wrapper">
                       <div class="country-info">
                         <img
@@ -179,14 +183,14 @@
                     </div>
                   </td>                  -->
 
-                                  <!-- Country Column -->
-                <!-- <ng-container matColumnDef="country">
+<!-- Country Column -->
+<!-- <ng-container matColumnDef="country">
                   <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9;"> Country </th>
                   <td mat-cell *matCellDef="let element"> {{element.country}} </td>
                 </ng-container> -->
 
 
-                <!-- <ng-container matColumnDef="country">
+<!-- <ng-container matColumnDef="country">
                   <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9;"> Country </th>
                   <td mat-cell *matCellDef="let element" class="country-cell">
                     {{ element.country }}
@@ -200,7 +204,7 @@
 
 
 
-                <!-- <ng-container matColumnDef="country">
+<!-- <ng-container matColumnDef="country">
                   <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #A9A9A9;"> Country </th>
                   <td mat-cell *matCellDef="let element">
                     <div class="country-wrapper">
@@ -217,5 +221,5 @@
                   </td>
                 </ng-container> -->
 
-                <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+<!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"
                 [ngClass]="{'even-row': dataSource.indexOf(row) % 2 === 1}"></tr> -->

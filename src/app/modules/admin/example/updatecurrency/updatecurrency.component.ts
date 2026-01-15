@@ -50,6 +50,7 @@ export class UpdatecurrencyComponent implements OnInit {
   selcountryName: string = '';
   inputBuyRate: number = 0;
   inputSellRate: number = 0;
+  currencySymbol: string = '';
 
 
   currency = [
@@ -62,11 +63,11 @@ export class UpdatecurrencyComponent implements OnInit {
 
   constructor(
     public matDialogRef: MatDialogRef<UpdatecurrencyComponent>,
-    private updatecurrencyService: UpdatecurrencyService, 
+    private updatecurrencyService: UpdatecurrencyService,
     @Inject(MAT_DIALOG_DATA) public data: any, // Inject received data
     private snackBar: MatSnackBar,
     private dataService: DataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // debugger
@@ -76,32 +77,61 @@ export class UpdatecurrencyComponent implements OnInit {
     // Pre-fill fields if data exists
     if (this.data) {
       // Set selected country if data is passed
-      
-    //  this.country = this.currency.find(item => item.countryCode === this.data.countryCode) || null;
+
+      //  this.country = this.currency.find(item => item.countryCode === this.data.countryCode) || null;
       this.countryId = Number(this.data.countryId) || 0;
       this.selcountryCode = this.data.countryCode?.toLowerCase() || '';
       this.selcurrencyName = this.data.currencyName || '';
       this.selcountryName = this.data.countryName || '';
       this.inputBuyRate = Number(this.data.buyRate) || 0;
       this.inputSellRate = Number(this.data.sellRate) || 0;
+      this.currencySymbol = this.getCurrencySymbol(this.selcountryCode);
     }
   }
 
-    Change(event){
+  Change(event) {
     // debugger
-      this.country = event.value;
-      this.selcountryCode = event.value.countryCode.toLowerCase()
-      this.selcurrencyName = event.value.currencyName
-      this.selcountryName = event.value.countryName
-      this.inputBuyRate = Number(event.value.buyRate)
-      this.inputSellRate = Number(event.value.sellRate)
-    }
+    this.country = event.value;
+    this.selcountryCode = event.value.countryCode.toLowerCase()
+    this.selcurrencyName = event.value.currencyName
+    this.selcountryName = event.value.countryName
+    this.inputBuyRate = Number(event.value.buyRate)
+    this.inputSellRate = Number(event.value.sellRate)
+    this.currencySymbol = this.getCurrencySymbol(this.selcountryCode);
+  }
+
+  getCurrencySymbol(countryCode: string): string {
+    const symbolMap: { [key: string]: string } = {
+      'us': '$', 'au': '$', 'ca': '$', 'nz': '$', 'sg': '$',
+      'gb': '£',
+      'eu': '€', 'at': '€', 'be': '€', 'cy': '€', 'ee': '€', 'fi': '€',
+      'fr': '€', 'de': '€', 'gr': '€', 'ie': '€', 'it': '€', 'lv': '€',
+      'lt': '€', 'lu': '€', 'mt': '€', 'nl': '€', 'pt': '€', 'sk': '€',
+      'si': '€', 'es': '€',
+      'jp': '¥', 'cn': '¥',
+      'in': '₹',
+      'ru': '₽',
+      'kr': '₩',
+      'ch': 'Fr',
+      'se': 'kr', 'no': 'kr', 'dk': 'kr',
+      'br': 'R$',
+      'za': 'R',
+      'th': '฿',
+      'my': 'RM',
+      'ph': '₱',
+      'id': 'Rp',
+      'vn': '₫',
+      'ng': '₦',
+      'tr': '₺',
+    };
+    return symbolMap[countryCode.toLowerCase()] || '';
+  }
 
   updateCurrency() {
     // debugger;
     const countryId = this.countryId.toString()
     const currencyData = {
-      countryId : this.countryId.toString(),
+      countryId: this.countryId.toString(),
       countryName: this.selcountryName,
       countryCode: this.selcountryCode.toUpperCase(),
       currencyName: this.selcurrencyName,
@@ -116,16 +146,18 @@ export class UpdatecurrencyComponent implements OnInit {
       console.log('Currency updated:', response);
       // Show Snackbar Notification
       this.snackBar.open('Currency Updated!', 'Close', {
-      duration: 3000, // Time in milliseconds
-      verticalPosition: 'top', // Position (top/bottom)
-      horizontalPosition: 'right', // Position (start/center/end/right/left)
-      panelClass: ['snackbar-success'] // Custom styling
-    });
-    this.dataService.notifyDataChange();
+        duration: 3000, // Time in milliseconds
+        verticalPosition: 'top', // Position (top/bottom)
+        horizontalPosition: 'right', // Position (start/center/end/right/left)
+        panelClass: ['snackbar-success'] // Custom styling
+      });
+      this.dataService.notifyDataChange();
 
       this.matDialogRef.close(true); // Close dialog after update
     });
   }
+
+
 
   onlyNumbers(event: KeyboardEvent) {
     const charCode = event.key.charCodeAt(0);

@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../../../../services/data.service';
 import { NgxCountriesDropdownModule } from 'ngx-countries-dropdown';
-import { FormControl} from "@angular/forms";
+import { FormControl } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { RegisterService } from './register.service';
 import { VerifyOtpComponent } from './verify-otp/verify-otp.component';
@@ -62,85 +62,81 @@ export class RegisterComponent implements OnInit {
   code: string = '';
 
 
-    /**
-     * Constructor
-     */
-    constructor(
-        public matDialogRef: MatDialogRef<RegisterComponent>,
-        private _formBuilder: UntypedFormBuilder,
-        private snackBar: MatSnackBar,
-        private dataService: DataService,
-        private registerService: RegisterService,
-        private dialog:MatDialog,
-        private _router:Router,
-        private otpService: OtpService
-        
-    ) {}
+  /**
+   * Constructor
+   */
+  constructor(
+    public matDialogRef: MatDialogRef<RegisterComponent>,
+    private _formBuilder: UntypedFormBuilder,
+    private snackBar: MatSnackBar,
+    private dataService: DataService,
+    private registerService: RegisterService,
+    private dialog: MatDialog,
+    private _router: Router,
+    private otpService: OtpService
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+  ) { }
 
-    /**
-     * On init
-     */
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
 
-    ngOnInit() {     
-      this.customerDetailsForm = this._formBuilder.group({
-        name: ['', [Validators.required]],
-       // email: ['', Validators.required, Validators.email],
-       email: ['', [Validators.required, Validators.email]],
-        address: ['', Validators.required],
-        phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
-        // phoneNumber: ['', Validators.required]
-        // otpType: ['SignUp', Validators.required]
+  /**
+   * On init
+   */
 
-      });
+  ngOnInit() {
+    this.customerDetailsForm = this._formBuilder.group({
+      name: ['', [Validators.required]],
+      // email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+    });
+  }
+
+
+  onlyNumbers(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
     }
+  }
 
-
-    onlyNumbers(event: KeyboardEvent) {
-      const charCode = event.key.charCodeAt(0);
-      if (charCode < 48 || charCode > 57) {
-        event.preventDefault();
-      }
+  validatePhoneNumber() {
+    const phoneControl = this.customerDetailsForm.get('phoneNumber');
+    if (phoneControl?.value.length < 10) {
+      phoneControl.setErrors({ minlength: true });
     }
-  
-    validatePhoneNumber() {
-      const phoneControl = this.customerDetailsForm.get('phoneNumber');
-      if (phoneControl?.value.length < 10) {
-        phoneControl.setErrors({ minlength: true });
-      }
-    }
+  }
 
 
-    openLoginDialog() {
-      this.Close();
-      this.dialog.open(LoginComponent, {
-        disableClose: true
-      });
-    }
+  openLoginDialog() {
+    this.Close();
+    this.dialog.open(LoginComponent, {
+      disableClose: true
+    });
+  }
 
 
-    navigateToOtpService(phoneNumber: string) {
-      // debugger
-      this.otpService.setOtp(phoneNumber);
+  navigateToOtpService(phoneNumber: string) {
+    // debugger
+    this.otpService.setOtp(phoneNumber);
 
-    }
-    
-    register() {
+  }
 
+  register() {
+    const phoneNumber = this.customerDetailsForm.get('phoneNumber')?.value;
+    console.log('Register process started');
+    console.log('Phone Number from form:', phoneNumber);
 
-      this.createCustomerOTP();
-
-      this.navigateToOtpService(this.phoneNumber);
-
-      this.openVerifyOtpDialog();
-
-      
+    this.createCustomerOTP();
+    this.navigateToOtpService(phoneNumber);
+    this.openVerifyOtpDialog();
   }
 
   openVerifyOtpDialog() {
+    console.log('Opening Verify OTP Dialog for:', this.phoneNumber);
     const dialogRef = this.dialog.open(VerifyOtpComponent, {
       // width: '400px',
       disableClose: true,
@@ -148,66 +144,63 @@ export class RegisterComponent implements OnInit {
     });
 
     this.Close();
-
   }
 
-
-
   addCustomer() {
-    // debugger;
+    const formValue = this.customerDetailsForm.value;
     const customerData = {
-      name:this.name,
-      phoneNumber:this.phoneNumber,
-      email: this.email,
-      address: this.address,
+      name: formValue.name,
+      phoneNumber: formValue.phoneNumber,
+      email: formValue.email,
+      address: formValue.address,
     };
+
+    console.log('Adding customer with data:', customerData);
 
     this.registerService.createCustomer(customerData).subscribe(
       (response) => {
-
-         console.log('You are registered successfully!');
-
-      // Show Snackbar Notification
-      this.snackBar.open('You are registered successfully! Please Login', 'Close', {
-      duration: 3000, // Time in milliseconds
-      verticalPosition: 'top', // Position (top/bottom)
-      horizontalPosition: 'right', // Position (start/center/end/right/left)
-      panelClass: ['snackbar-success'] // Custom styling
-      });
-
-      this.Close();
-      
-              this.dialog.open(LoginComponent,
-              {
-            disableClose: true,
-              })
-
+        console.log('Customer added successfully:', response);
+        this.snackBar.open('You are registered successfully! Please Login', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          panelClass: ['snackbar-success']
+        });
+        this.Close();
+        this.dialog.open(LoginComponent, { disableClose: true });
       },
       (error) => {
-          console.error('Error:', error);
+        console.error('Error adding customer:', error);
       }
-  );
+    );
   }
 
   createCustomerOTP() {
-    // debugger;
+    const phoneNumber = this.customerDetailsForm.get('phoneNumber')?.value;
+
+    if (!phoneNumber || phoneNumber.length !== 10) {
+      this.snackBar.open('Please enter exactly 10 digits', 'Close', { duration: 3000 });
+      return;
+    }
+
     const data = {
-        phoneNumber: this.phoneNumber,
-        otpType: this.otpType
+      phoneNumber: phoneNumber,
+      otpType: this.otpType
     };
 
-  
+    console.log('Sending OTP request to backend:', data);
+
     this.registerService.createCustomerOTP(data).subscribe(
-        (response) => {
-            
-        },
-        (error) => {
-            console.error('Error:', error);
-        }
+      (response) => {
+        console.log('OTP request successful:', response);
+      },
+      (error) => {
+        console.error('OTP request failed:', error);
+      }
     );
-}
-    
-    Close(): void {
-        this.matDialogRef.close();
-    }
+  }
+
+  Close(): void {
+    this.matDialogRef.close();
+  }
 }

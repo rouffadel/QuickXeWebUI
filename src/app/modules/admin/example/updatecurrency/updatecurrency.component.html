@@ -18,7 +18,7 @@
 
         <mat-form-field>
             <mat-label>Country</mat-label>
-            <input matInput  [(ngModel)]="selcountryName"  disabled/>
+            <input matInput [(ngModel)]="selcountryName" disabled />
         </mat-form-field>
 
         <!-- <mat-form-field>
@@ -28,32 +28,35 @@
               </mat-option>
             </mat-select>
           </mat-form-field> -->
-          
 
-        <div class="flex flex-cols justify-between">
-            <div class="flex flex-cols">
-                Flag :&nbsp;
-                <img src="/assets/icons/globe.png" alt="" *ngIf="!selcountryCode" />
-                <img
-                    [src]="'https://flagcdn.com/w40/' + selcountryCode + '.png'"
-                    alt="{{ selcountryCode }} flag"
-                    class="country-flag"
-                    *ngIf="selcountryCode"
-                />
+
+        <div class="flex flex-col mt-2 space-y-2">
+            <div class="flex items-center">
+                <span>Currency Symbol :&nbsp;</span>
+                <span class="font-bold text-lg">{{ currencySymbol }}</span>
             </div>
-            <div>
-                Currency Name: {{ selcurrencyName }}
+
+            <div class="flex items-center">
+                <span>Flag :&nbsp;</span>
+                <img src="/assets/icons/globe.png" alt="" *ngIf="!selcountryCode"
+                    class="h-6 w-10 object-cover rounded shadow-sm" />
+                <img [src]="'https://flagcdn.com/w40/' + selcountryCode + '.png'" alt="{{ selcountryCode }} flag"
+                    class="h-6 w-10 object-cover rounded shadow-sm country-flag" *ngIf="selcountryCode" />
+            </div>
+
+            <div class="text-right">
+                Currency Name: <span class="font-bold">{{ selcurrencyName }}</span>
             </div>
         </div>
 
         <mat-form-field>
             <mat-label>Buy Rate</mat-label>
-            <input matInput type="number" [(ngModel)]="inputBuyRate" (keypress)="onlyNumbers($event)"/>
+            <input matInput type="number" [(ngModel)]="inputBuyRate" (keypress)="onlyNumbers($event)" />
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Sell Rate</mat-label>
-            <input matInput type="number" [(ngModel)]="inputSellRate" (keypress)="onlyNumbers($event)"/>
+            <input matInput type="number" [(ngModel)]="inputSellRate" (keypress)="onlyNumbers($event)" />
         </mat-form-field>
     </div>
 
@@ -62,7 +65,7 @@
 
 
 
-<!-- <button
+        <!-- <button
 (click)="addCurrency()"
 [ngStyle]="{'background-color': (!country || !buyRate || !sellRate) ? 'bg-gray' : '#ffb300', 'color': (!country || !buyRate || !sellRate) ? 'inherit' : 'white' }"
 class="order-first sm:order-last"
@@ -72,13 +75,9 @@ mat-flat-button
 Save
 </button> -->
 
-        <button
-            (click)="updateCurrency()"
-            mat-flat-button
-            [disabled]="!inputBuyRate || !inputSellRate"
+        <button (click)="updateCurrency()" mat-flat-button [disabled]="!inputBuyRate || !inputSellRate"
             [ngStyle]="{ 'background-color': (inputBuyRate && inputSellRate)  ? '#ffb300' : '' }"
-            class="order-first sm:order-last"
-            >
+            class="order-first sm:order-last">
             Update
         </button>
     </div>

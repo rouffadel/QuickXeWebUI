@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../../../../services/data.service';
 import { NgxCountriesDropdownModule } from 'ngx-countries-dropdown';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 export interface Countries {
@@ -29,6 +30,7 @@ export interface Countries {
   sellRate: number;
   tenantName: string;
   // action: string;
+  currencyAvailable?: boolean;
 }
 
 @Component({
@@ -45,6 +47,7 @@ export interface Countries {
     MatSelectModule,
     CommonModule,
     NgxCountriesDropdownModule,
+    MatSlideToggleModule
   ],
   templateUrl: './addcurrency.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -63,6 +66,7 @@ export class AddcurrencyComponent implements OnInit {
   buyRate: number;
   sellRate: number;
   tenantId: string = '';
+  currencyAvailable: boolean = true;
 
   /**
    * Constructor
@@ -140,6 +144,7 @@ export class AddcurrencyComponent implements OnInit {
       buyRate: this.buyRate,
       sellRate: this.sellRate,
       tenantId: this.tenantId,
+      currencyAvailable: this.currencyAvailable
     };
 
     this.addcurrencyService.createCurrency(currencyData).subscribe(

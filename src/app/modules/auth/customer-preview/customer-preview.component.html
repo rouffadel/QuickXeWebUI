@@ -1,24 +1,25 @@
 <div class="flex flex-col flex-auto min-w-0">
-  <div class="bg-card sticky top-0 relative z-49 flex h-16 w-full items-center pr-4 pl-0 shadow dark:border-b dark:bg-transparent dark:shadow-none sm:h-20 md:px-6 print:hidden">
-      <div class="mx-2 flex items-center lg:mr-8" [ngStyle]="{ display: windowWidth >= 768 ? 'flex' : 'none' }">
-        
-        <div class="w-56">
-          <img src="images/logo/Quick_XeNbg.png">
-        </div>
-        <!-- <div class="hidden lg:flex">
+  <div
+    class="bg-card sticky top-0 relative z-49 flex h-16 w-full items-center pr-4 pl-0 shadow dark:border-b dark:bg-transparent dark:shadow-none sm:h-20 md:px-6 print:hidden">
+    <div class="mx-2 flex items-center lg:mr-8" [ngStyle]="{ display: windowWidth >= 768 ? 'flex' : 'none' }">
+
+      <div class="w-56">
+        <img src="images/logo/Quick_XeNbg.png">
+      </div>
+      <!-- <div class="hidden lg:flex">
               <img src="images/logo/Quick_XeNbg.png" class="dark:hidden" style="width: 14rem;">
           </div> -->
 
-          <!-- <div class="w-56">
+      <!-- <div class="w-56">
             <img src="images/logo/Quick_XeNbg.png">
         </div> -->
 
-        
 
-      </div>
 
-             
-       <!-- Navigation links -->
+    </div>
+
+
+    <!-- Navigation links -->
     <!-- <div
     class="menu-links"
     [ngStyle]="{
@@ -103,7 +104,7 @@ Contact Us
   </div> -->
 
 
-  <!-- <div class="menu-links" [ngClass]="{ 'mobile-menu': windowWidth <= 768, 'open': isMenuOpen || windowWidth > 768 }">
+    <!-- <div class="menu-links" [ngClass]="{ 'mobile-menu': windowWidth <= 768, 'open': isMenuOpen || windowWidth > 768 }">
     <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToExchangeRates()" class="menu-item">Exchange Rates</div>
     <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToAboutUs()" class="menu-item">About Us</div>
     <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToServices()" class="menu-item">Services</div>
@@ -111,56 +112,37 @@ Contact Us
   </div> -->
 
 
-  <!-- Three-dot menu icon (mobile only) -->
-<div class="three-dot-menu" *ngIf="windowWidth <= 768" (click)="toggleMobileMenu()">
-  &#9776; <!-- Unicode hamburger menu (☰) -->
-</div>
+    <!-- Three-dot menu icon (mobile only) -->
+    <div class="three-dot-menu" *ngIf="windowWidth <= 768" (click)="toggleMobileMenu()">
+      &#9776; <!-- Unicode hamburger menu (☰) -->
+    </div>
 
-<!-- Dropdown menu links -->
-<div class="menu-links"
-  [ngClass]="{
+    <!-- Dropdown menu links -->
+    <div class="menu-links" [ngClass]="{
     'mobile-menu': windowWidth <= 768,
     'open': isMenuOpen || windowWidth > 768
-  }"
-  *ngIf="isMenuOpen || windowWidth > 768"
->
-  <div
-    (mouseover)="hoverStyle($event, true)"
-    (mouseout)="hoverStyle($event, false)"
-    (click)="scrollToExchangeRates()"
-    class="menu-item"
-  >
-    Exchange Rates
-  </div>
-  <div
-    (mouseover)="hoverStyle($event, true)"
-    (mouseout)="hoverStyle($event, false)"
-    (click)="scrollToAboutUs()"
-    class="menu-item"
-  >
-    About Us
-  </div>
-  <div
-    (mouseover)="hoverStyle($event, true)"
-    (mouseout)="hoverStyle($event, false)"
-    (click)="scrollToServices()"
-    class="menu-item"
-  >
-    Services
-  </div>
-  <div
-    (mouseover)="hoverStyle($event, true)"
-    (mouseout)="hoverStyle($event, false)"
-    (click)="scrollToContactUs()"
-    class="menu-item"
-  >
-    Contact Us
-  </div>
-</div>
+  }" *ngIf="isMenuOpen || windowWidth > 768">
+      <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)"
+        (click)="scrollToExchangeRates()" class="menu-item">
+        Exchange Rates
+      </div>
+      <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToAboutUs()"
+        class="menu-item">
+        About Us
+      </div>
+      <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToServices()"
+        class="menu-item">
+        Services
+      </div>
+      <div (mouseover)="hoverStyle($event, true)" (mouseout)="hoverStyle($event, false)" (click)="scrollToContactUs()"
+        class="menu-item">
+        Contact Us
+      </div>
+    </div>
 
-  
 
-  <!-- <div class="ml-auto flex items-center space-x-2 pl-2">
+
+    <!-- <div class="ml-auto flex items-center space-x-2 pl-2">
     <div class="relative flex items-center">
   
         <button type="button" mat-flat-button [matMenuTriggerFor]="userActions" style="background-color: #ffb300;">
@@ -185,9 +167,9 @@ Contact Us
 
 
 
-<div class="ml-auto flex items-center space-x-2 pl-2">
-  <div class="relative flex items-center">
-    <!-- <button
+    <div class="ml-auto flex items-center space-x-2 pl-2">
+      <div class="relative flex items-center">
+        <!-- <button
       type="button"
       mat-flat-button
       [matMenuTriggerFor]="userActions"
@@ -197,12 +179,12 @@ Contact Us
       <span class="ml-1 hidden sm:inline">LOGIN / SIGN UP</span>
     </button> -->
 
-    <button type="button" mat-flat-button [matMenuTriggerFor]="userActions" style="background-color: #ffb300;">
-      <mat-icon class="icon-size-4" svgIcon="heroicons_outline:user"></mat-icon>
-      <span class="ml-1 hidden sm:inline">LOGIN / SIGN UP</span>
-    </button>
+        <button type="button" mat-flat-button [matMenuTriggerFor]="userActions" style="background-color: #ffb300;">
+          <mat-icon class="icon-size-4" svgIcon="heroicons_outline:user"></mat-icon>
+          <span class="ml-1 hidden sm:inline">LOGIN / SIGN UP</span>
+        </button>
 
-    <!-- <mat-menu [xPosition]="'before'" #userActions="matMenu" class="w-full max-w-xs">
+        <!-- <mat-menu [xPosition]="'before'" #userActions="matMenu" class="w-full max-w-xs">
       <button mat-menu-item (click)="openLogin()" class="w-full text-center">
         <span>Login</span>
       </button>
@@ -212,29 +194,29 @@ Contact Us
       </button>
     </mat-menu> -->
 
-    <mat-menu [xPosition]="'before'" #userActions="matMenu">
-      
-      <button mat-menu-item (click)="openLogin()">
-          <span>Login</span>
-      </button>
-      <mat-divider class="mt-0 mb-0"></mat-divider>
+        <mat-menu [xPosition]="'before'" #userActions="matMenu">
 
-      <button mat-menu-item (click)="goToSignIn()">
-        <span>Agent Login</span>
-    </button>
+          <button mat-menu-item (click)="openLogin()">
+            <span>Login</span>
+          </button>
+          <mat-divider class="mt-0 mb-0"></mat-divider>
 
-      <mat-divider class="mt-0 mb-0"></mat-divider>
-      <button mat-menu-item (click)="openRegister()">
-          <span>Sign Up</span>
-      </button>
-  </mat-menu>
+          <button mat-menu-item (click)="goToSignIn()">
+            <span>Agent Login</span>
+          </button>
 
-  </div>
-</div>
+          <mat-divider class="mt-0 mb-0"></mat-divider>
+          <button mat-menu-item (click)="openRegister()">
+            <span>Sign Up</span>
+          </button>
+        </mat-menu>
+
+      </div>
+    </div>
 
 
 
-<!-- <div class="ml-auto flex items-center space-x-2 pl-2">
+    <!-- <div class="ml-auto flex items-center space-x-2 pl-2">
   <div class="relative flex items-center">
     <button
       type="button"
@@ -271,30 +253,30 @@ Contact Us
 
   </div>
 
- 
+
 
 
   <div id="carouselExample" class="hidden sm:inline carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="images/logo/webbanner.png" class="d-block w-100" alt="Image 2">
-        </div>
-        <!-- <div class="carousel-item">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="images/logo/webbanner.png" class="d-block w-100" alt="Image 2">
+      </div>
+      <!-- <div class="carousel-item">
           <img src="images/logo/image_fit_size.jpeg" class="d-block w-100" alt="Image 1">
         </div> -->
-      </div>
-      <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    </div>
+    <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       </button>
       <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
       </button> -->
-    </div>
+  </div>
 
 
 
-      <div class="container">
-        <!-- <div id="about-us">
+  <div class="container">
+    <!-- <div id="about-us">
         <section #aboutUsSection class="section">
             <h2>About QuickXe</h2>
             <div >
@@ -305,411 +287,450 @@ Contact Us
         </section>
       </div> -->
 
-      <div id="exchange-rates">        
-        <section #ExchangeRatesSection>
+    <div id="exchange-rates">
+      <section #ExchangeRatesSection>
         <div class="flex min-w-0 flex-auto flex-col">
           <!-- Main -->
           <div class="flex-auto p-6 sm:p-10">
             <h2 style="text-align: center;">Exchange Rates</h2>
-        
+
             <div class="search-container">
-        
+
               <mat-form-field class="search-field">
                 <!-- <mat-label>Search</mat-label> -->
                 <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
               </mat-form-field>
-              
+
             </div>
-        
-              <!-- CONTENT GOES HERE -->
-              <div class="">          
-        
-          <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing" style="max-height: 400px; overflow: auto;">
-            <ng-container matColumnDef="countryName">
-          <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white;  text-align: left;">
-            <mat-icon style="vertical-align: middle; margin-right: 5px; color: white;">public</mat-icon> <!-- Country icon aligned to middle -->
-            <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle --> </th>
-          <td mat-cell *matCellDef="let element" style="text-align: left;"> 
-            <div class="country-wrapper">
-              <div class="country-info">
-                <img
-                  [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
-                  alt="{{ element.countryName }} flag"
-                  class="country-flag"
-                />
-                <span class="country-text">{{ element.countryName }}</span>
-              </div>
-              <div class="currency-text">{{ element.currencyName }}</div>
+
+            <!-- CONTENT GOES HERE -->
+            <div class="">
+
+              <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 no-spacing"
+                style="max-height: 400px; overflow: auto;">
+                <ng-container matColumnDef="countryName">
+                  <th class="sticky-header" mat-header-cell *matHeaderCellDef
+                    style="background-color: #424242;color: white;  text-align: left;">
+                    <mat-icon style="vertical-align: middle; margin-right: 5px; color: white;">public</mat-icon>
+                    <!-- Country icon aligned to middle -->
+                    <span style="vertical-align: middle;">Country</span> <!-- Country name aligned to middle -->
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="text-align: left;">
+                    <div class="country-wrapper">
+                      <div class="country-info">
+                        <img [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
+                          alt="{{ element.countryName }} flag" class="country-flag" />
+                        <span class="country-text">{{ element.countryName }}</span>
+                      </div>
+                      <div class="currency-text">{{ element.currencyName }}</div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Buy Rate Column (centered) -->
+                <ng-container matColumnDef="buyRate">
+                  <th class="sticky-header" mat-header-cell *matHeaderCellDef
+                    style="background-color: #424242; color: white;  text-align: center;">
+                    <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
+                    <i class="fa fa-money"
+                      style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+                    <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="text-align: center;">
+                    {{element.buyRate}}
+                  </td>
+                </ng-container>
+
+                <!-- Sell Rate Column (centered) -->
+                <ng-container matColumnDef="sellRate">
+                  <th class="sticky-header" mat-header-cell *matHeaderCellDef
+                    style="background-color: #424242; color: white;  text-align: center;">
+                    <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
+                    <i class="fa fa-money"
+                      style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
+                    <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="text-align: center;">
+                    {{element.sellRate}}
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+              <!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
+              <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+
             </div>
-          </td>
-        </ng-container> 
-        
-          <!-- Buy Rate Column (centered) -->
-          <ng-container matColumnDef="buyRate">
-            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
-              <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">attach_money</mat-icon> Buy rate icon aligned to middle -->
-              <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
-              <span style="vertical-align: middle;">Buy Rate</span> <!-- Buy rate name aligned to middle -->
-            </th>
-            <td mat-cell *matCellDef="let element" style="text-align: center;">
-              {{element.buyRate}}
-            </td>
-          </ng-container>
-        
-          <!-- Sell Rate Column (centered) -->
-          <ng-container matColumnDef="sellRate">
-            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242; color: white;  text-align: center;">
-              <!-- <mat-icon style="vertical-align: middle; margin-right: 5px;">monetization_on</mat-icon> Sell rate icon aligned to middle -->
-              <i class="fa fa-money" style="vertical-align: middle; margin-right: 5px; font-size:24px; color:white"></i>
-              <span style="vertical-align: middle;">Sell Rate</span> <!-- Sell rate name aligned to middle -->
-            </th>
-            <td mat-cell *matCellDef="let element" style="text-align: center;">
-              {{element.sellRate}}
-            </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        
-        </table>
-        <!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
-        <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
-        
-        
-                </div>
           </div>
         </div>
-        
-        </section>
-        </div>
 
-
-      <div id="about-us" class="about-container">
-        <section #aboutUsSection class="section">
-          <h2 style="text-align: center;">About QuickXe</h2>
-            <div class="content">
-                <div class="text-section">
-                    <p style="text-align: justify;">
-                      At QuickXe, we are a trusted name in the world of international finance, delivering seamless and secure forex solutions tailored to your global needs. Specializing in foreign exchange, international money transfers, and forex card services, we empower travelers, students, businesses, and individuals to manage cross-border financial transactions with ease and confidence.</p>
-                    <p>
-                        <strong>At the heart of our operations is a commitment to integrity, compliance, and customer-centricity. Our services are backed by:</strong>
-                    </p>
-                    <ul>
-                        <li>✅ A team of knowledgeable forex professionals</li>
-                        <li>✅ Advanced, secure transaction systems</li>
-                        <li>✅ Regulatory compliance and financial transparency</li>
-                        <li>✅ Personalized support tailored to each customer’s needs</li>
-                    </ul>
-                    <p style="text-align: justify;">
-                      We take pride in being more than just a service provider—we are a partner in your global financial journey. Whether you’re a frequent traveler, an international student, an expat, or a business navigating cross-border operations, QuickXe delivers the tools and support you need to manage your money with confidence. 
-                    </p>
-                    <strong>QuickXe – Exchange Smarter. Transfer Safer. Travel Easier.</strong>
-                </div>
-                <div class="image-section">
-                    <!-- <img src="images/logo/image.jpeg" alt="Forensics Lab"> -->
-                    <div id="carouselExample1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <img src="images/logo/image.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency1.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency2.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency3.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency4.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency5.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency6.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency7.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency8.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency9.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency10.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency11.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency12.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency13.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency14.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency15.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency16.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency17.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency18.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency19.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency20.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency21.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency22.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency23.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency24.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency25.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency26.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency27.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency28.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency29.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency30.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency31.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency32.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency33.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency34.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency35.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency36.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency37.jpeg" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item">
-                          <img src="images/logo/currency38.jpeg" class="d-block w-100">
-                        </div>
-
-                        
-                      </div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample1" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      </button>
-                    </div>
-                </div>
-
-                
-
-            </div>
-        </section>
+      </section>
     </div>
 
-        <div id="services" class="about-container">
-        <section #Servicessection class="section">
-            <h2>Our Services</h2>
-            <div class="services">
-                <div class="service-box">
-                    <h3>Forex Exchange</h3>
-                    <p>Offer reliable and efficient foreign currency exchange solutions at highly competitive rates.</p>
-                </div>
-                <div class="service-box">
-                    <h3>Transfer Money Abroad </h3>
-                    <p>Facilitate personal and business transfers with real-time tracking, favorable exchange rates, and minimal processing times.</p>
-                </div>
-                <div class="service-box">
-                    <h3>Reload and Unload Forex Card</h3>
-                    <p>Provide a convenient and secure way to handle foreign currency during international travel.</p>
-                </div>
-            </div>
-        </section>
-        </div>
-        
-        <div id="contact-us" class="about-container">
-            <section #contactUsSection class="contact-section">
-              <h2>Contact Us</h2>
-              <p>We're here to assist you! Whether you need guidance on currency exchange, support with international money transfers, or help managing your forex card, our dedicated team is always ready to provide expert assistance and personalized solutions.</p>
-      
-              <div class="contact-details">
-                  <div class="contact-info">
-                      <h3>Get in Touch</h3>
-                      <p><strong>Email: </strong> <a style="color: #ffb300;" href="mailto:forex@kaabatravelcare.com">forex&#64;kaabatravelcare.com</a></p>
-                      <p><strong>CIN No: </strong><span style="color: #ffb300;">U66110TS2025PTC193108</span></p>
-                      <p style="margin-bottom: 30px;"><strong>Phone: </strong> <a style="color: #ffb300;" href="tel:+91 9849325656">+91 9849325656</a></p>
-      
-                      <h3>Corporate Office</h3>
-                      <p style="margin-bottom: 30px;"><strong>KAABA TRAVELCARE FOREX PRIVATE LIMITED.</strong> <br> Shop No 7, Anand Vihar Apartment,
-                        8-1-329/1,<br> Shaikpet Road, Aziz Bagh Colony,Toli Chowki,<br> Hyderabad, Telangana 500008</p>
-      
-                      <h3>Office Hours</h3>
-                      <p>Monday – Saturday: 10:00 AM – 7:00 PM</p>
-                  </div>
-      
-                
-              </div>
-          </section>
-        <!-- </section> -->
-      </div>
 
-      <div id="exchange-currency" class="about-container" style="margin-top: 10%;">
+    <div id="about-us" class="about-container">
+      <section #aboutUsSection class="section">
+        <h2 style="text-align: center;">About QuickXe</h2>
+        <div class="content">
+          <div class="text-section">
+            <p style="text-align: justify;">
+              At QuickXe, we are a trusted name in the world of international finance, delivering seamless and secure
+              forex solutions tailored to your global needs. Specializing in foreign exchange, international money
+              transfers, and forex card services, we empower travelers, students, businesses, and individuals to manage
+              cross-border financial transactions with ease and confidence.</p>
+            <p>
+              <strong>At the heart of our operations is a commitment to integrity, compliance, and customer-centricity.
+                Our services are backed by:</strong>
+            </p>
+            <ul>
+              <li>✅ A team of knowledgeable forex professionals</li>
+              <li>✅ Advanced, secure transaction systems</li>
+              <li>✅ Regulatory compliance and financial transparency</li>
+              <li>✅ Personalized support tailored to each customer’s needs</li>
+            </ul>
+            <p style="text-align: justify;">
+              We take pride in being more than just a service provider—we are a partner in your global financial
+              journey. Whether you’re a frequent traveler, an international student, an expat, or a business navigating
+              cross-border operations, QuickXe delivers the tools and support you need to manage your money with
+              confidence.
+            </p>
+            <strong>QuickXe – Exchange Smarter. Transfer Safer. Travel Easier.</strong>
+          </div>
+          <div class="image-section">
+            <!-- <img src="images/logo/image.jpeg" alt="Forensics Lab"> -->
+            <div id="carouselExample1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000"
+              data-bs-pause="false">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/logo/image.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency1.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency2.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency3.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency4.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency5.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency6.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency7.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency8.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency9.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency10.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency11.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency12.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency13.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency14.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency15.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency16.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency17.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency18.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency19.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency20.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency21.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency22.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency23.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency24.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency25.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency26.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency27.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency28.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency29.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency30.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency31.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency32.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency33.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency34.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency35.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency36.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency37.jpeg" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/logo/currency38.jpeg" class="d-block w-100">
+                </div>
+
+
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample1"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+
+
+
+        </div>
+      </section>
+    </div>
+
+    <div id="services" class="about-container">
+      <section #Servicessection class="section">
+        <h2>Our Services</h2>
+        <div class="services">
+          <div class="service-box">
+            <h3>Forex Exchange</h3>
+            <p>Offer reliable and efficient foreign currency exchange solutions at highly competitive rates.</p>
+          </div>
+          <div class="service-box">
+            <h3>Transfer Money Abroad </h3>
+            <p>Facilitate personal and business transfers with real-time tracking, favorable exchange rates, and minimal
+              processing times.</p>
+          </div>
+          <div class="service-box">
+            <h3>Reload and Unload Forex Card</h3>
+            <p>Provide a convenient and secure way to handle foreign currency during international travel.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="contact-us" class="about-container">
+      <section #contactUsSection class="contact-section">
+        <h2>Contact Us</h2>
+        <p>We're here to assist you! Whether you need guidance on currency exchange, support with international money
+          transfers, or help managing your forex card, our dedicated team is always ready to provide expert assistance
+          and personalized solutions.</p>
+
+        <div class="contact-details">
+          <div class="contact-info">
+            <h3>Get in Touch</h3>
+            <p><strong>Email: </strong> <a style="color: #ffb300;"
+                href="mailto:forex@kaabatravelcare.com">forex&#64;kaabatravelcare.com</a></p>
+            <p><strong>CIN No: </strong><span style="color: #ffb300;">U66110TS2025PTC193108</span></p>
+            <p style="margin-bottom: 30px;"><strong>Phone: </strong> <a style="color: #ffb300;"
+                href="tel:+91 9849325656">+91 9849325656</a></p>
+
+            <h3>Corporate Office</h3>
+            <p style="margin-bottom: 30px;"><strong>KAABA TRAVELCARE FOREX PRIVATE LIMITED.</strong> <br> Shop No 7,
+              Anand Vihar Apartment,
+              8-1-329/1,<br> Shaikpet Road, Aziz Bagh Colony,Toli Chowki,<br> Hyderabad, Telangana 500008</p>
+
+            <h3>Office Hours</h3>
+            <p>Monday – Saturday: 10:00 AM – 7:00 PM</p>
+          </div>
+
+
+        </div>
+      </section>
+      <!-- </section> -->
+    </div>
+
+    <div id="exchange-currency" class="about-container" style="margin-top: 10%;">
       <section #ExchangeCurrencySection class="ExchangeCurrency-section">
         <h2>Exchange Currency</h2>
         <div>
-      <form [formGroup]="orderForm"
-      
-  >
+          <form [formGroup]="orderForm">
 
-      <div class="grid sm:grid-cols-1 lg:grid-cols-2 px-4 flex w-full">
+            <div class="grid sm:grid-cols-1 lg:grid-cols-2 px-4 flex w-full">
 
-        <mat-form-field class="p-2">
-          <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
-          <!-- <mat-label>Name</mat-label> -->
-          <input type="text" [(ngModel)]="name" matInput formControlName="name" placeholder="Name">
-          <mat-error *ngIf="orderForm.get('name').hasError('required')">
-              Name is required
-          </mat-error>
-      </mat-form-field>
-  
-    <mat-form-field class="p-2">
-      <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
-      <!-- <mat-label>Email ID</mat-label> -->
-      <input type="email" [(ngModel)]="email" matInput formControlName="email" placeholder="Email ID"/>
-      <mat-error *ngIf="orderForm.get('email').hasError('required')">
-          Email ID is required
-      </mat-error>
-  </mat-form-field>
-     
-      <mat-form-field class="p-2">
-        <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
-        <input type="tel"
-               matInput
-               formControlName="phoneNumber"
-               [(ngModel)]="phoneNumber"
-               placeholder="Phone Number"
-               (keypress)="onlyNumbers($event)"
-               (input)="validatePhoneNumber()">
-        <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('required')">
-            Phone Number is required
-        </mat-error>
-        <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('minlength')">
-            Phone Number must be at least 10 digits
-        </mat-error>
-    </mat-form-field>
-    
-    <mat-form-field class="p-2">
-      <i class="fa fa-money" style="margin-right: 5px; font-size:20px; color:#65758c"></i>
-      <!-- <mat-label>Name</mat-label> -->
-      <input type="text" [(ngModel)]="amount" matInput formControlName="amount" placeholder="Enter Amount">
-      <mat-error *ngIf="orderForm.get('amount').hasError('required')">
-          Amount is required
-      </mat-error>
-  </mat-form-field>
-          
-          <mat-form-field class="p-2">
-            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
-            <mat-select [(ngModel)]="selectedValue" name="country" formControlName="selectedValue" placeholder="From">
-              @for (item of countries; track countries) {
-                <mat-option [value]="item">{{item.countryName}}</mat-option>
-              }
-            </mat-select>
-            <mat-error *ngIf="orderForm.get('selectedValue').hasError('required')">
-                This field is required
-            </mat-error>
-          </mat-form-field>
+              <mat-form-field class="p-2">
+                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
+                <!-- <mat-label>Name</mat-label> -->
+                <input type="text" [(ngModel)]="name" matInput formControlName="name" placeholder="Name">
+                <mat-error *ngIf="orderForm.get('name').hasError('required')">
+                  Name is required
+                </mat-error>
+              </mat-form-field>
 
-          <mat-form-field class="p-2">
-            <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
-            <mat-select [(ngModel)]="selectedValue1" name="exchange1" formControlName="selectedValue1" placeholder="To">
-              @for (item of countries; track countries) {
-                <mat-option [value]="item">{{item.countryName}}</mat-option>
-              }
-            </mat-select>
-            <mat-error *ngIf="orderForm.get('selectedValue1').hasError('required')">
-                This field is required
-            </mat-error>
-          </mat-form-field>
+              <mat-form-field class="p-2">
+                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
+                <!-- <mat-label>Email ID</mat-label> -->
+                <input type="email" [(ngModel)]="email" matInput formControlName="email" placeholder="Email ID" />
+                <mat-error *ngIf="orderForm.get('email').hasError('required')">
+                  Email ID is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="p-2">
+                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
+                <input type="tel" matInput formControlName="phoneNumber" [(ngModel)]="phoneNumber"
+                  placeholder="Phone Number" (keypress)="onlyNumbers($event)" (input)="validatePhoneNumber()">
+                <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('required')">
+                  Phone Number is required
+                </mat-error>
+                <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('minlength')">
+                  Phone Number must be at least 10 digits
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="p-2">
+                <i class="fa fa-money" style="margin-right: 5px; font-size:20px; color:#65758c"></i>
+                <!-- <mat-label>Name</mat-label> -->
+                <input type="text" [(ngModel)]="amount" matInput formControlName="amount" placeholder="Enter Amount">
+                <mat-error *ngIf="orderForm.get('amount').hasError('required')">
+                  Amount is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="p-2">
+                <mat-icon class="icon-size-5 mr-3" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
+                <mat-select [(ngModel)]="selectedValue" name="country" formControlName="selectedValue"
+                  placeholder="Currency i have">
+                  <mat-select-trigger>
+                    <div class="flex items-center" *ngIf="selectedValue">
+                      <img [src]="'https://flagcdn.com/w40/' + selectedValue.countryCode?.toLowerCase() + '.png'"
+                        class="mr-2 h-4 w-6 object-cover rounded shadow-sm" alt="flag" />
+                      <span class="font-bold mr-2">{{ getCurrencySymbol(selectedValue.countryCode) }}</span>
+                      <span>{{ selectedValue.countryName }}</span>
+                    </div>
+                  </mat-select-trigger>
+                  @for (item of countries; track item) {
+                  <mat-option [value]="item">
+                    <div class="flex items-center">
+                      <img [src]="'https://flagcdn.com/w40/' + item.countryCode?.toLowerCase() + '.png'"
+                        class="mr-3 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                      <span class="font-bold mr-2 w-6">{{ getCurrencySymbol(item.countryCode) }}</span>
+                      <span>{{item.countryName}}</span>
+                    </div>
+                  </mat-option>
+                  }
+                </mat-select>
+                <mat-error *ngIf="orderForm.get('selectedValue').hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="p-2">
+                <mat-icon class="icon-size-5 mr-3" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
+                <mat-select [(ngModel)]="selectedValue1" name="exchange1" formControlName="selectedValue1"
+                  placeholder="Currency i want">
+                  <mat-select-trigger>
+                    <div class="flex items-center" *ngIf="selectedValue1">
+                      <img [src]="'https://flagcdn.com/w40/' + selectedValue1.countryCode?.toLowerCase() + '.png'"
+                        class="mr-2 h-4 w-6 object-cover rounded shadow-sm" alt="flag" />
+                      <span class="font-bold mr-2">{{ getCurrencySymbol(selectedValue1.countryCode) }}</span>
+                      <span>{{ selectedValue1.countryName }}</span>
+                    </div>
+                  </mat-select-trigger>
+                  @for (item of countries; track item) {
+                  <mat-option [value]="item">
+                    <div class="flex items-center">
+                      <img [src]="'https://flagcdn.com/w40/' + item.countryCode?.toLowerCase() + '.png'"
+                        class="mr-3 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                      <span class="font-bold mr-2 w-6">{{ getCurrencySymbol(item.countryCode) }}</span>
+                      <span>{{item.countryName}}</span>
+                    </div>
+                  </mat-option>
+                  }
+                </mat-select>
+                <mat-error *ngIf="orderForm.get('selectedValue1').hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
 
 
-      </div>
+            </div>
 
-      <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
-        <!-- Save -->
-        <button
-            class="order-first sm:order-last" 
-            style="margin-right: 18px;"
-            mat-flat-button
-            [disabled]="!orderForm.valid"
-            [ngStyle]="{ 'background-color': (orderForm.valid)  ? '#ffb300' : '' }">
-            Book Exchange
-        </button>
-    </div>
+            <div class="mt-4 flex items-center justify-end mb-4 mr-4 sm:mt-0">
+              <!-- Save -->
+              <button class="order-first sm:order-last" style="margin-right: 18px;" mat-flat-button
+                [disabled]="!orderForm.valid" [ngStyle]="{ 'background-color': (orderForm.valid)  ? '#ffb300' : '' }">
+                Book Exchange
+              </button>
+            </div>
 
 
 
-      <!-- <button
+            <!-- <button
           mat-flat-button
           style="background-color:#ffb300; width: 100%;"
         >
           Book Exchange
         </button> -->
 
-</form>
+          </form>
         </div>
       </section>
-      </div>
-
-
-
-      
     </div>
 
 
 
-    
-    <footer>
-        <p class="mt-2 mb-2" style="font-size: 16px;">&copy; 2025 QuickXe. All rights reserved.</p>
-    </footer>
 
   </div>
 
 
 
+
+  <footer>
+    <p class="mt-2 mb-2" style="font-size: 16px;">&copy; 2025 QuickXe. All rights reserved.</p>
+  </footer>
+
+</div>

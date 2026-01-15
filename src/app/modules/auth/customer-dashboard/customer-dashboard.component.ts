@@ -52,6 +52,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 interface Exchange {
   value: string;
   viewValue: string;
+  code: string;
+  symbol: string;
 }
 
 
@@ -112,17 +114,18 @@ export class CustomerDashboardComponent implements OnInit {
           Id: string;
 
   name: string = '';
-  selectedValue: string;
-  selectedValue1: string;
+  selectedValue: any;
+  selectedValue1: any;
   amount: string;
 
   orderForm: FormGroup;
   
 
   exchanges: Exchange[] = [
-    {value: 'steak-0', viewValue: 'Australia'},
-    {value: 'pizza-1', viewValue: 'India'},
-    {value: 'tacos-2', viewValue: 'Canada'},
+    {value: 'aud', viewValue: 'Australia', code: 'AU', symbol: '$'},
+    {value: 'inr', viewValue: 'India', code: 'IN', symbol: '₹'},
+    {value: 'cad', viewValue: 'Canada', code: 'CA', symbol: '$'},
+    {value: 'usd', viewValue: 'USA', code: 'US', symbol: '$'},
   ];
   
     isMenuOpen: boolean;

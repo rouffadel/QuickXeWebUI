@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -63,7 +64,7 @@ export interface Food {
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.css'],
-  imports: [MatButtonModule,MatTableModule,MatIconModule,CommonModule,GenericSearchFilterPipe,FormsModule,MatFormField,MatInputModule,MatSelectModule],
+  imports: [MatButtonModule, MatTableModule, MatIconModule, CommonModule, GenericSearchFilterPipe, FormsModule, MatFormField, MatInputModule, MatSelectModule, MatTooltipModule],
 })
 
 
@@ -77,25 +78,25 @@ export class ExampleComponent implements OnInit {
   countryId: string;
 
   countries: Exchange[] = [];
-  
+
 
   defaultCountries: Exchange[] = [];
 
   selectedValue: string;
 
   foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
+    { value: 'steak-0', viewValue: 'Steak' },
+    { value: 'pizza-1', viewValue: 'Pizza' },
+    { value: 'tacos-2', viewValue: 'Tacos' },
   ];
 
   remainingCountries: Exchange[] = [];
 
 
   constructor(
-    private breakpointObserver: BreakpointObserver, 
+    private breakpointObserver: BreakpointObserver,
     private exampleService: ExampleService,
-    private dialog:MatDialog,
+    private dialog: MatDialog,
     private updatecurrencyService: UpdatecurrencyService,
     private _fuseConfirmationService: FuseConfirmationService,
     private currencyService: CurrencyService,
@@ -103,12 +104,12 @@ export class ExampleComponent implements OnInit {
     private dataService: DataService,
 
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getService();
-    this.dataService.dataUpdated$.subscribe((updated) =>{
-      if(updated){
+    this.dataService.dataUpdated$.subscribe((updated) => {
+      if (updated) {
         this.getService();
       }
     });
@@ -139,73 +140,72 @@ export class ExampleComponent implements OnInit {
       }
     });
   }
-  
+
   dialogBoxSettings = {
-          height: auto,
-          width: '700px',
-          margin: '0 auto',
+    height: auto,
+    width: '700px',
+    margin: '0 auto',
+    disableClose: true,
+    hasBackdrop: true
+  };
+
+  addCurrency() {
+    this.dialog.open(AddcurrencyComponent, this.dialogBoxSettings
+    )
+  }
+
+  openUpdateCurrencyDialog(countryId): void {
+    // debugger
+    this.updatecurrencyService.getCurrencyByCountryId(countryId).subscribe((resp: any) => {
+      if (resp) {
+        this.dialog.open(UpdatecurrencyComponent, {
           disableClose: true,
-          hasBackdrop: true
-        };
-
-  addCurrency()
-    {
-      this.dialog.open(AddcurrencyComponent,this.dialogBoxSettings
-      )
-    }
-
-      openUpdateCurrencyDialog(countryId): void {
-        // debugger
-        this.updatecurrencyService.getCurrencyByCountryId(countryId).subscribe((resp: any) => {
-          if (resp) {
-            this.dialog.open(UpdatecurrencyComponent, {
-              disableClose: true,
-              data: resp, // Pass fetched currency data to dialog
-            });
-          }
+          data: resp, // Pass fetched currency data to dialog
         });
       }
+    });
+  }
 
-      deleteCurrency(countryId: string): void {
-        const confirmation = this._fuseConfirmationService.open({
-          title: 'Delete Currency',
-          message: 
-              'Are you sure you want to delete this currency?',
-          actions: {
-              confirm: {
-                  label: 'Delete',
-              },
-              cancel: {
-                show: true,
-                label: 'Cancel',
-            },
-          },
-      });
-      
-      // Subscribe to the confirmation dialog closed action
-      confirmation.afterClosed().subscribe((result) => {
-      
-          // If the confirm button pressed...
-      
-          if (result === 'confirmed') {
-      
-              // Delete the currency
-           this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
-            console.log('Deleted Successfully.');
-                // Show Snackbar Notification
-                this.snackBar.open('Currency Deleted!', 'Close', {
-                duration: 3000, // Time in milliseconds
-                verticalPosition: 'top', // Position (top/bottom)
-                horizontalPosition: 'right', // Position (start/center/end/right/left)
-                panelClass: ['snackbar-success'] // Custom styling
-                });
-                this.getService();
-          }, (error) => {
-            console.log('Failed to delete');
+  deleteCurrency(countryId: string): void {
+    const confirmation = this._fuseConfirmationService.open({
+      title: 'Delete Currency',
+      message:
+        'Are you sure you want to delete this currency?',
+      actions: {
+        confirm: {
+          label: 'Delete',
+        },
+        cancel: {
+          show: true,
+          label: 'Cancel',
+        },
+      },
+    });
+
+    // Subscribe to the confirmation dialog closed action
+    confirmation.afterClosed().subscribe((result) => {
+
+      // If the confirm button pressed...
+
+      if (result === 'confirmed') {
+
+        // Delete the currency
+        this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
+          console.log('Deleted Successfully.');
+          // Show Snackbar Notification
+          this.snackBar.open('Currency Deleted!', 'Close', {
+            duration: 3000, // Time in milliseconds
+            verticalPosition: 'top', // Position (top/bottom)
+            horizontalPosition: 'right', // Position (start/center/end/right/left)
+            panelClass: ['snackbar-success'] // Custom styling
           });
-          }
-      });
-      
+          this.getService();
+        }, (error) => {
+          console.log('Failed to delete');
+        });
       }
+    });
+
+  }
 }
 

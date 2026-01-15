@@ -62,9 +62,9 @@ export class VerifyOtpComponent implements OnInit {
     other: '# seconds',
   };
 
-    showOtpComponent = true;
+  showOtpComponent = true;
 
-    // private _authenticated: boolean = false;
+  // private _authenticated: boolean = false;
 
 
 
@@ -125,7 +125,7 @@ export class VerifyOtpComponent implements OnInit {
 
   countDown() {
     this._unsubscribeAll = new Subject<any>(); // Ensure a new subject for each countdown
-  
+
     timer(1000, 1000)
       .pipe(
         takeWhile(() => this.countdown > 0),
@@ -136,7 +136,7 @@ export class VerifyOtpComponent implements OnInit {
         complete: () => console.log("Countdown finished!"),
       });
   }
-  
+
 
   onOtpChange(otp: string): void {
     this.otpForm.get('otp')?.setValue(otp);
@@ -153,9 +153,9 @@ export class VerifyOtpComponent implements OnInit {
       SignUp = 1,
       Login = 2,
     }
-    
+
     const otpType = isSignUp ? OtpType.SignUp : OtpType.Login;
-    
+
     if (!phoneNumber) {
       console.error('❌ Missing phone number for OTP recreation.');
       return;
@@ -165,16 +165,19 @@ export class VerifyOtpComponent implements OnInit {
 
     this.registerService.createCustomerOTP(requestData).subscribe(
       () => {
-        // this.countdown = 180;
-        // this.newOTP = 'A new OTP code has been sent to you!';
-
         console.log("✅ OTP re-sent successfully.");
-        
+
         this.newOTP = "A new OTP code has been sent to you!";
-        
+
+        this.snackBar.open('A new OTP has been sent to your WhatsApp', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+
         // 🛑 Reset the countdown
         this.resetCountdown();
-
       },
       (error) => console.error('Error:', error)
     );
@@ -183,30 +186,30 @@ export class VerifyOtpComponent implements OnInit {
 
   // recreateCustomerOTP() {
   //   debugger;
-  
+
   //   const dataForSignUp = {
   //     phoneNumber: this.phoneNumberForSignUp,
   //     otpType: this.otpForSignUp
   //   };
-  
+
   //   const dataForSignIn = {
   //     phoneNumber: this.phoneNumberForSignIn,
   //     otpType: this.otpForSignIn
   //   };
-  
+
   //   const requestData = this.phoneNumberForSignUp ? dataForSignUp : dataForSignIn;
-  
+
   //   if (!requestData.phoneNumber) {
   //     console.error("❌ Phone number is missing!");
   //     return;
   //   }
-  
+
   //   this.registerService.createCustomerOTP(requestData).subscribe(
   //     (response) => {
   //       console.log("✅ OTP re-sent successfully.");
-        
+
   //       this.newOTP = "A new OTP code has been sent to you!";
-        
+
   //       // 🛑 Reset the countdown
   //       this.resetCountdown();
   //     },
@@ -219,15 +222,15 @@ export class VerifyOtpComponent implements OnInit {
 
   resetCountdown() {
     this.countdown = 180; // Reset timer
-  
+
     if (!this._unsubscribeAll.closed) {
       this._unsubscribeAll.next(null); // Unsubscribe from previous countdown
     }
-  
+
     this.countDown(); // Restart the countdown
   }
-  
-  
+
+
 
   sendPhoneNumberWithOTP(): void {
     // debugger
@@ -259,18 +262,16 @@ export class VerifyOtpComponent implements OnInit {
       console.log("📌 Calling Login OTP Validation API");
       apiCall = this.verifyOtpService.validateLoginOTP(data);
     }
-    
+
     apiCall.subscribe(
       (response) => {
         // debugger
         if (response.status === 'OK') {
           // debugger
-          if (isSignUp == true) 
-          {
+          if (isSignUp == true) {
             this.handleOtpSuccess();
           }
-          else if (isSignUp == false)
-          {
+          else if (isSignUp == false) {
             sessionStorage.setItem('Id', response.data.customerId);
             sessionStorage.setItem('Name', response.data.name);
             sessionStorage.setItem('Email', response.data.email);
@@ -295,18 +296,18 @@ export class VerifyOtpComponent implements OnInit {
     );
   }
 
-      // signOut() {
-      //     // Remove the access token from the local storage
-      //     // localStorage.removeItem('accessToken');
-  
-      //     // sessionStorage.removeItem('accessToken');
-  
-      //     // Set the authenticated flag to false
-      //     this._authenticated = false;
-  
-      //     // Return the observable
-      //     return (true);
-      // }
+  // signOut() {
+  //     // Remove the access token from the local storage
+  //     // localStorage.removeItem('accessToken');
+
+  //     // sessionStorage.removeItem('accessToken');
+
+  //     // Set the authenticated flag to false
+  //     this._authenticated = false;
+
+  //     // Return the observable
+  //     return (true);
+  // }
 
   handlePhoneNumberNotFound(): void {
     this.snackBar.open('You have not Signed Up. Please Sign Up', 'Close', {
@@ -340,7 +341,7 @@ export class VerifyOtpComponent implements OnInit {
   redirectToDashboard(): void {
     this.Close();
     this.router.navigate(['/dashboard']);
-    
+
 
   }
 
