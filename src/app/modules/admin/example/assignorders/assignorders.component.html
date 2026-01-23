@@ -1,66 +1,198 @@
 <div class="flex min-w-0 flex-auto flex-col">
-    <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
-  
-      <div class="search-container">
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+    <!-- <div class="search-container">
         <mat-form-field class="search-field">
           <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
         </mat-form-field>
-      </div>
-  
-        <!-- CONTENT GOES HERE -->
-      <div class="responsive-table-wrapper">
-        <table mat-table [dataSource]="filteredData" class="mat-elevation-z8" style="max-height: 400px; overflow: auto;">
-          
-          <ng-container matColumnDef="orderId">
-            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: left;">
-              <span style="vertical-align: middle;">Order ID</span> <!-- Order ID aligned to middle --> 
-            </th>
-            <td mat-cell *matCellDef="let element" style="text-align: left;"> 
-              <div class="order-wrapper">
-                <div class="order-info">
-                  <span class="order-text">{{ element.orderId }}</span>
-                </div>
-              </div>
-            </td>
-          </ng-container>
+      </div> -->
+
+    <div class="search-container">
+
+      <mat-form-field class="search-field">
+        <!-- <mat-label>Search</mat-label> -->
+        <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilter()" placeholder="Search">
+      </mat-form-field>
+
+      <!-- <button mat-flat-button style="background-color: #ffb300; color: white;">
+        <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>
+        <span class="ml-2">Add</span>
+      </button> -->
+      <button mat-flat-button class="fuse-add-btn flex items-center gap-2 " (click)="openAddModal()">
+        <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>
+        <span>Add</span>
+      </button>
 
 
-          <ng-container matColumnDef="country">
-            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: left;">
-              <span style="vertical-align: middle;">Currency</span> <!-- Country name aligned to middle --> </th>
-            <td mat-cell *matCellDef="let element" style="text-align: left;"> 
-              <div class="country-wrapper">
-                <div class="country-info">
-                  <img
-                    [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
-                    alt="{{ element.countryName }} flag"
-                    class="country-flag"
-                  />
-                  <span class="country-text">{{ element.countryName }}</span>
-                </div>
-                <div class="currency-text">{{ element.currencyName }}</div>
-              </div>
-            </td>
-          </ng-container> 
+      <!-- <form>
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedValue" name="food" placeholder="Add">
+              @for (food of foods; track food) {
+                <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </form> -->
 
-          <ng-container matColumnDef="amount">
-            <th class="sticky-header" mat-header-cell *matHeaderCellDef style="background-color: #424242;color: white; text-align: left;">
-              <span style="vertical-align: middle;">Amount</span> <!-- Order ID aligned to middle --> 
-            </th>
-            <td mat-cell *matCellDef="let element" style="text-align: left;"> 
-              <div class="order-wrapper">
-                <div class="order-info">
-                  <span class="order-text">{{ element.amount }}</span>
-                </div>
+    </div>
+
+    <!-- CONTENT GOES HERE -->
+    <div class="responsive-table-wrapper">
+      <table mat-table [dataSource]="filteredData" class="mat-elevation-z8" style="max-height: 400px; overflow: auto;">
+
+        <ng-container matColumnDef="orderId">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: left;">
+            <span style="vertical-align: middle;">Order ID</span> <!-- Order ID aligned to middle -->
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;">
+            <div class="order-wrapper">
+              <div class="order-info">
+                <span class="order-text">{{ element.orderId }}</span>
               </div>
-            </td>
-          </ng-container>
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
+            </div>
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="country">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: left;">
+            <span style="vertical-align: middle;">Currency</span> <!-- Country name aligned to middle -->
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;">
+            <div class="country-wrapper">
+              <div class="country-info">
+                <img [src]="'https://flagcdn.com/w40/' + element.countryCode.toLowerCase() + '.png'"
+                  alt="{{ element.countryName }} flag" class="country-flag" />
+                <span class="country-text">{{ element.countryName }}</span>
+              </div>
+              <div class="currency-text">{{ element.currencyName }}</div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th class="sticky-header" mat-header-cell *matHeaderCellDef
+            style="background-color: #424242;color: white; text-align: left;">
+            <span style="vertical-align: middle;">Amount</span> <!-- Order ID aligned to middle -->
+          </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;">
+            <div class="order-wrapper">
+              <div class="order-info">
+                <span class="order-text">{{ element.amount }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
   </div>
-  
+</div>
+
+
+<!-- 
+<ng-template #addModal>
+  <h2 mat-dialog-title>Add Order</h2>
+
+  <mat-dialog-content class="flex flex-col gap-4">
+    <mat-form-field appearance="outline">
+      <mat-label>Country</mat-label>
+      <input matInput [(ngModel)]="country" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" [(ngModel)]="amount" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="saveOrder()">Save</button>
+  </mat-dialog-actions>
+</ng-template> -->
+
+
+
+<ng-template #addModal>
+  <div class="add-order-dialog">
+
+    <!-- Header -->
+    <div class="dialog-header">
+      <div class="dialog-title">Add Order</div>
+
+      <button mat-icon-button (click)="dialogRef.close()" tabindex="-1">
+        <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="dialog-body">
+
+      <!-- Currency I Have (Searchable Input) -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Currency I have</mat-label>
+        <input type="text" placeholder="Search currency..." aria-label="Currency I have" matInput
+          [formControl]="currencyHaveControl" [matAutocomplete]="autoHave">
+        <mat-autocomplete #autoHave="matAutocomplete" [displayWith]="displayFn">
+          @for (item of filteredCurrenciesHave | async; track item) {
+          <mat-option [value]="item">
+            <div class="flex items-center">
+              <img [src]="'https://flagcdn.com/w40/' + item.countryCode?.toLowerCase() + '.png'"
+                class="mr-3 h-5 w-8 object-cover rounded shadow-sm" />
+              <span class="font-bold mr-2 w-6">{{ item.currencyCode || getCurrencyCode(item.countryCode) }}</span>
+              <span>{{item.countryName}}</span>
+            </div>
+          </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <!-- Currency I Want (Searchable Input) -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Currency I want</mat-label>
+        <input type="text" placeholder="Search currency..." aria-label="Currency I want" matInput
+          [formControl]="currencyWantControl" [matAutocomplete]="autoWant">
+        <mat-autocomplete #autoWant="matAutocomplete" [displayWith]="displayFn">
+          @for (item of filteredCurrenciesWant | async; track item) {
+          <mat-option [value]="item">
+            <div class="flex items-center">
+              <img [src]="'https://flagcdn.com/w40/' + item.countryCode?.toLowerCase() + '.png'"
+                class="mr-3 h-5 w-8 object-cover rounded shadow-sm" />
+              <span class="font-bold mr-2 w-6">{{ item.currencyCode || getCurrencyCode(item.countryCode) }}</span>
+              <span>{{item.countryName}}</span>
+            </div>
+          </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <!-- Amount -->
+      <!-- <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" [(ngModel)]="amount" placeholder="Enter amount" />
+      </mat-form-field> -->
+
+    </div>
+
+    <!-- Footer -->
+    <div class="dialog-footer">
+      <button mat-stroked-button (click)="dialogRef.close()">
+        Cancel
+      </button>
+
+      <button mat-flat-button [disabled]="!currencyHaveControl.value || !currencyWantControl.value || !amount"
+        (click)="saveOrder()" [ngStyle]="{
+          'background-color': (currencyHaveControl.value && currencyWantControl.value && amount) ? '#ffb300' : ''
+        }">
+        Save
+      </button>
+    </div>
+
+  </div>
+</ng-template>

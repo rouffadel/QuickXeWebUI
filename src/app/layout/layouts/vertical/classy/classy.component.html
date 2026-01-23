@@ -1,22 +1,17 @@
-
 <!-- Loading bar -->
 <fuse-loading-bar></fuse-loading-bar>
 
-<fuse-vertical-navigation
-    class="dark bg-gray-900 print:hidden"
-    [appearance]="'compact'"
-    [mode]="isScreenSmall ? 'over' : 'side'"
-    [name]="'mainNavigation'"
-    [navigation]="isAdmin ? navigation.compact : navigation.default"
-    [opened]="!isScreenSmall"
->
+<fuse-vertical-navigation class="dark bg-gray-900 print:hidden" [appearance]="'compact'"
+    [mode]="isScreenSmall ? 'over' : 'side'" [name]="'mainNavigation'"
+    [navigation]="isAdmin ? navigation.compact : (isCustomer ? navigation.futuristic : navigation.default)"
+    [opened]="!isScreenSmall">
     <!-- Navigation header hook -->
     <ng-container fuseVerticalNavigationContentHeader>
         <!-- Logo -->
         <div class="mb-4 mt-3 mr-1 flex h-20 items-center justify-center">
             <!-- <img class="w-40 h-14" src="images/logo/QuickXe_logo.jpeg" /> -->
             <img class="w-40 h-12" src="images/logo/quickxe_white.png" />
-                </div>
+        </div>
 
     </ng-container>
 </fuse-vertical-navigation>
@@ -25,8 +20,7 @@
 <div class="flex w-full min-w-0 flex-auto flex-col">
     <!-- Header -->
     <div
-        class="bg-card relative z-49 flex h-16 w-full flex-0 items-center px-4 shadow dark:border-b dark:bg-transparent dark:shadow-none md:px-6 print:hidden"
-    >
+        class="bg-card relative z-49 flex h-16 w-full flex-0 items-center px-4 shadow dark:border-b dark:bg-transparent dark:shadow-none md:px-6 print:hidden">
         <!-- Navigation toggle button -->
         <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
             <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
@@ -35,7 +29,7 @@
         <!-- <div class="font-bold text-3xl">
             <img class="w-30 h-16" src="images/logo/QuickXe_logo.jpeg" />
         </div> -->
-       
+
         <!-- Components -->
         <div class="ml-auto flex items-center space-x-0.5 pl-2 sm:space-x-2">
             <div class="hidden">
@@ -45,24 +39,30 @@
                 <p>Your current location: {{ currentLocation }}</p>
             </div> -->
 
+            @if (!isCustomer) {
             <div class="ml-auto flex items-center ">
-             
+
                 <!-- <span matTooltip="This is a tooltip" matTooltipPosition="above">
-                    Hover over this text to see tooltip
-                </span> -->
+                        Hover over this text to see tooltip
+                    </span> -->
                 <span></span>
                 <button mat-button [color]="'warn'" [matTooltip]="currentLocation">
-                     <mat-icon class="text-red-600">location_on</mat-icon>  {{ areaName }}   
+                    <mat-icon class="text-red-600">location_on</mat-icon> {{ areaName }}
                 </button>
             </div>
+            }
 
-            
+
+            @if (!isCustomer) {
             <div class="ml-auto flex items-center">
                 <notifications></notifications>
             </div>
-            
+            }
+
+            @if (!isCustomer) {
             <!-- <languages></languages> -->
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
+            }
             <user></user>
             <!-- <search [appearance]="'bar'"></search>
             <shortcuts></shortcuts>
@@ -85,7 +85,7 @@
         <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
              Otherwise, layout changes won't be registered and the view won't be updated! -->
         @if (true) {
-            <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
         }
     </div>
 
@@ -93,52 +93,52 @@
     <!--<div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
         <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
     </div>-->
-       <!-- Footer -->
-       <div
-       class="bg-card relative z-49 flex h-14 w-full flex-0 items-center justify-start border-t px-4 dark:bg-transparent md:px-6 print:hidden">
-       
-       <!-- <span class="text-black font-medium">
+    <!-- Footer -->
+    <div
+        class="bg-card relative z-49 flex h-14 w-full flex-0 items-center justify-start border-t px-4 dark:bg-transparent md:px-6 print:hidden">
+
+        <!-- <span class="text-black font-medium">
         QuickXe &copy; {{ currentYear }}
        </span> -->
 
-       <div class="mb-4 relative w-full">
-        <span class="text-black flex items-center font-medium absolute left-0">
-            QuickXe &copy; {{ currentYear }}
-        </span>
-      </div>
+        <div class="mb-4 relative w-full">
+            <span class="text-black flex items-center font-medium absolute left-0">
+                QuickXe &copy; {{ currentYear }}
+            </span>
+        </div>
 
-       <!-- <span class="font-medium" style="text-align: center; margin: auto;">CIN:U66110TS2025PTC193108</span> -->
+        <!-- <span class="font-medium" style="text-align: center; margin: auto;">CIN:U66110TS2025PTC193108</span> -->
 
-       <!-- <div class="hidden md:block relative w-full">
+        <!-- <div class="hidden md:block relative w-full">
        <span class="font-medium text-center mx-auto">
         CIN: U66110TS2025PTC193108
       </span>
        </div> -->
 
 
-       <div class="hidden md:flex justify-center items-center w-full">
-        <span class="font-medium">
-          CIN: U66110TS2025PTC193108
-        </span>
-      </div>
-      
+        <div class="hidden md:flex justify-center items-center w-full">
+            <span class="font-medium">
+                CIN: U66110TS2025PTC193108
+            </span>
+        </div>
 
-      
-       <!-- <span class="text-black flex flex-cols  font-medium" style="text-align: right;"><mat-icon class=""> call</mat-icon>+91 9849325656</span> -->
 
-       <div class="mb-4 relative w-full">
-        <span class="text-black flex items-center font-medium absolute right-0">
-          <mat-icon>call</mat-icon> +91 9849325656
-        </span>
-      </div>
-      
-<!-- 
+
+        <!-- <span class="text-black flex flex-cols  font-medium" style="text-align: right;"><mat-icon class=""> call</mat-icon>+91 9849325656</span> -->
+
+        <div class="mb-4 relative w-full">
+            <span class="text-black flex items-center font-medium absolute right-0">
+                <mat-icon>call</mat-icon> +91 9849325656
+            </span>
+        </div>
+
+        <!-- 
        <span class="text-secondary font-medium">
         QuickXe &copy; {{ currentYear }}
         CIN:U66110TS2025PTC193108
         <p style="text-align: right;">EFGH</p>
        </span> -->
-   </div>
+    </div>
 </div>
 
 <!-- Quick chat -->

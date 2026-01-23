@@ -175,15 +175,27 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
     this.currencyService.getData().subscribe((resp: any) => {
       if (resp) {
         this.currencies = resp;
-        this.displayedData = this.currencies;
+        // Filter out India for the Exchange Rates table display
+        this.displayedData = this.currencies.filter(c =>
+          c.countryName && c.countryName.toLowerCase().trim() !== 'india' &&
+          c.countryCode && c.countryCode.toLowerCase().trim() !== 'in'
+        );
+        // Use the same Countries API data for both Exchange Currency dropdowns (India remains here)
+        this.countries = resp;
+
+        // Set default value for "Currency I have" to India
+        const india = this.countries.find(c =>
+          (c.countryName && c.countryName.toLowerCase().trim() === 'india') ||
+          (c.countryCode && c.countryCode.toLowerCase().trim() === 'in')
+        );
+        if (india) {
+          this.selectedValue = india;
+          if (this.orderForm) {
+            this.orderForm.get('selectedValue').setValue(india);
+          }
+        }
       }
       this.updateFilteredData();
-    });
-
-    this.addcurrencyService.getData().subscribe((resp: Countries[]) => {
-      if (resp) {
-        this.countries = resp;
-      }
     });
 
   }
@@ -203,6 +215,11 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
   updateFilteredData() {
     this.filteredData.data = this.displayedData;
   }
+
+  get filteredCountries() {
+    return this.filteredData?.data || [];
+  }
+
 
   dialogBoxSettings = {
     height: auto,
@@ -497,7 +514,7 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
     this.orderForm = this._formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[0-9]*$')]],
       amount: ['', [Validators.required]],
       selectedValue: ['', Validators.required],
       selectedValue1: ['', Validators.required],
@@ -586,5 +603,93 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
       {
         disableClose: true,
       })
+  }
+
+  getCurrencyCode(countryCode: string): string {
+    const codeMap: { [key: string]: string } = {
+      'us': 'USD', 'au': 'AUD', 'ca': 'CAD', 'nz': 'NZD', 'sg': 'SGD',
+      'gb': 'GBP',
+      'eu': 'EUR', 'at': 'EUR', 'be': 'EUR', 'cy': 'EUR', 'ee': 'EUR', 'fi': 'EUR',
+      'fr': 'EUR', 'de': 'EUR', 'gr': 'EUR', 'ie': 'EUR', 'it': 'EUR', 'lv': 'EUR',
+      'lt': 'EUR', 'lu': 'EUR', 'mt': 'EUR', 'nl': 'EUR', 'pt': 'EUR', 'sk': 'EUR',
+      'si': 'EUR', 'es': 'EUR',
+      'jp': 'JPY', 'cn': 'CNY',
+      'in': 'INR',
+      'ru': 'RUB',
+      'kr': 'KRW',
+      'ch': 'CHF',
+      'se': 'SEK', 'no': 'NOK', 'dk': 'DKK',
+      'br': 'BRL',
+      'za': 'ZAR',
+      'th': 'THB',
+      'my': 'MYR',
+      'ph': 'PHP',
+      'id': 'IDR',
+      'vn': 'VND',
+      'ng': 'NGN',
+      'tr': 'TRY',
+      'qa': 'QAR',
+      'sa': 'SAR',
+      'ae': 'AED',
+      'om': 'OMR',
+      'kw': 'KWD',
+      'bh': 'BHD',
+      'hk': 'HKD',
+    };
+    return codeMap[countryCode?.toLowerCase()] || countryCode?.toUpperCase();
+  }
+
+  allowOnlyNumbers(event: any) {
+    let input = event.target.value;
+    // Allow numbers and one decimal point
+    input = input.replace(/[^0-9.]/g, '');
+
+    // Prevent multiple decimal points
+    const parts = input.split('.');
+    if (parts.length > 2) {
+      input = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    event.target.value = input;
+    this.orderForm.get('amount')?.setValue(input);
+  }
+
+  clearFields() {
+    this.orderForm.reset();
+    this.name = '';
+    this.email = '';
+    this.phoneNumber = '';
+    this.amount = '';
+    this.selectedValue = null;
+    this.selectedValue1 = null;
+
+    // Restore India as default for "Currency I have" if available
+    const india = this.countries.find(c =>
+      (c.countryName && c.countryName.toLowerCase().trim() === 'india') ||
+      (c.countryCode && c.countryCode.toLowerCase().trim() === 'in')
+    );
+    if (india) {
+      this.selectedValue = india;
+      this.orderForm.get('selectedValue').setValue(india);
+    }
+  }
+
+  compareObjects(o1: any, o2: any): boolean {
+    if (o1 && o2) {
+      return o1.countryCode === o2.countryCode || o1.countryName === o2.countryName;
+    }
+    return o1 === o2;
+  }
+
+  swapCurrencies(): void {
+    const temp = this.selectedValue;
+    this.selectedValue = this.selectedValue1;
+    this.selectedValue1 = temp;
+
+    // Also update the form values to keep them in sync
+    this.orderForm.patchValue({
+      selectedValue: this.selectedValue,
+      selectedValue1: this.selectedValue1
+    });
   }
 }

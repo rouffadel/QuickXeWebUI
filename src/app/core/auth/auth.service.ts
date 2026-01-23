@@ -17,11 +17,11 @@ export class AuthService {
     private _userService = inject(UserService);
     private router: Router
     invalidCredentials: string;
-   
-    
-constructor(){
-    this.baseUrl=environment.apiUrl
-}
+
+
+    constructor() {
+        this.baseUrl = environment.apiUrl
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -56,15 +56,15 @@ constructor(){
 
     get loggedInUserId(): string {
         return sessionStorage.getItem('loggedInUserId') ?? '';
-    }   
-    
+    }
+
     //Setter & getter for username
     set userName(username: string) {
-            sessionStorage.setItem('userName', username);
+        sessionStorage.setItem('userName', username);
     }
-    
+
     get userName(): string {
-            return sessionStorage.getItem('userName') ?? '';
+        return sessionStorage.getItem('userName') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -102,60 +102,57 @@ constructor(){
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post(this.baseUrl+'Registration/login', credentials).pipe(
+        return this._httpClient.post(this.baseUrl + 'Registration/login', credentials).pipe(
             switchMap((response: any) => {
-                if (response.data.message === 'Invalid user')
-                    {
-                        this.invalidCredentials = 'Invalid Email / Password';
-                        return of(response);
-                    
-                    }
-                    else if (response.data.message === 'User does not exist')
-                        {
-                            // debugger
-                            this.invalidCredentials = 'Invalid Email / Password';
-                            return of(response);
-                        }
-                    else if (response.data.message === 'User exists')
-                    {
+                if (response.data.message === 'Invalid user') {
+                    this.invalidCredentials = 'Invalid Email / Password';
+                    return of(response);
 
-                // Store the access token in the local storage
-                this.accessToken = response.data.token;
-              //  this.accesToken=this.accesToken
+                }
+                else if (response.data.message === 'User does not exist') {
+                    // debugger
+                    this.invalidCredentials = 'Invalid Email / Password';
+                    return of(response);
+                }
+                else if (response.data.message === 'User exists') {
 
-                // // Store the logged in user role in the local storage
-                // localStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
+                    // Store the access token in the local storage
+                    this.accessToken = response.data.token;
+                    //  this.accesToken=this.accesToken
 
-                // // Store the logged in user id in the local storage
-                // localStorage.setItem('loggedInUserId', response.data.userId);
+                    // // Store the logged in user role in the local storage
+                    // localStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
+
+                    // // Store the logged in user id in the local storage
+                    // localStorage.setItem('loggedInUserId', response.data.userId);
 
 
-                // Store the logged in user role in the session storage
-                sessionStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
-                sessionStorage.setItem('userName', response.data.username);
-                // Store the logged in user id in the session storage
-                sessionStorage.setItem('loggedInUserId', response.data.userId);
+                    // Store the logged in user role in the session storage
+                    sessionStorage.setItem('loggedInUserRole', response.data.roles[0].roleName);
+                    sessionStorage.setItem('userName', response.data.username);
+                    // Store the logged in user id in the session storage
+                    sessionStorage.setItem('loggedInUserId', response.data.userId);
 
-                // Store the logged in user full name in the session storage
-                // sessionStorage.setItem('loggedInUserFullName', response.data.contactName);
+                    // Store the logged in user full name in the session storage
+                    // sessionStorage.setItem('loggedInUserFullName', response.data.contactName);
 
-                // Store the logged in user phone number in the session storage
-                // sessionStorage.setItem('loggedInUserPhoneNumber', response.data.contactNo);
+                    // Store the logged in user phone number in the session storage
+                    // sessionStorage.setItem('loggedInUserPhoneNumber', response.data.contactNo);
 
-                // Store the logged in user company name in the session storage
-                // sessionStorage.setItem('loggedInUserCompanyName', response.data.companyName);
+                    // Store the logged in user company name in the session storage
+                    // sessionStorage.setItem('loggedInUserCompanyName', response.data.companyName);
 
 
-                // Set the authenticated flag to true
-                this._authenticated = true;
+                    // Set the authenticated flag to true
+                    this._authenticated = true;
 
-                // Store the user on the user service
-                // this._userService.user = this.useer;
-                this._userService.user = response.user;
+                    // Store the user on the user service
+                    // this._userService.user = this.useer;
+                    this._userService.user = response.user;
 
-                // Return a new observable with the response
-                return of(response);
-                    }
+                    // Return a new observable with the response
+                    return of(response);
+                }
             })
         );
     }
@@ -231,7 +228,7 @@ constructor(){
         roleId: string;
         roleName: string;
     }): Observable<any> {
-        return this._httpClient.post(this.baseUrl+'Registration/register', user);
+        return this._httpClient.post(this.baseUrl + 'Registration/register', user);
     }
 
 
@@ -245,7 +242,7 @@ constructor(){
         roleName: string;
         personalVisitForRegistration: string;
     }): Observable<any> {
-        return this._httpClient.post(this.baseUrl+'Registration/register', user);
+        return this._httpClient.post(this.baseUrl + 'Registration/register', user);
     }
 
     // sendEmail(data: {
@@ -275,6 +272,12 @@ constructor(){
     check(): Observable<boolean> {
         // Check if the user is logged in
         if (this._authenticated) {
+            return of(true);
+        }
+
+        // Check if it's a customer who logged in via OTP
+        if (sessionStorage.getItem('loggedInUserRole') === 'Customer' && sessionStorage.getItem('loggedInUserId')) {
+            this._authenticated = true;
             return of(true);
         }
 

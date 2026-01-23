@@ -272,9 +272,11 @@ export class VerifyOtpComponent implements OnInit {
             this.handleOtpSuccess();
           }
           else if (isSignUp == false) {
-            sessionStorage.setItem('Id', response.data.customerId);
+            sessionStorage.setItem('loggedInUserId', response.data.customerId);
+            sessionStorage.setItem('userName', response.data.name);
             sessionStorage.setItem('Name', response.data.name);
             sessionStorage.setItem('Email', response.data.email);
+            sessionStorage.setItem('loggedInUserRole', 'Customer');
             // this._authenticated = true;
             this.redirectToDashboard();
           }

@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -38,7 +38,7 @@ export interface Currency {
 @Component({
   selector: 'app-currency',
   standalone: true,
-  imports: [MatTableModule,MatDialogModule,MatIconModule,CommonModule,GenericSearchFilterPipe,FormsModule,MatFormField,MatInputModule,MatSelectModule,MatButtonModule],
+  imports: [MatTableModule, MatDialogModule, MatIconModule, CommonModule, GenericSearchFilterPipe, FormsModule, MatFormField, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './currency.component.html',
   styleUrl: './currency.component.scss'
 })
@@ -58,14 +58,14 @@ export class CurrencyComponent implements OnInit {
 
 
   constructor(
-    private breakpointObserver: BreakpointObserver, 
+    private breakpointObserver: BreakpointObserver,
     private currencyService: CurrencyService,
-    private dialog:MatDialog,
+    private dialog: MatDialog,
     private updatecurrencyService: UpdatecurrencyService,
     private snackBar: MatSnackBar,
     private dataService: DataService,
     private _fuseConfirmationService: FuseConfirmationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // debugger
@@ -74,8 +74,8 @@ export class CurrencyComponent implements OnInit {
       this.getService();
     }
 
-    this.dataService.dataUpdated$.subscribe((updated) =>{
-      if(updated){
+    this.dataService.dataUpdated$.subscribe((updated) => {
+      if (updated) {
         this.getService();
       }
     });
@@ -83,11 +83,15 @@ export class CurrencyComponent implements OnInit {
 
 
 
-  getService(){
-    this.currencyService.getData().subscribe((resp:any)=>{
-      if(resp){
-       this.currencies = resp; 
-      this.displayedData = this.currencies;
+  getService() {
+    this.currencyService.getData().subscribe((resp: any) => {
+      if (resp) {
+        this.currencies = resp;
+        // Filter out India for the Agent Dashboard table display
+        this.displayedData = this.currencies.filter(c =>
+          c.countryName && c.countryName.toLowerCase().trim() !== 'india' &&
+          c.countryCode && c.countryCode.toLowerCase().trim() !== 'in'
+        );
       }
       this.updateFilteredData();
     });
@@ -109,13 +113,13 @@ export class CurrencyComponent implements OnInit {
     this.filteredData.data = this.displayedData;
   }
 
-      dialogBoxSettings = {
-        height: auto,
-        width: '700px',
-        margin: '0 auto',
-        disableClose: true,
-        hasBackdrop: true
-      };
+  dialogBoxSettings = {
+    height: auto,
+    width: '700px',
+    margin: '0 auto',
+    disableClose: true,
+    hasBackdrop: true
+  };
 
 
   openUpdateCurrencyDialog(countryId: string): void {
@@ -133,27 +137,27 @@ export class CurrencyComponent implements OnInit {
 
 
   deleteCurrency(countryId: string): void {
-  const confirmation = this._fuseConfirmationService.open({
-    title: 'Delete Currency',
-    message: 
+    const confirmation = this._fuseConfirmationService.open({
+      title: 'Delete Currency',
+      message:
         'Are you sure you want to delete this currency?',
-    actions: {
+      actions: {
         confirm: {
-            label: 'Delete',
+          label: 'Delete',
         },
         cancel: {
           show: true,
           label: 'Cancel',
+        },
       },
-    },
-});
+    });
 
-// Subscribe to the confirmation dialog closed action
-confirmation.afterClosed().subscribe((result) => {
+    // Subscribe to the confirmation dialog closed action
+    confirmation.afterClosed().subscribe((result) => {
 
-    // If the confirm button pressed...
+      // If the confirm button pressed...
 
-    if (result === 'confirmed') {
+      if (result === 'confirmed') {
         // var CreatedBy = parseInt(localStorage.getItem("LoginId"))
         // var data = {
         //     ClientId: Id,
@@ -161,61 +165,61 @@ confirmation.afterClosed().subscribe((result) => {
         // }
 
         // Delete the currency
-     this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
-      console.log('Deleted Successfully.');
+        this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
+          console.log('Deleted Successfully.');
           // Show Snackbar Notification
           this.snackBar.open('Currency Deleted!', 'Close', {
-          duration: 3000, // Time in milliseconds
-          verticalPosition: 'top', // Position (top/bottom)
-          horizontalPosition: 'right', // Position (start/center/end/right/left)
-          panelClass: ['snackbar-success'] // Custom styling
+            duration: 3000, // Time in milliseconds
+            verticalPosition: 'top', // Position (top/bottom)
+            horizontalPosition: 'right', // Position (start/center/end/right/left)
+            panelClass: ['snackbar-success'] // Custom styling
           });
           this.getService();
-    }, (error) => {
-      console.log('Failed to delete');
+        }, (error) => {
+          console.log('Failed to delete');
+        });
+      }
     });
-    }
-});
 
-  // deleteCurrency(countryId: string): void {
-  //   this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
-  //     console.log('Deleted Successfully.');
-  //         // Show Snackbar Notification
-  //         this.snackBar.open('Currency Deleted!', 'Close', {
-  //         duration: 3000, // Time in milliseconds
-  //         verticalPosition: 'top', // Position (top/bottom)
-  //         horizontalPosition: 'right', // Position (start/center/end/right/left)
-  //         panelClass: ['snackbar-success'] // Custom styling
-  //         });
-  //         this.getService();
-  //   }, (error) => {
-  //     console.log('Failed to delete');
-  //   });
-  // }
+    // deleteCurrency(countryId: string): void {
+    //   this.currencyService.deleteCurrencyByCountryId(countryId).subscribe(() => {
+    //     console.log('Deleted Successfully.');
+    //         // Show Snackbar Notification
+    //         this.snackBar.open('Currency Deleted!', 'Close', {
+    //         duration: 3000, // Time in milliseconds
+    //         verticalPosition: 'top', // Position (top/bottom)
+    //         horizontalPosition: 'right', // Position (start/center/end/right/left)
+    //         panelClass: ['snackbar-success'] // Custom styling
+    //         });
+    //         this.getService();
+    //   }, (error) => {
+    //     console.log('Failed to delete');
+    //   });
+    // }
 
 
 
-  // updateCurrency(countryId: number): void {
-  //   this.currencyService.getCurrencyByCountryId(this.countryId).subscribe((resp: any) => {
-  //     if (resp) {
-  //       const dialogRef = this.dialog.open(UpdatecurrencyComponent, {
-  //         disableClose: true,
-  //         data: resp, // Pass the fetched data to the dialog
-  //       });
-  //     }
-  //   });
-  // }
-  
+    // updateCurrency(countryId: number): void {
+    //   this.currencyService.getCurrencyByCountryId(this.countryId).subscribe((resp: any) => {
+    //     if (resp) {
+    //       const dialogRef = this.dialog.open(UpdatecurrencyComponent, {
+    //         disableClose: true,
+    //         data: resp, // Pass the fetched data to the dialog
+    //       });
+    //     }
+    //   });
+    // }
 
 
 
-  // getCurrencyByCountryId(countryId: number) {
-  //   this.http.get<Customer>(this.apiUrl+ "customers/" + customerId)
-  //     .subscribe(res => {
-  //       this.customer = res;
-  //       this.isEdit = true;
-  //     });
-  // }
 
-}
+    // getCurrencyByCountryId(countryId: number) {
+    //   this.http.get<Customer>(this.apiUrl+ "customers/" + customerId)
+    //     .subscribe(res => {
+    //       this.customer = res;
+    //       this.isEdit = true;
+    //     });
+    // }
+
+  }
 }

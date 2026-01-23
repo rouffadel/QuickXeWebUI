@@ -1,222 +1,110 @@
 <div class="flex flex-col flex-auto min-w-0">
-  <div
-    class="bg-card sticky top-0 relative z-49 flex h-16 w-full items-center pr-4 pl-0 shadow dark:border-b dark:bg-transparent dark:shadow-none sm:h-20 md:px-6 print:hidden">
-    <div class="mx-2 flex items-center lg:mr-8" [ngStyle]="{ display: windowWidth >= 768 ? 'flex' : 'none' }">
+  <div class="flex-auto flex flex-col">
 
-      <div class="w-56">
-        <img src="images/logo/Quick_XeNbg.png">
-      </div>
-
-    </div>
-
-
-    <div class="ml-auto flex items-center space-x-2 pl-2">
-      <div class="relative flex items-center">
-
-        <!-- <fuse-fullscreen class="hidden md:block"></fuse-fullscreen> -->
-        <!-- <user></user> -->
-
-        <!-- Button -->
-
-        <button mat-icon-button [matMenuTriggerFor]="userActions">
-          <span>
-            <mat-icon class="icon-size-10" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-          </span>
-        </button>
-
-        <!-- <mat-menu [xPosition]="'before'" #userActions="matMenu">
-  <button mat-menu-item>
-      <span class="flex flex-col leading-none">
-          <span>Signed in as</span>
-          <span class="mt-1.5 text-md font-medium">{{name}}</span>
-      </span>
-  </button>
-
-  <mat-divider class="p-2 mb-0"></mat-divider>
-  <button mat-menu-item (click)="openUpdateProfileForm()">
-      <mat-icon class="icon-size-8" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-      <span>Profile</span>
-  </button>
-
-  <mat-divider class="p-2 mb-0"></mat-divider>
-  <button mat-menu-item class="mt-0" (click)="changePassword()">
-      <mat-icon class="icon-size-8" [svgIcon]="'heroicons_outline:shopping-bag'"></mat-icon>
-      <span>My Orders</span>
-  </button>
-
-  <mat-divider class="p-2 mb-0"></mat-divider>
-  <button mat-menu-item (click)="signOut()">
-      <mat-icon class="icon-size-8"
-          [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"
-      ></mat-icon>
-      <span>Sign out</span>
-  </button>
-</mat-menu> -->
-
-
-        <mat-menu [xPosition]="'before'" #userActions="matMenu">
-          <!-- <button mat-menu-item>
-    <span class="flex flex-col leading-none">
-      <span>Signed in as</span>
-      <span class="mt-1.5 text-md font-medium">{{ name }}</span>
-    </span>
-  </button> -->
-
-          <!-- <mat-divider class="p-2 mb-0"></mat-divider> -->
-          <button mat-menu-item class="hover-bg p-2">
-            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:user'"></mat-icon>
-            <span>Profile</span>
-          </button>
-
-          <!-- <mat-divider class="p-2 mb-0"></mat-divider> -->
-          <button (click)="openMyDocuments()" mat-menu-item class="hover-bg mt-0 p-2">
-            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:shopping-bag'"></mat-icon>
-            <span>My Documents</span>
-          </button>
-
-          <button mat-menu-item class="hover-bg mt-0 p-2">
-            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:shopping-cart'"></mat-icon>
-            <span>My Orders</span>
-          </button>
-
-          <!-- <mat-divider class="p-2 mb-0"></mat-divider> -->
-          <button mat-menu-item class="hover-bg p-2" (click)="signOut()">
-            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
-            <span>Sign out</span>
-          </button>
-        </mat-menu>
-
-
-
-
-        <!-- <mat-menu class="user-status-menu" #userStatus="matMenu">
-  <button mat-menu-item (click)="updateUserStatus('online')">
-      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-green-500"></span>
-      <span>Online</span>
-  </button>
-  <button mat-menu-item (click)="updateUserStatus('away')">
-      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-amber-500"></span>
-      <span>Away</span>
-  </button>
-  <button mat-menu-item (click)="updateUserStatus('busy')">
-      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-red-500"></span>
-      <span>Busy</span>
-  </button>
-  <button mat-menu-item (click)="updateUserStatus('not-visible')">
-      <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-gray-400"></span>
-      <span>Invisible</span>
-  </button>
-</mat-menu> -->
-
-
-      </div>
-    </div>
-
-  </div>
-
-  <div class="home-container">
-    <!-- Left Section - Introduction or Banner -->
-    <div class="left-section">
-      <!-- <h1>Welcome to QuickXe</h1>
+    <div class="home-container flex-auto">
+      <!-- Left Section - Introduction or Banner -->
+      <div class="left-section">
+        <!-- <h1>Welcome to QuickXe</h1>
         <p>
           Get the best exchange rates instantly and securely. Book your exchange in just a few clicks!
         </p> -->
-      <!-- <img src="images/logo/image.jpeg" alt="Currency Exchange" class="banner-image"/> -->
-      <h1>Welcome, {{ name }}!</h1>
-      <p style="text-align: justify;">
-        Ready to exchange your currency at the best rates? We offer <strong>real-time rates</strong>,
-        <strong> zero hidden fees</strong>, and a <strong>secure transaction process</strong> to make your exchange
-        hassle-free.
-      </p>
+        <!-- <img src="images/logo/image.jpeg" alt="Currency Exchange" class="banner-image"/> -->
+        <h1>Welcome, {{ name }}!</h1>
+        <p style="text-align: justify;">
+          Ready to exchange your currency at the best rates? We offer <strong>real-time rates</strong>,
+          <strong> zero hidden fees</strong>, and a <strong>secure transaction process</strong> to make your exchange
+          hassle-free.
+        </p>
 
-      <ul class="benefits-list">
-        <li>✅ Competitive exchange rates updated in real-time</li>
-        <li>✅ Fast and secure transactions with trusted partners</li>
-        <li>✅ 24/7 customer support for seamless exchanges</li>
-      </ul>
+        <ul class="benefits-list">
+          <li>✅ Competitive exchange rates updated in real-time</li>
+          <li>✅ Fast and secure transactions with trusted partners</li>
+          <li>✅ 24/7 customer support for seamless exchanges</li>
+        </ul>
 
-      <p style="text-align: justify;">Start exchanging today and <strong>get the best value for your money!</strong></p>
-    </div>
-
-
-    <form class="bg-card mt-4 mr-4 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow">
-      <h2 class="form-title">Exchange Currency</h2>
-
-      <div class="gt-xs:flex-row flex flex-col">
-        <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto">
-          <mat-label>Enter Amount</mat-label>
-          <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
-
-        </mat-form-field>
-
-
-        <div class="flex flex-col gt-xs:pl-3 flex-auto">
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Currency i have</mat-label>
-            <mat-select [(ngModel)]="selectedValue" name="exchange" aria-placeholder="Select Currency">
-              <mat-select-trigger>
-                <span class="flex items-center" *ngIf="selectedValue">
-                  <img [src]="'https://flagcdn.com/w40/' + selectedValue.code.toLowerCase() + '.png'"
-                    class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
-                  <span class="font-semibold mr-2">{{selectedValue.symbol}}</span>
-                  <span>{{selectedValue.viewValue}}</span>
-                </span>
-              </mat-select-trigger>
-              @for (exchange of exchanges; track exchange) {
-              <mat-option [value]="exchange">
-                <span class="flex items-center">
-                  <img [src]="'https://flagcdn.com/w40/' + exchange.code.toLowerCase() + '.png'"
-                    class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
-                  <span class="font-semibold mr-2">{{exchange.symbol}}</span>
-                  <span>{{exchange.viewValue}}</span>
-                </span>
-              </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <div *ngIf="selectedValue" class="ml-1 -mt-4 mb-2 text-md font-bold text-primary-500">
-            Symbol: {{selectedValue.symbol}}
-          </div>
-        </div>
-
-
-        <div class="flex flex-col gt-xs:pl-3 flex-auto">
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Currency i want</mat-label>
-            <mat-select [(ngModel)]="selectedValue1" name="exchange1" aria-placeholder="Select Currency">
-              <mat-select-trigger>
-                <span class="flex items-center" *ngIf="selectedValue1">
-                  <img [src]="'https://flagcdn.com/w40/' + selectedValue1.code.toLowerCase() + '.png'"
-                    class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
-                  <span class="font-semibold mr-2">{{selectedValue1.symbol}}</span>
-                  <span>{{selectedValue1.viewValue}}</span>
-                </span>
-              </mat-select-trigger>
-              @for (exchange of exchanges; track exchange) {
-              <mat-option [value]="exchange">
-                <span class="flex items-center">
-                  <img [src]="'https://flagcdn.com/w40/' + exchange.code.toLowerCase() + '.png'"
-                    class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
-                  <span class="font-semibold mr-2">{{exchange.symbol}}</span>
-                  <span>{{exchange.viewValue}}</span>
-                </span>
-              </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <div *ngIf="selectedValue1" class="ml-1 -mt-4 mb-2 text-md font-bold text-primary-500">
-            Symbol: {{selectedValue1.symbol}}
-          </div>
-        </div>
+        <p style="text-align: justify;">Start exchanging today and <strong>get the best value for your money!</strong>
+        </p>
       </div>
 
 
-      <button class="gt-xs:pr-3 flex-auto" mat-flat-button style="background-color:#ffb300;">
-        Book Exchange
-      </button>
+      <form class="bg-card mt-4 mr-4 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow">
+        <h2 class="form-title">Exchange Currency</h2>
+
+        <div class="gt-xs:flex-row flex flex-col">
+          <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto">
+            <mat-label>Enter Amount</mat-label>
+            <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
+
+          </mat-form-field>
 
 
-      <!-- <div class="flex">
+          <div class="flex flex-col gt-xs:pl-3 flex-auto">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Currency i have</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="exchange" aria-placeholder="Select Currency">
+                <mat-select-trigger>
+                  <span class="flex items-center" *ngIf="selectedValue">
+                    <img [src]="'https://flagcdn.com/w40/' + selectedValue.code.toLowerCase() + '.png'"
+                      class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                    <span class="font-semibold mr-2">{{selectedValue.symbol}}</span>
+                    <span>{{selectedValue.viewValue}}</span>
+                  </span>
+                </mat-select-trigger>
+                @for (exchange of exchanges; track exchange) {
+                <mat-option [value]="exchange">
+                  <span class="flex items-center">
+                    <img [src]="'https://flagcdn.com/w40/' + exchange.code.toLowerCase() + '.png'"
+                      class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                    <span class="font-semibold mr-2">{{exchange.symbol}}</span>
+                    <span>{{exchange.viewValue}}</span>
+                  </span>
+                </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="selectedValue" class="ml-1 -mt-4 mb-2 text-md font-bold text-primary-500">
+              Symbol: {{selectedValue.symbol}}
+            </div>
+          </div>
+
+
+          <div class="flex flex-col gt-xs:pl-3 flex-auto">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Currency i want</mat-label>
+              <mat-select [(ngModel)]="selectedValue1" name="exchange1" aria-placeholder="Select Currency">
+                <mat-select-trigger>
+                  <span class="flex items-center" *ngIf="selectedValue1">
+                    <img [src]="'https://flagcdn.com/w40/' + selectedValue1.code.toLowerCase() + '.png'"
+                      class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                    <span class="font-semibold mr-2">{{selectedValue1.symbol}}</span>
+                    <span>{{selectedValue1.viewValue}}</span>
+                  </span>
+                </mat-select-trigger>
+                @for (exchange of exchanges; track exchange) {
+                <mat-option [value]="exchange">
+                  <span class="flex items-center">
+                    <img [src]="'https://flagcdn.com/w40/' + exchange.code.toLowerCase() + '.png'"
+                      class="mr-2 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
+                    <span class="font-semibold mr-2">{{exchange.symbol}}</span>
+                    <span>{{exchange.viewValue}}</span>
+                  </span>
+                </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="selectedValue1" class="ml-1 -mt-4 mb-2 text-md font-bold text-primary-500">
+              Symbol: {{selectedValue1.symbol}}
+            </div>
+          </div>
+        </div>
+
+
+        <button class="gt-xs:pr-3 flex-auto" mat-flat-button style="background-color:#ffb300;">
+          Book Exchange
+        </button>
+
+
+        <!-- <div class="flex">
             <mat-form-field
                 class="flex-auto"
             >
@@ -273,13 +161,14 @@
                 ></mat-icon>
             </mat-form-field>
         </div> -->
-    </form>
+      </form>
 
+
+    </div>
+
+    <footer class="mt-auto">
+      <p class="mt-2 mb-2" style="font-size: 16px;">&copy; 2025 QuickXe. All rights reserved.</p>
+    </footer>
 
   </div>
-
-  <footer>
-    <p class="mt-2 mb-2" style="font-size: 16px;">&copy; 2025 QuickXe. All rights reserved.</p>
-  </footer>
-
 </div>

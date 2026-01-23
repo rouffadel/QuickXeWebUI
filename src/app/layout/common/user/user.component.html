@@ -1,83 +1,50 @@
 <!-- Button -->
 <button mat-icon-button [matMenuTriggerFor]="userActions">
-    <span>
-        <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+    <span class="relative">
+        <mat-icon class="icon-size-10 text-primary" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
     </span>
-    <!-- <span class="relative">
-        @if (showAvatar && user.avatar) {
-            <img class="h-7 w-7 rounded-full" [src]="user.avatar" />
-        }
-        @if (!showAvatar || !user.avatar) {
-            <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-        }
-        <span
-            class="absolute bottom-0 right-0 h-2 w-2 rounded-full"
-            [ngClass]="{
-                'mb-px mr-px': !showAvatar || !user.avatar,
-                'bg-green-500': user.status === 'online',
-                'bg-amber-500': user.status === 'away',
-                'bg-red-500': user.status === 'busy',
-                'bg-gray-400': user.status === 'not-visible',
-            }"
-        ></span>
-    </span> -->
 </button>
 
-<mat-menu [xPosition]="'before'" #userActions="matMenu">
-    <button mat-menu-item>
-        <span class="flex flex-col leading-none">
-            <span>Signed in as</span>
-            <!-- <span class="mt-1.5 text-md font-medium">{{ user.email }}</span> -->
-            <span class="mt-1.5 text-md font-medium">{{userName}}</span>
-        </span>
-    </button>
+<mat-menu [xPosition]="'before'" #userActions="matMenu" class="user-menu-panel">
+    <!-- Header with User Name -->
+    <div class="px-6 py-5 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700"
+        style="min-width: 260px;">
+        <div class="flex flex-col leading-none">
+            <span class="text-secondary text-xs font-bold uppercase tracking-widest opacity-60">Signed in as</span>
+            <span class="mt-2 text-lg font-bold text-gray-900 dark:text-gray-100">{{userName}}</span>
+        </div>
+    </div>
 
-    <mat-divider class="my-2"></mat-divider>
-    <button mat-menu-item (click)="openUpdateProfileForm()">
-        <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-        <span>Profile</span>
-    </button>
+    <!-- Menu Items -->
+    <div class="p-2">
+        <button mat-menu-item (click)="openUpdateProfileForm()"
+            class="hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-colors duration-150 rounded-md">
+            <div class="flex items-center py-1">
+                <mat-icon class="icon-size-5 mr-4 text-primary" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                <span class="font-semibold text-md">Profile</span>
+            </div>
+        </button>
 
-    <mat-divider class="my-2"></mat-divider>
-    <button mat-menu-item (click)="changePassword()">
-        <mat-icon [svgIcon]="'heroicons_outline:lock-closed'"></mat-icon>
-        <span>Change Password</span>
-    </button>
+        @if (!isCustomer) {
+        <button mat-menu-item (click)="changePassword()"
+            class="hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-colors duration-150 rounded-md">
+            <div class="flex items-center py-1">
+                <mat-icon class="icon-size-5 mr-4 text-primary" [svgIcon]="'heroicons_outline:lock-closed'"></mat-icon>
+                <span class="font-semibold text-md">Change Password</span>
+            </div>
+        </button>
+        }
 
-    <!-- <button mat-menu-item>
-        <mat-icon [svgIcon]="'heroicons_outline:cog-8-tooth'"></mat-icon>
-        <span>Settings</span>
-    </button> -->
-    <!-- <button mat-menu-item [matMenuTriggerFor]="userStatus">
-        <mat-icon
-            [svgIcon]="'heroicons_outline:ellipsis-horizontal-circle'"
-        ></mat-icon>
-        <span>Status</span>
-    </button> -->
-    <mat-divider class="my-2"></mat-divider>
-    <button mat-menu-item (click)="signOut()">
-        <mat-icon
-            [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"
-        ></mat-icon>
-        <span>Sign out</span>
-    </button>
-</mat-menu>
+        <!-- Spacing gap with a subtle divider -->
+        <mat-divider class="my-2 opacity-40"></mat-divider>
 
-<mat-menu class="user-status-menu" #userStatus="matMenu">
-    <button mat-menu-item (click)="updateUserStatus('online')">
-        <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-green-500"></span>
-        <span>Online</span>
-    </button>
-    <button mat-menu-item (click)="updateUserStatus('away')">
-        <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-amber-500"></span>
-        <span>Away</span>
-    </button>
-    <button mat-menu-item (click)="updateUserStatus('busy')">
-        <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-red-500"></span>
-        <span>Busy</span>
-    </button>
-    <button mat-menu-item (click)="updateUserStatus('not-visible')">
-        <span class="mr-3 inline-flex h-4 w-4 rounded-full bg-gray-400"></span>
-        <span>Invisible</span>
-    </button>
+        <button mat-menu-item (click)="signOut()"
+            class="hover:bg-red-50 dark:hover:bg-red-900/10 group transition-colors duration-150 rounded-md">
+            <div class="flex items-center py-1">
+                <mat-icon class="icon-size-5 mr-4 text-red-500 group-hover:text-red-600"
+                    [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
+                <span class="font-semibold text-md text-red-600 group-hover:text-red-700">Sign out</span>
+            </div>
+        </button>
+    </div>
 </mat-menu>

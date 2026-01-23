@@ -13,6 +13,13 @@ export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
             switchMap((authenticated) => {
                 // If the user is not authenticated...
                 if (!authenticated) {
+                    // If it's a customer route, redirect to index
+                    const isCustomerRoute = state.url.includes('dashboard') || state.url.includes('mydocuments') || state.url.includes('customer-orders');
+
+                    if (isCustomerRoute) {
+                        return of(router.parseUrl('/index'));
+                    }
+
                     // Redirect to the sign-in page with a redirectUrl param
                     const redirectURL =
                         state.url === '/sign-out'

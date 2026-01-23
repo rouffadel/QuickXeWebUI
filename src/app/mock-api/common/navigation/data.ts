@@ -3,41 +3,41 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'currency',
+        id: 'currency',
         title: 'Exchange Rate',
-        type : 'basic',
-        icon : 'heroicons_outline:currency-dollar',
-        link : '/currency'
+        type: 'basic',
+        icon: 'heroicons_outline:currency-dollar',
+        link: '/currency'
     },
     {
-        id   : 'myorders',
+        id: 'myorders',
         title: 'My Orders',
-        type : 'basic',
-        icon : 'heroicons_outline:inbox',
-        link : '/myorders'
+        type: 'basic',
+        icon: 'heroicons_outline:inbox',
+        link: '/myorders'
     },
     {
-        id   : 'assignorders',
+        id: 'assignorders',
         title: 'Assign Orders',
-        type : 'basic',
-        icon : 'heroicons_outline:inbox',
-        link : '/assignorders'
+        type: 'basic',
+        icon: 'heroicons_outline:inbox',
+        link: '/assignorders'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
-        id   : 'main',
+        id: 'main',
         title: 'Main',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/main'
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/main'
     },
     {
-        id   : 'tenant',
+        id: 'tenant',
         title: 'Agents',
-        type : 'basic',
-        icon : 'heroicons_outline:users',
-        link : '/agent'
+        type: 'basic',
+        icon: 'heroicons_outline:users',
+        link: '/agent'
     }
 ];
 
@@ -53,19 +53,34 @@ export const compactNavigation: FuseNavigationItem[] = [
 
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+        id: 'dashboard',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:home',
+        link: '/dashboard'
+    },
+    {
+        id: 'mydocuments',
+        title: 'My Documents',
+        type: 'basic',
+        icon: 'heroicons_outline:document-text',
+        link: '/mydocuments'
+    },
+    {
+        id: 'myorders',
+        title: 'My Orders',
+        type: 'basic',
+        icon: 'heroicons_outline:shopping-cart',
+        link: '/customer-orders'
+    },
+
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
+        id: 'example',
         title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/example'
     }
 ];

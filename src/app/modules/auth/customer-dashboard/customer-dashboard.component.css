@@ -1,54 +1,55 @@
-
-.btn-color{
-    background-color: yellow;
-  }
-  
-
-  ._container {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    /* margin-bottom: 16px; Optional spacing from other elements */
-    margin-bottom: 0; /* Remove any bottom space */
-  }
-  
-  ._field {
-    max-width: 300px;
-    width: 100%;
-    margin-right: 10px; /* Adds 10px space to the right of the button */
-  }
-
-  .mat-mdc-menu-item {
-    display: flex;
-    position: relative;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    padding: 0;
-    padding-left: var(--mat-menu-item-leading-spacing);
-    padding-right: var(--mat-menu-item-trailing-spacing);
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    box-sizing: border-box;
-    color: inherit;
-    font-size: inherit;
-    background: none;
-    text-decoration: none;
-    margin: 0;
-    align-items: center;
-   min-height: 0px !important;
-   
-  }
+.btn-color {
+  background-color: yellow;
+}
 
 
-  /* .mat-mdc-menu-item:hover {
+._container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  /* margin-bottom: 16px; Optional spacing from other elements */
+  margin-bottom: 0;
+  /* Remove any bottom space */
+}
+
+._field {
+  max-width: 300px;
+  width: 100%;
+  margin-right: 10px;
+  /* Adds 10px space to the right of the button */
+}
+
+.mat-mdc-menu-item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 0;
+  padding-left: var(--mat-menu-item-leading-spacing);
+  padding-right: var(--mat-menu-item-trailing-spacing);
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  color: inherit;
+  font-size: inherit;
+  background: none;
+  text-decoration: none;
+  margin: 0;
+  align-items: center;
+  min-height: 0px !important;
+
+}
+
+
+/* .mat-mdc-menu-item:hover {
     border-left: 4px solid #ffb300 !important;
 } */
 
@@ -85,24 +86,28 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
-}   
+}
+
 .container {
   max-width: 1100px;
   margin: 20px auto;
   padding: 20px;
   background: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
+
 .section {
   padding: 20px 0;
   text-align: center;
 }
+
 .services {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
 .service-box {
   background: #eee;
   padding: 20px;
@@ -110,16 +115,18 @@ body {
   width: 30%;
   border-radius: 5px;
 }
+
 .contact {
   text-align: center;
 }
+
 footer {
   background: #222;
   color: white;
   text-align: center;
-  padding: 6px;
-  margin-top: 10px;
-  
+  padding: 12px;
+  margin-top: auto;
+  width: 100%;
 }
 
 
@@ -208,6 +215,7 @@ mat-form-field {
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .w-50 {
   width: 35% !important;
 }
@@ -278,4 +286,10 @@ mat-form-field {
   font-size: 16px;
   color: #333;
   margin-bottom: 10px;
+}
+
+.footer-fixed {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 0;
 }

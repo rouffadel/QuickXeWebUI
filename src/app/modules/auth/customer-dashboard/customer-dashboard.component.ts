@@ -112,7 +112,7 @@ export class CustomerDashboardComponent implements OnInit {
       
           private _unsubscribeAll: Subject<any> = new Subject<any>();
           Id: string;
-
+isCustomer: boolean;
   name: string = '';
   selectedValue: any;
   selectedValue1: any;
@@ -351,47 +351,74 @@ openUpdateProfileForm(): void {
 
 
 
-    signOut(): void {
-      // debugger;
-      const confirmation = this._fuseConfirmationService.open({
-        title: 'Confirm Sign Out',
-        message: 
-            'Are you sure you want to Sign Out',
-        actions: {
-          confirm: {
-            label: 'Confirm',
+//     signOut(): void {
+//       // debugger;
+//       const confirmation = this._fuseConfirmationService.open({
+//         title: 'Confirm Sign Out',
+//         message: 
+//             'Are you sure you want to Sign Out',
+//         actions: {
+//           confirm: {
+//             label: 'Confirm',
+//         },
+//         cancel: {
+//           show: true,
+//           label: 'Cancel',
+//       },
+//             // confirm: { label: 'Yes' }
+//         },
+//     });
+
+//     confirmation.afterClosed().subscribe((result) => {
+    
+//       // If the confirm button pressed...
+  
+//       if (result === 'confirmed') {
+  
+//             // Sign Out
+//             localStorage.clear();
+//             sessionStorage.clear();
+//             this._router.navigate(['/index'], { replaceUrl: true });
+            
+//             // Show Snackbar Notification
+//             this.snackBar.open('You have been Sign Out Successfully!', 'Close', {
+//             duration: 3000, // Time in milliseconds
+//             verticalPosition: 'top', // Position (top/bottom)
+//             horizontalPosition: 'right', // Position (start/center/end/right/left)
+//             panelClass: ['snackbar-success'] // Custom styling
+//             });
+            
+        
+//       }
+//   });
+// }
+
+
+ signOut(): void {
+    const confirmation = this._fuseConfirmationService.open({
+      title: 'Confirm Sign Out',
+      message: 'Are you sure you want to Sign Out?',
+      actions: {
+        confirm: {
+          label: 'Confirm',
+          color: 'primary',
         },
         cancel: {
           show: true,
           label: 'Cancel',
-      },
-            // confirm: { label: 'Yes' }
         },
+      },
     });
 
     confirmation.afterClosed().subscribe((result) => {
-    
-      // If the confirm button pressed...
-  
       if (result === 'confirmed') {
-  
-            // Sign Out
-            localStorage.clear();
-            sessionStorage.clear();
-            this._router.navigate(['/index']);
-            
-            // Show Snackbar Notification
-            this.snackBar.open('You have been Sign Out Successfully!', 'Close', {
-            duration: 3000, // Time in milliseconds
-            verticalPosition: 'top', // Position (top/bottom)
-            horizontalPosition: 'right', // Position (start/center/end/right/left)
-            panelClass: ['snackbar-success'] // Custom styling
-            });
-            
-        
+        const redirectUrl = this.isCustomer ? '/index' : '/sign-out';
+        localStorage.clear();
+        sessionStorage.clear();
+        this._router.navigate([redirectUrl], { replaceUrl: true });
       }
-  });
-}
+    });
+  }
 
 }
 

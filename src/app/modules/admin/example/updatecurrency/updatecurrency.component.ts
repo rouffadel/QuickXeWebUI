@@ -85,7 +85,7 @@ export class UpdatecurrencyComponent implements OnInit {
       this.selcountryName = this.data.countryName || '';
       this.inputBuyRate = Number(this.data.buyRate) || 0;
       this.inputSellRate = Number(this.data.sellRate) || 0;
-      this.currencySymbol = this.getCurrencySymbol(this.selcountryCode);
+      this.currencySymbol = this.data.currencySymbol || this.getCurrencySymbol(this.selcountryCode);
     }
   }
 
@@ -137,6 +137,8 @@ export class UpdatecurrencyComponent implements OnInit {
       currencyName: this.selcurrencyName,
       buyRate: this.inputBuyRate,
       sellRate: this.inputSellRate,
+      currencySymbol: this.currencySymbol,
+      currencyAvailable: this.data.currencyAvailable,
       tenantId: this.tenantId, // Include tenantId
     };
 

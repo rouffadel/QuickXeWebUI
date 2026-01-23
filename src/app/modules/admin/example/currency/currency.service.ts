@@ -31,15 +31,15 @@
 //   //   const url = this.baseUrl+'/Countries/ByTenant/${encodedTenantId}';
 //   //   return this.http.get<any[]>(url);
 //   // }
-  
-  
+
+
 
 // }
 
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs'; 
+import { Observable } from 'rxjs';
 import { environment } from 'environments/environments';
 
 @Injectable({
@@ -49,7 +49,7 @@ export class CurrencyService {
   baseUrl: string;
   tenantId: string;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl;
     // this.tenantId = localStorage.getItem('loggedInUserId') || ''; // Fetch tenantId from local storage
 
@@ -67,10 +67,10 @@ export class CurrencyService {
   //   return this.http.get<any[]>(url);
   // }
 
-    // Example GET method
-    getData(): Observable<any> {
-      return this.http.get<any>(this.baseUrl+'Countries')
-    }
+  // Example GET method
+  getData(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'Countries')
+  }
 
   getCurrencyByCountryId(countryId: string): Observable<any[]> {
     // debugger
@@ -85,6 +85,6 @@ export class CurrencyService {
     const url = `${this.baseUrl}Countries/${encodedCountryId}`;
     return this.http.delete<void>(url);
   }
-  
+
 
 }

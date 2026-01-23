@@ -135,7 +135,11 @@ export class ExampleComponent implements OnInit {
     this.currencyService.getData().subscribe((resp: Exchange[]) => {
       if (resp) {
         this.countries = resp;
-        this.displayedData = this.countries
+        // Filter out India for the Admin Dashboard table display
+        this.displayedData = this.countries.filter(c =>
+          c.countryName && c.countryName.toLowerCase().trim() !== 'india' &&
+          c.countryCode && c.countryCode.toLowerCase().trim() !== 'in'
+        );
         this.updateFilteredData();
       }
     });
