@@ -1,12 +1,21 @@
 <!-- Button -->
-<button mat-icon-button [matMenuTriggerFor]="userActions">
+<!-- <button mat-icon-button [matMenuTriggerFor]="userActions">
     <span class="relative">
         <mat-icon class="icon-size-10 text-primary" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
     </span>
+</button> -->
+<button mat-icon-button [matMenuTriggerFor]="userActions">
+
+    <mat-icon class="icon-size-10 text-secondary" [svgIcon]="'heroicons_outline:user-circle'">
+    </mat-icon>
+
+
 </button>
 
+
+<!-- 
 <mat-menu [xPosition]="'before'" #userActions="matMenu" class="user-menu-panel">
-    <!-- Header with User Name -->
+    
     <div class="px-6 py-5 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700"
         style="min-width: 260px;">
         <div class="flex flex-col leading-none">
@@ -15,7 +24,7 @@
         </div>
     </div>
 
-    <!-- Menu Items -->
+   
     <div class="p-2">
         <button mat-menu-item (click)="openUpdateProfileForm()"
             class="hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-colors duration-150 rounded-md">
@@ -35,7 +44,7 @@
         </button>
         }
 
-        <!-- Spacing gap with a subtle divider -->
+       
         <mat-divider class="my-2 opacity-40"></mat-divider>
 
         <button mat-menu-item (click)="signOut()"
@@ -46,5 +55,59 @@
                 <span class="font-semibold text-md text-red-600 group-hover:text-red-700">Sign out</span>
             </div>
         </button>
+    </div>
+</mat-menu> -->
+
+<mat-menu #userActions="matMenu" xPosition="before" class="fuse-user-menu">
+
+    <!-- Header -->
+    <div class="px-6 py-3 border-b" style="min-width: 280px;">
+
+        <div class="flex flex-col leading-tight">
+            <span class="text-sm font-medium uppercase tracking-widest text-secondary opacity-60">
+                Signed in as
+            </span>
+
+            <span class="text-lg font-semibold">
+                {{ userName }}
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Menu items -->
+    <div class="p-2">
+
+        <!-- Profile -->
+        <button mat-menu-item (click)="openUpdateProfileForm()" class="rounded-md text-base">
+
+            <mat-icon class="icon-size-6 mr-4" [svgIcon]="'heroicons_outline:user-circle'">
+            </mat-icon>
+
+            <span class="font-medium">Profile</span>
+        </button>
+
+        <!-- Change Password -->
+        @if (!isCustomer) {
+        <button mat-menu-item (click)="changePassword()" class="rounded-md text-base">
+
+            <mat-icon class="icon-size-6 mr-4" [svgIcon]="'heroicons_outline:lock-closed'">
+            </mat-icon>
+
+            <span class="font-medium">Change Password</span>
+        </button>
+        }
+
+        <mat-divider class="my-2"></mat-divider>
+
+        <!-- Sign out -->
+        <button mat-menu-item (click)="signOut()" class="rounded-md text-base">
+
+            <mat-icon class="icon-size-6 mr-4" [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'">
+            </mat-icon>
+
+            <span class="font-medium">Sign out</span>
+        </button>
+
     </div>
 </mat-menu>
