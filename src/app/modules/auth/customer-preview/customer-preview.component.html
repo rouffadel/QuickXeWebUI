@@ -3,7 +3,7 @@
     class="bg-card sticky top-0 relative z-49 flex h-16 w-full items-center pr-4 pl-0 shadow dark:border-b dark:bg-transparent dark:shadow-none sm:h-20 md:px-6 print:hidden">
     <div class="mx-2 flex items-center lg:mr-8" [ngStyle]="{ display: windowWidth >= 768 ? 'flex' : 'none' }">
 
-      <div class="w-56">
+      <div class="w-56 cursor-pointer" (click)="refreshPage()">
         <img src="images/logo/Quick_XeNbg.png">
       </div>
       <!-- <div class="hidden lg:flex">
@@ -622,89 +622,68 @@ Contact Us
         <div>
           <form [formGroup]="orderForm">
 
-            <div class="grid sm:grid-cols-1 lg:grid-cols-2 px-4 flex w-full">
+            <!-- Form Grid - 3 columns on desktop (left field, swap icon space, right field) -->
+            <div class="px-4 w-full">
 
-              <mat-form-field class="p-2">
-                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
-                <!-- <mat-label>Name</mat-label> -->
-                <input type="text" [(ngModel)]="name" matInput formControlName="name" placeholder="Name">
-                <mat-error *ngIf="orderForm.get('name').hasError('required')">
-                  Name is required
-                </mat-error>
-              </mat-form-field>
+              <!-- Row 1: Name and Email -->
+              <div class="grid sm:grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0 w-full items-start">
+                <mat-form-field class="p-2">
+                  <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:user-circle"></mat-icon>
+                  <input type="text" [(ngModel)]="name" matInput formControlName="name" placeholder="Name">
+                  <mat-error *ngIf="orderForm.get('name').hasError('required')">
+                    Name is required
+                  </mat-error>
+                </mat-form-field>
 
-              <mat-form-field class="p-2">
-                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
-                <!-- <mat-label>Email ID</mat-label> -->
-                <input type="email" [(ngModel)]="email" matInput formControlName="email" placeholder="Email ID" />
-                <mat-error *ngIf="orderForm.get('email').hasError('required')">
-                  Email ID is required
-                </mat-error>
-              </mat-form-field>
+                <!-- Invisible spacer for swap icon alignment on desktop -->
+                <div class="hidden lg:block lg:w-[48px]"></div>
 
-              <mat-form-field class="p-2">
-                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:phone"></mat-icon>
-                <input type="tel" matInput formControlName="phoneNumber" [(ngModel)]="phoneNumber"
-                  placeholder="Phone Number" (keypress)="onlyNumbers($event)" maxlength="10">
-                <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('required')">
-                  Phone Number is required
-                </mat-error>
-                <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('minlength')">
-                  Phone Number must be at least 10 digits
-                </mat-error>
-                <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('maxlength')">
-                  Phone Number cannot be more than 10 digits
-                </mat-error>
-              </mat-form-field>
+                <mat-form-field class="p-2">
+                  <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_mini:envelope"></mat-icon>
+                  <input type="email" [(ngModel)]="email" matInput formControlName="email" placeholder="Email ID" />
+                  <mat-error *ngIf="orderForm.get('email').hasError('required')">
+                    Email ID is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
 
-              <mat-form-field class="p-2">
-                <i class="fa fa-money" style="margin-right: 5px; font-size:20px; color:#65758c"></i>
-                <!-- <mat-label>Name</mat-label> -->
-                <input type="text" [(ngModel)]="amount" matInput formControlName="amount" placeholder="Enter Amount"
-                  (input)="allowOnlyNumbers($event)">
-                <mat-error *ngIf="orderForm.get('amount').hasError('required')">
-                  Amount is required
-                </mat-error>
-              </mat-form-field>
+              <!-- Row 2: Phone Number and Amount -->
+              <div class="grid sm:grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0 w-full items-start">
+                <mat-form-field class="p-2">
+                  <i matPrefix class="fa fa-whatsapp text-3xl mr-2 text-green-600"></i>
+                  <input type="tel" matInput formControlName="phoneNumber" [(ngModel)]="phoneNumber"
+                    placeholder="Phone Number" (keypress)="onlyNumbers($event)" maxlength="10">
+                  <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('required')">
+                    Phone Number is required
+                  </mat-error>
+                  <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('minlength')">
+                    Phone Number must be at least 10 digits
+                  </mat-error>
+                  <mat-error *ngIf="orderForm.get('phoneNumber')?.hasError('maxlength')">
+                    Phone Number cannot be more than 10 digits
+                  </mat-error>
+                </mat-form-field>
 
+                <!-- Invisible spacer for swap icon alignment on desktop -->
+                <div class="hidden lg:block lg:w-[48px]"></div>
 
-              <!-- <mat-form-field class="p-2">
-                <mat-icon class="icon-size-5 mr-3" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
-                <mat-select [(ngModel)]="selectedValue" name="country" formControlName="selectedValue"
-                  placeholder="Currency i have">
-                  <mat-select-trigger>
-                    <div class="flex items-center" *ngIf="selectedValue">
-                      <img [src]="'https://flagcdn.com/w40/' + selectedValue.countryCode?.toLowerCase() + '.png'"
-                        class="mr-2 h-4 w-6 object-cover rounded shadow-sm" alt="flag" />
-                      <span class="font-bold mr-2">{{ getCurrencySymbol(selectedValue.countryCode) }}</span>
-                      <span>{{ selectedValue.countryName }}</span>
-                    </div>
-                  </mat-select-trigger>
-                  @for (item of countries; track item) {
-                  <mat-option [value]="item">
-                    <div class="flex items-center">
-                      <img [src]="'https://flagcdn.com/w40/' + item.countryCode?.toLowerCase() + '.png'"
-                        class="mr-3 h-5 w-8 object-cover rounded shadow-sm" alt="flag" />
-                      <span class="font-bold mr-2 w-6">{{ getCurrencySymbol(item.countryCode) }}</span>
-                      <span>{{item.countryName}}</span>
-                    </div>
-                  </mat-option>
-                  }
-                </mat-select>
-                <mat-error *ngIf="orderForm.get('selectedValue').hasError('required')">
-                  This field is required
-                </mat-error>
-              </mat-form-field> -->
+                <mat-form-field class="p-2">
+                  <i class="fa fa-money" style="margin-right: 5px; font-size:20px; color:#65758c"></i>
+                  <input type="text" [(ngModel)]="amount" matInput formControlName="amount" placeholder="Enter Amount"
+                    (input)="allowOnlyNumbers($event)">
+                  <mat-error *ngIf="orderForm.get('amount').hasError('required')">
+                    Amount is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
 
+              <!-- Row 3: Currency Selection with Swap Icon -->
+              <div class="relative grid sm:grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0 w-full items-start">
 
-
-              <div class="col-span-full relative flex flex-col lg:flex-row items-center w-full">
-                <mat-form-field class="p-2 flex-auto w-full">
+                <mat-form-field class="p-2 w-full">
                   <mat-icon class="icon-size-5 mr-3" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
                   <mat-select [(ngModel)]="selectedValue" formControlName="selectedValue" placeholder="Currency I have"
                     [compareWith]="compareObjects">
-
-                    <!-- Selected Value -->
                     <mat-select-trigger>
                       <div class="flex items-center" *ngIf="selectedValue">
                         <img [src]="'https://flagcdn.com/w40/' + selectedValue.countryCode?.toLowerCase() + '.png'"
@@ -713,8 +692,6 @@ Contact Us
                           getCurrencyCode(selectedValue.countryCode) }}</span>
                       </div>
                     </mat-select-trigger>
-
-                    <!-- Dropdown List -->
                     @for (item of countries; track item) {
                     <mat-option [value]="item"
                       [disabled]="selectedValue1 && selectedValue1.countryName === item.countryName">
@@ -727,20 +704,32 @@ Contact Us
                     </mat-option>
                     }
                   </mat-select>
-
                   <mat-error *ngIf="orderForm.get('selectedValue')?.hasError('required')">
                     This field is required
                   </mat-error>
                 </mat-form-field>
 
-                <!-- Swap Button -->
-                <button mat-icon-button type="button" (click)="swapCurrencies()"
-                  class="mx-2 mb-4 lg:mb-0 bg-amber-50 shadow-md rounded-full border border-amber-200 hover:bg-amber-100 transition-colors duration-200"
-                  title="Swap Currencies">
-                  <mat-icon class="icon-size-5 text-[#4b5563]" svgIcon="heroicons_outline:arrows-right-left"></mat-icon>
-                </button>
+                <!-- Desktop Swap Button - centered in the middle column -->
+                <div class="hidden lg:flex lg:items-start lg:justify-center lg:w-[48px] pt-2">
+                  <button mat-icon-button type="button" (click)="swapCurrencies()"
+                    class="bg-amber-50 shadow-md rounded-full border border-amber-200 hover:bg-amber-100 transition-colors duration-200"
+                    title="Swap Currencies">
+                    <mat-icon class="icon-size-5 text-[#4b5563]"
+                      svgIcon="heroicons_outline:arrows-right-left"></mat-icon>
+                  </button>
+                </div>
 
-                <mat-form-field class="p-2 flex-auto w-full">
+                <!-- Mobile Swap Button -->
+                <div class="flex justify-center w-full lg:hidden my-1 col-span-full">
+                  <button mat-icon-button type="button" (click)="swapCurrencies()"
+                    class="bg-amber-50 shadow-md rounded-full border border-amber-200 hover:bg-amber-100 transition-colors duration-200"
+                    title="Swap Currencies">
+                    <mat-icon class="icon-size-5 text-[#4b5563]" svgIcon="heroicons_outline:arrows-right-left">
+                    </mat-icon>
+                  </button>
+                </div>
+
+                <mat-form-field class="p-2 w-full">
                   <mat-icon class="icon-size-5 mr-3" svgIcon="heroicons_mini:arrows-up-down"></mat-icon>
                   <mat-select [(ngModel)]="selectedValue1" name="exchange1" formControlName="selectedValue1"
                     placeholder="Currency I want" [compareWith]="compareObjects">
@@ -768,8 +757,8 @@ Contact Us
                     This field is required
                   </mat-error>
                 </mat-form-field>
-              </div>
 
+              </div>
 
             </div>
 

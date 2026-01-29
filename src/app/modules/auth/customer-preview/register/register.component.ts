@@ -126,33 +126,36 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    const phoneNumber = this.customerDetailsForm.get('phoneNumber')?.value;
-    console.log('Register process started');
-    console.log('Phone Number from form:', phoneNumber);
-
-    this.createCustomerOTP();
-    this.navigateToOtpService(phoneNumber);
-    this.openVerifyOtpDialog();
+    let rawNumber = this.customerDetailsForm.get('phoneNumber')?.value;
+    if (rawNumber && !rawNumber.startsWith('+')) {
+      this.phoneNumber = '+91' + rawNumber;
+    } else {
+      this.phoneNumber = rawNumber;
+    }
+    this.navigateToOtpService(this.phoneNumber);
+    this.addCustomer();
   }
 
   openVerifyOtpDialog() {
     console.log('Opening Verify OTP Dialog for:', this.phoneNumber);
     const dialogRef = this.dialog.open(VerifyOtpComponent, {
-      // width: '400px',
       disableClose: true,
-      data: { onOtpSuccess: () => this.addCustomer() }  // ✅ Pass function
+      data: { onOtpSuccess: () => this.onFinalRegistrationSuccess() }
     });
 
     this.Close();
   }
 
+  onFinalRegistrationSuccess() {
+    // This is now handled by VerifyOtpComponent direct redirect
+  }
+
   addCustomer() {
-    const formValue = this.customerDetailsForm.value;
     const customerData = {
-      name: formValue.name,
-      phoneNumber: formValue.phoneNumber,
-      email: formValue.email,
-      address: formValue.address,
+      name: this.customerDetailsForm.get('name').value,
+      phoneNumber: this.phoneNumber,
+      email: this.customerDetailsForm.get('email').value,
+      address: this.customerDetailsForm.get('address').value,
     };
 
     console.log('Adding customer with data:', customerData);
@@ -160,31 +163,30 @@ export class RegisterComponent implements OnInit {
     this.registerService.createCustomer(customerData).subscribe(
       (response) => {
         console.log('Customer added successfully:', response);
-        this.snackBar.open('You are registered successfully! Please Login', 'Close', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right',
-          panelClass: ['snackbar-success']
-        });
-        this.Close();
-        this.dialog.open(LoginComponent, { disableClose: true });
+        // OTP process starts only AFTER customer is saved in table
+        this.createCustomerOTP();
       },
       (error) => {
         console.error('Error adding customer:', error);
+        const errorMessage = error.error?.message || 'Failed to add customer. Please try again.';
+        this.snackBar.open(errorMessage, 'Close', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          panelClass: ['snackbar-error']
+        });
       }
     );
   }
 
   createCustomerOTP() {
-    const phoneNumber = this.customerDetailsForm.get('phoneNumber')?.value;
-
-    if (!phoneNumber || phoneNumber.length !== 10) {
+    if (!this.phoneNumber || this.phoneNumber.replace('+91', '').length !== 10) {
       this.snackBar.open('Please enter exactly 10 digits', 'Close', { duration: 3000 });
       return;
     }
 
     const data = {
-      phoneNumber: phoneNumber,
+      phoneNumber: this.phoneNumber,
       otpType: this.otpType
     };
 
@@ -193,6 +195,7 @@ export class RegisterComponent implements OnInit {
     this.registerService.createCustomerOTP(data).subscribe(
       (response) => {
         console.log('OTP request successful:', response);
+        this.openVerifyOtpDialog();
       },
       (error) => {
         console.error('OTP request failed:', error);

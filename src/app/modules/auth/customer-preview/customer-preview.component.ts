@@ -692,4 +692,8 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
       selectedValue1: this.selectedValue1
     });
   }
+
+  refreshPage(): void {
+    window.location.reload();
+  }
 }

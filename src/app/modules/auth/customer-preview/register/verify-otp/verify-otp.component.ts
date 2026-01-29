@@ -269,9 +269,30 @@ export class VerifyOtpComponent implements OnInit {
         if (response.status === 'OK') {
           // debugger
           if (isSignUp == true) {
-            this.handleOtpSuccess();
+            this.snackBar.open(response.message || 'OTP Verified Successfully!', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+              panelClass: ['snackbar-success']
+            });
+
+            // Direct Login: Set session storage
+            sessionStorage.setItem('loggedInUserId', response.data.customerId);
+            sessionStorage.setItem('userName', response.data.name);
+            sessionStorage.setItem('Name', response.data.name);
+            sessionStorage.setItem('Email', response.data.email);
+            sessionStorage.setItem('loggedInUserRole', 'Customer');
+
+            this.Close();
+            this.router.navigate(['/dashboard']);
           }
           else if (isSignUp == false) {
+            this.snackBar.open(response.message || 'Login Successful!', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+              panelClass: ['snackbar-success']
+            });
             sessionStorage.setItem('loggedInUserId', response.data.customerId);
             sessionStorage.setItem('userName', response.data.name);
             sessionStorage.setItem('Name', response.data.name);

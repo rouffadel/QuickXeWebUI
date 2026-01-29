@@ -382,13 +382,19 @@ footer {
 .content {
   display: flex;
   max-width: 1200px;
-  gap: 20px;
-  align-items: center;
+  gap: 40px;
+  /* Increased gap */
+  align-items: flex-start;
+  /* Align to top */
+  justify-content: space-between;
+  margin: 0 auto;
+  /* Center the content container */
 }
 
 .text-section {
   flex: 1;
   text-align: left;
+  padding: 10px;
 }
 
 .image-section {
@@ -396,13 +402,31 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* margin-top: 40px; */
+  width: 100%;
+  /* Ensure full width in flex container */
 }
 
 .image-section img {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix carousel height specifically for About Us section */
+#carouselExample1 .carousel-inner,
+#carouselExample1 .carousel-item {
+  height: auto !important;
+  /* Override the 80vh global style */
+  min-height: 300px;
+  /* Ensure some height */
+}
+
+#carouselExample1 .carousel-item img {
+  height: auto !important;
+  max-height: 400px;
+  /* Limit max height */
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 
