@@ -785,10 +785,13 @@ Contact Us
               </button>
 
               <!-- Book Exchange -->
-              <button mat-flat-button class="fuse-btn fuse-book-primary" [disabled]="!orderForm.valid">
-                Book Exchange
+              <button mat-flat-button class="fuse-btn fuse-book-primary" [disabled]="!orderForm.valid || isBooking"
+                (click)="bookExchange()">
+                <ng-container *ngIf="!isBooking">Book Exchange</ng-container>
+                <ng-container *ngIf="isBooking">Booking...</ng-container>
               </button>
             </div>
+
 
 
 

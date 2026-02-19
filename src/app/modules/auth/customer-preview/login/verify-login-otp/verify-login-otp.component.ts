@@ -20,7 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { DataService } from '../../../';
 import { NgxCountriesDropdownModule } from 'ngx-countries-dropdown';
-import { FormControl} from "@angular/forms";
+import { FormControl } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
@@ -67,14 +67,14 @@ export class VerifyLoginOtpComponent {
   newOTP: string = '';
 
   countdown: number = 180;
-      countdownMapping: any = {
-          '=1': '# second',
-          other: '# seconds',
-      };
-      private _unsubscribeAll: Subject<any> = new Subject<any>();
+  countdownMapping: any = {
+    '=1': '# second',
+    other: '# seconds',
+  };
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   showOtpComponent = true;
-  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
+  @ViewChild('ngOtpInput', { static: false }) ngOtpInput: any;
   config = {
     allowNumbersOnly: false,
     length: 6,
@@ -87,22 +87,22 @@ export class VerifyLoginOtpComponent {
     }
   };
 
-    constructor(
-          private _formBuilder: UntypedFormBuilder,
-          private snackBar: MatSnackBar,
-          private _router: Router,
-          private route: ActivatedRoute,
-          private otpService: OtpService,
-          public matDialogRef: MatDialogRef<VerifyLoginOtpComponent>,
-          private verifyloginotpService: VerifyLoginOtpService,
-          private dialog:MatDialog,
-          private fb: FormBuilder,
-          private registerService: RegisterService
-      ) {
-        this.otpForm = this.fb.group({
-          otp: ['', Validators.required]
-        });
-      }
+  constructor(
+    private _formBuilder: UntypedFormBuilder,
+    private snackBar: MatSnackBar,
+    private _router: Router,
+    private route: ActivatedRoute,
+    private otpService: OtpService,
+    public matDialogRef: MatDialogRef<VerifyLoginOtpComponent>,
+    private verifyloginotpService: VerifyLoginOtpService,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private registerService: RegisterService
+  ) {
+    this.otpForm = this.fb.group({
+      otp: ['', Validators.required]
+    });
+  }
 
 
   onOtpChange(otp: string) {
@@ -127,16 +127,16 @@ export class VerifyLoginOtpComponent {
     //   (response) => {
     //     if (response.status=="OK")
     //       {
-  
+
     //         this.Close();
-    
+
     //         this._router.navigate(['/dashboard']);
-  
+
     //       }
     //   },
     //   (error) => {
     //     console.log("API Error:", error); // Log the full error response
-  
+
     //     // Handle the 400 Bad Request error properly
     //     if (error.error?.message === "Invalid OTP.")
     //       {
@@ -154,14 +154,14 @@ export class VerifyLoginOtpComponent {
     //       horizontalPosition: 'right', // Position (start/center/end/right/left)
     //       panelClass: ['snackbar-success'] // Custom styling
     //       });
-  
+
     //       this.Close();
 
     //               this.dialog.open(RegisterComponent,
     //               {
     //             disableClose: true,
     //               })
-                
+
     //       }
     //   }
     // );
@@ -178,36 +178,36 @@ export class VerifyLoginOtpComponent {
   countDown() {
     // Countdown
     timer(1000, 1000)
-    .pipe(
+      .pipe(
         finalize(() => {
-            // this._router.navigate(['sign-in']);
+          // this._router.navigate(['sign-in']);
         }),
         takeWhile(() => this.countdown > 0),
         takeUntil(this._unsubscribeAll),
         tap(() => this.countdown--)
-    )
-    .subscribe();
+      )
+      .subscribe();
   }
 
   recreateCustomerOTP() {
     // debugger;
     const data = {
-        phoneNumber: this.phoneNumber,
-        otpType: this.otpForSignIn
+      phoneNumber: this.phoneNumber,
+      otpType: this.otpForSignIn
     };
 
     this.registerService.createCustomerOTP(data).subscribe(
       (response) => {
 
         this.countdown = 180;
-        
+
         this.newOTP = "A new OTP code has been send to you!";
       },
       (error) => {
-          console.error('Error:', error);
+        console.error('Error:', error);
       }
-  );
-}
+    );
+  }
 
   Close(): void {
     this.matDialogRef.close();

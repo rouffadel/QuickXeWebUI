@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Notification } from 'app/layout/common/notifications/notifications.types';
-import { map, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
+import { forkJoin, map, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
+import { environment } from 'environments/environments';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsService {
@@ -12,7 +13,7 @@ export class NotificationsService {
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -33,13 +34,29 @@ export class NotificationsService {
      * Get all notifications
      */
     getAll(): Observable<Notification[]> {
-        return this._httpClient
-            .get<Notification[]>('api/common/notifications')
-            .pipe(
-                tap((notifications) => {
-                    this._notifications.next(notifications);
-                })
-            );
+        return forkJoin([
+            this._httpClient.get<Notification[]>('api/common/notifications'),
+            this._httpClient.get<any[]>(environment.apiUrl + 'ExchangeOrders')
+        ]).pipe(
+            map(([notifications, orders]) => {
+                const orderNotifications: Notification[] = orders
+                    .filter(o => o.status === 'Pending')
+                    .map(o => ({
+                        id: 'order-' + o.id,
+                        icon: 'heroicons_outline:shopping-cart',
+                        title: 'New Exchange Order',
+                        description: `${o.name} requested ${o.amount} ${o.fromCurrency}`,
+                        time: o.createdAt,
+                        read: false,
+                        link: '/myorders',
+                        useRouter: true
+                    }));
+
+                const allNotifications = [...notifications, ...orderNotifications];
+                this._notifications.next(allNotifications);
+                return allNotifications;
+            })
+        );
     }
 
     /**

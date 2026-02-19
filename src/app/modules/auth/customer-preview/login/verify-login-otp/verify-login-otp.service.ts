@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class VerifyLoginOtpService {
   baseUrl
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl
   }
 
@@ -18,7 +18,7 @@ export class VerifyLoginOtpService {
   // }
 
 
-  
+
 
   // getEmailCodeByEmail(email: string): Observable<any[]> {
   //   const encodedEmailId = encodeURIComponent(email); // Encode properly

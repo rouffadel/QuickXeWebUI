@@ -26,6 +26,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
+        id: 'dashboard',
+        title: 'Orders',
+        type: 'basic',
+        icon: 'heroicons_outline:home',
+        link: '/myorders',
+        queryParams: { showData: 'true' }
+    },
+    {
         id: 'main',
         title: 'Main',
         type: 'basic',
@@ -38,6 +46,14 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:users',
         link: '/agent'
+    },
+    {
+        id: 'myorders',
+        title: 'My Orders',
+        type: 'basic',
+        icon: 'heroicons_outline:inbox',
+        link: '/myorders',
+        queryParams: { showData: 'false' }
     }
 ];
 

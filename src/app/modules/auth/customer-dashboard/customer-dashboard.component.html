@@ -33,7 +33,7 @@
         <div class="gt-xs:flex-row flex flex-col">
           <mat-form-field appearance="outline" class="gt-xs:pr-3 flex-auto">
             <mat-label>Enter Amount</mat-label>
-            <input matInput [(ngModel)]="amount" placeholder="Enter Amount" />
+            <input matInput [(ngModel)]="amount" name="amount" placeholder="Enter Amount" />
 
           </mat-form-field>
 
@@ -99,8 +99,10 @@
         </div>
 
 
-        <button class="gt-xs:pr-3 flex-auto" mat-flat-button style="background-color:#ffb300;">
-          Book Exchange
+        <button class="gt-xs:pr-3 flex-auto" mat-flat-button style="background-color:#ffb300;" (click)="bookExchange()"
+          [disabled]="isBooking">
+          <span *ngIf="!isBooking">Book Exchange</span>
+          <span *ngIf="isBooking">Booking...</span>
         </button>
 
 

@@ -1,0 +1,281 @@
+<div class="w-full h-full flex flex-col bg-gray-50">
+  <!-- Header -->
+  <div class="bg-white shadow-md p-6 mb-4">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-800">Exchange Service</h1>
+        <p class="text-gray-600 mt-2">Currency & Book Exchange Platform</p>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-gray-600">User: <span class="font-semibold">{{ userName }}</span></p>
+        <p class="text-sm text-gray-600">ID: <span class="font-semibold">{{ userId }}</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Location Section -->
+  <div class="bg-white shadow-md p-6 mb-4 mx-6">
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">Current Location</h2>
+        <div class="space-y-2">
+          <div class="flex items-center">
+            <span class="font-medium text-gray-700 w-24">Address:</span>
+            <span class="text-gray-600">{{ currentLocation || 'Loading...' }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="font-medium text-gray-700 w-24">City:</span>
+            <span class="text-gray-600">{{ city || 'N/A' }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="font-medium text-gray-700 w-24">Area:</span>
+            <span class="text-gray-600">{{ areaName || 'N/A' }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="font-medium text-gray-700 w-24">Pincode:</span>
+            <span class="text-gray-600 font-semibold text-blue-600">{{ postalCode || 'N/A' }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="font-medium text-gray-700 w-24">Coordinates:</span>
+            <span class="text-gray-600 text-sm">{{ latitude | number: '1.4-4' }}, {{ longitude | number: '1.4-4' }}</span>
+          </div>
+        </div>
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="refreshLocation()"
+        class="ml-4"
+      >
+        <mat-icon class="mr-2">refresh</mat-icon>
+        Refresh Location
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs Section -->
+  <div class="px-6 pb-6 flex-1 overflow-auto">
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="bg-white rounded-lg shadow-md">
+      
+      <!-- Currency Exchange Tab -->
+      <mat-tab label="Currency Exchange" class="w-full">
+        <div class="p-6">
+          <form [formGroup]="currencyExchangeForm" class="space-y-4">
+            
+            <!-- From Currency Selection -->
+            <mat-form-field class="w-full">
+              <mat-label>From Currency</mat-label>
+              <mat-select formControlName="fromCurrency" (selectionChange)="onCurrencySelectChange()">
+                <mat-option>-- Select Currency --</mat-option>
+                <mat-option 
+                  *ngFor="let currency of currencies; trackBy: trackByCurrency"
+                  [value]="currency"
+                >
+                  <span class="flex items-center">
+                    <img 
+                      *ngIf="currency.countryCode"
+                      [src]="'https://flagcdn.com/w40/' + currency.countryCode.toLowerCase() + '.png'"
+                      alt="flag"
+                      class="h-5 w-8 mr-2 rounded"
+                    />
+                    {{ currency.currencyName }} - {{ currency.countryName }}
+                  </span>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="currencyExchangeForm.get('fromCurrency')?.hasError('required')">
+                From Currency is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- To Currency Selection -->
+            <mat-form-field class="w-full">
+              <mat-label>To Currency</mat-label>
+              <mat-select formControlName="toCurrency" (selectionChange)="onCurrencySelectChange()">
+                <mat-option>-- Select Currency --</mat-option>
+                <mat-option 
+                  *ngFor="let currency of currencies; trackBy: trackByCurrency"
+                  [value]="currency"
+                >
+                  <span class="flex items-center">
+                    <img 
+                      *ngIf="currency.countryCode"
+                      [src]="'https://flagcdn.com/w40/' + currency.countryCode.toLowerCase() + '.png'"
+                      alt="flag"
+                      class="h-5 w-8 mr-2 rounded"
+                    />
+                    {{ currency.currencyName }} - {{ currency.countryName }}
+                  </span>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="currencyExchangeForm.get('toCurrency')?.hasError('required')">
+                To Currency is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Amount Input -->
+            <mat-form-field class="w-full">
+              <mat-label>Amount</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                formControlName="amount"
+                placeholder="Enter amount"
+                (input)="onAmountChange()"
+                min="0.01"
+                step="0.01"
+              />
+              <mat-error *ngIf="currencyExchangeForm.get('amount')?.hasError('required')">
+                Amount is required
+              </mat-error>
+              <mat-error *ngIf="currencyExchangeForm.get('amount')?.hasError('min')">
+                Amount must be greater than 0
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Current Exchange Rate -->
+            <div *ngIf="exchangeRate > 0" class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <p class="text-sm text-gray-600">Exchange Rate: <span class="font-semibold text-blue-600">1 {{ selectedFromCurrency?.currencyName }} = {{ exchangeRate | number: '1.4-4' }} {{ selectedToCurrency?.currencyName }}</span></p>
+            </div>
+
+            <!-- Converted Amount Display -->
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+              <p class="text-sm text-gray-600">Converted Amount:</p>
+              <p class="text-2xl font-bold text-green-600">
+                {{ convertedAmount | number: '1.2-2' }}
+                <span class="text-lg ml-2">{{ selectedToCurrency?.currencyName || 'Currency' }}</span>
+              </p>
+            </div>
+
+            <!-- Save Button -->
+            <button
+              type="button"
+              mat-raised-button
+              color="accent"
+              (click)="saveCurrencyExchange()"
+              [disabled]="isLoading || !currencyExchangeForm.valid"
+              class="w-full mt-6"
+            >
+              <mat-icon class="mr-2" *ngIf="!isLoading">save</mat-icon>
+              <mat-icon class="mr-2 animate-spin" *ngIf="isLoading">refresh</mat-icon>
+              {{ isLoading ? 'Saving...' : 'Save Currency Exchange' }}
+            </button>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- Book Exchange Tab -->
+      <mat-tab label="Book Exchange" class="w-full">
+        <div class="p-6">
+          
+          <!-- Book Search Section -->
+          <div class="mb-6 pb-6 border-b">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Search Book by ISBN</h3>
+            <div class="flex gap-4">
+              <mat-form-field class="flex-1">
+                <mat-label>ISBN</mat-label>
+                <input 
+                  matInput 
+                  [(ngModel)]="bookISBN"
+                  placeholder="Enter ISBN"
+                  [disabled]="isLoading"
+                />
+              </mat-form-field>
+              <button
+                type="button"
+                mat-raised-button
+                color="primary"
+                (click)="searchBookByISBN()"
+                [disabled]="isLoading || !bookISBN.trim()"
+              >
+                <mat-icon class="mr-2">search</mat-icon>
+                Search
+              </button>
+            </div>
+          </div>
+
+          <!-- Book Exchange Form -->
+          <form [formGroup]="bookExchangeForm" class="space-y-4">
+
+            <!-- Book Name -->
+            <mat-form-field class="w-full">
+              <mat-label>Book Name</mat-label>
+              <input 
+                matInput 
+                formControlName="bookName"
+                placeholder="Enter book name"
+              />
+              <mat-error *ngIf="bookExchangeForm.get('bookName')?.hasError('required')">
+                Book Name is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Author -->
+            <mat-form-field class="w-full">
+              <mat-label>Author</mat-label>
+              <input 
+                matInput 
+                formControlName="author"
+                placeholder="Enter author name"
+              />
+              <mat-error *ngIf="bookExchangeForm.get('author')?.hasError('required')">
+                Author is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Condition -->
+            <mat-form-field class="w-full">
+              <mat-label>Book Condition</mat-label>
+              <mat-select formControlName="condition">
+                <mat-option value="excellent">Excellent</mat-option>
+                <mat-option value="good">Good</mat-option>
+                <mat-option value="average">Average</mat-option>
+                <mat-option value="poor">Poor</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Estimated Price -->
+            <mat-form-field class="w-full">
+              <mat-label>Estimated Price</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                formControlName="estimatedPrice"
+                placeholder="Enter estimated price"
+                min="0"
+              />
+              <mat-error *ngIf="bookExchangeForm.get('estimatedPrice')?.hasError('required')">
+                Estimated Price is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Description -->
+            <mat-form-field class="w-full">
+              <mat-label>Description</mat-label>
+              <textarea 
+                matInput 
+                formControlName="description"
+                placeholder="Enter book description"
+                rows="4"
+              ></textarea>
+            </mat-form-field>
+
+            <!-- Save Button -->
+            <button
+              type="button"
+              mat-raised-button
+              color="accent"
+              (click)="saveBookExchange()"
+              [disabled]="isLoading || !bookExchangeForm.valid"
+              class="w-full mt-6"
+            >
+              <mat-icon class="mr-2" *ngIf="!isLoading">save</mat-icon>
+              <mat-icon class="mr-2 animate-spin" *ngIf="isLoading">refresh</mat-icon>
+              {{ isLoading ? 'Saving...' : 'Save Book Exchange' }}
+            </button>
+          </form>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</div>

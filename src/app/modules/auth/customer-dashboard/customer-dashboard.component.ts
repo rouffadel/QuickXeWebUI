@@ -1,12 +1,11 @@
-import { Inject, ViewChild,HostListener} from '@angular/core';
+import { Inject, ViewChild, HostListener, NgZone, ElementRef } from '@angular/core';
+declare var google: any;
 import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { NgZone } from '@angular/core';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import {  ElementRef } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -46,6 +45,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateprofileComponent } from 'app/modules/admin/example/updateprofile/updateprofile.component';
 import { UpdateprofileService } from 'app/modules/admin/example/updateprofile/updateprofile.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CurrencyService } from 'app/modules/admin/example/currency/currency.service';
 
 
 
@@ -139,6 +139,14 @@ isCustomer: boolean;
         event.target.style.backgroundColor = isHover ? '#ffb300' : '';
       }
 
+      // Live Location Properties
+      isBooking: boolean = false;
+      liveCity: string = '';
+      livePincode: string = '';
+      liveLatitude: number | null = null;
+      liveLongitude: number | null = null;
+      liveAddress: string = '';
+
       @HostListener('window:resize', ['$event'])
       onResize(event: any) {
         this.windowWidth = event.target.innerWidth;
@@ -219,7 +227,8 @@ isCustomer: boolean;
         private _userService: UserService,
         private dialog: MatDialog,
         private updateprofileService: UpdateprofileService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private currencyService: CurrencyService
         
     ) {
         
@@ -394,7 +403,7 @@ openUpdateProfileForm(): void {
 // }
 
 
- signOut(): void {
+  signOut(): void {
     const confirmation = this._fuseConfirmationService.open({
       title: 'Confirm Sign Out',
       message: 'Are you sure you want to Sign Out?',
@@ -417,6 +426,163 @@ openUpdateProfileForm(): void {
         sessionStorage.clear();
         this._router.navigate([redirectUrl], { replaceUrl: true });
       }
+    });
+  }
+
+  async bookExchange(): Promise<void> {
+    if (!this.amount || !this.selectedValue || !this.selectedValue1 || this.isBooking) {
+        this.snackBar.open('Please fill all fields', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+        return;
+    }
+
+    const customerId = sessionStorage.getItem('loggedInUserId');
+    if (!customerId) {
+         this.snackBar.open('User details missing. Please login again.', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+         return;
+    }
+
+    this.isBooking = true;
+
+    try {
+        // 1. Try to get Live Location
+        await this.captureLiveLocation();
+
+        const data = {
+            CustomerId: customerId,
+            Amount: parseFloat(this.amount),
+            FromCurrency: this.selectedValue.code,
+            ToCurrency: this.selectedValue1.code,
+            Location: this.liveAddress || 'Customer Dashboard',
+            City: this.liveCity,
+            Pincode: this.livePincode,
+            Latitude: this.liveLatitude,
+            Longitude: this.liveLongitude
+        };
+        
+        this.currencyService.bookExchange(data).subscribe({
+            next: (res) => {
+                this.snackBar.open('Exchange Booking Successful! Location Captured.', 'Close', { 
+                    duration: 5000, 
+                    panelClass: ['snackbar-success'], 
+                    verticalPosition: 'top', 
+                    horizontalPosition: 'right' 
+                });
+                this.amount = '';
+                this.selectedValue = null;
+                this.selectedValue1 = null;
+                this.isBooking = false;
+            },
+            error: (err) => {
+                console.error(err);
+                this.snackBar.open('Booking Failed. Please try again.', 'Close', { 
+                    duration: 3000, 
+                    panelClass: ['snackbar-error'], 
+                    verticalPosition: 'top', 
+                    horizontalPosition: 'right' 
+                });
+                this.isBooking = false;
+            }
+        });
+    } catch (error) {
+        console.error('Location capture failed:', error);
+        this.isBooking = false;
+        // Proceed with a simple booking fallback if needed
+        this.bookExchangeWithDefault(customerId);
+    }
+  }
+
+  private captureLiveLocation(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        return resolve();
+      }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          if (typeof google !== 'undefined' && google.maps) {
+            const geocoder = new google.maps.Geocoder();
+            const latlng = { lat, lng };
+
+            geocoder.geocode({ location: latlng }, (results: any, status: any) => {
+              // Ensure UI updates run inside Angular zone
+              this.zone.run(() => {
+                this.liveLatitude = lat;
+                this.liveLongitude = lng;
+
+                if (status === 'OK' && results && results.length) {
+                  this.liveAddress = results[0].formatted_address || '';
+
+                  const cityCandidates: string[] = [];
+                  let pincodeCandidate: string | null = null;
+
+                  for (const res of results) {
+                    for (const component of res.address_components || []) {
+                      const types = component.types || [];
+                      if (types.includes('locality') || types.includes('postal_town') || types.includes('sublocality') || types.includes('neighborhood') || types.includes('administrative_area_level_2')) {
+                        cityCandidates.push(component.long_name);
+                      }
+                      if (!pincodeCandidate && types.includes('postal_code')) {
+                        pincodeCandidate = component.long_name;
+                      }
+                    }
+                  }
+
+                  this.liveCity = cityCandidates.find(c => !!c) || this.liveCity || '';
+                  this.livePincode = pincodeCandidate || this.livePincode || '';
+                  console.log('Geocoder results:', { resultsCount: results.length, cityCandidates, pincodeCandidate });
+                }
+                resolve();
+              });
+            });
+          } else {
+            this.zone.run(() => {
+              this.liveLatitude = lat;
+              this.liveLongitude = lng;
+            });
+            resolve();
+          }
+        },
+        (error) => {
+          this.zone.run(() => console.warn('Geolocation error:', error));
+          resolve();
+        },
+        { timeout: 5000 }
+      );
+    });
+  }
+
+  // Public helper to trigger location capture with user feedback
+  public async takeCurrentLocation(): Promise<void> {
+    this.snackBar.open('Capturing current location...', 'Close', { duration: 2000 });
+    try {
+      await this.captureLiveLocation();
+      if (this.liveLatitude && this.liveLongitude) {
+        this.snackBar.open('✅ Current location captured', 'Close', { duration: 3000, panelClass: ['snackbar-success'] });
+      } else {
+        this.snackBar.open('❌ Unable to capture location', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+      }
+    } catch (err) {
+      console.error('takeCurrentLocation error:', err);
+      this.snackBar.open('❌ Error capturing location', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+    }
+  }
+
+  private bookExchangeWithDefault(customerId: string) {
+    const data = {
+        CustomerId: customerId,
+        Amount: parseFloat(this.amount),
+        FromCurrency: this.selectedValue.code,
+        ToCurrency: this.selectedValue1.code,
+        Location: 'Dashboard (Location Failed)'
+    };
+    this.currencyService.bookExchange(data).subscribe({
+        next: () => {
+            this.snackBar.open('Booking Successful (No Location).', 'Close', { duration: 3000 });
+            this.amount = '';
+        },
+        error: () => this.snackBar.open('Booking Failed.', 'Close', { duration: 3000 })
     });
   }
 

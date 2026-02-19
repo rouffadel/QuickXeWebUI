@@ -61,7 +61,9 @@ export class UpdateprofileComponent implements OnInit{
   latitude: number | null = null;
   longitude: number | null = null;  
 
-  areaName
+  areaName: string = '';
+  postalCode: string = '';
+  city: string = '';
 
   apiKey
   constructor(private http: HttpClient, private fb: FormBuilder, private dataService: DataService, private updateprofileService: UpdateprofileService, private snackBar: MatSnackBar, private _router: Router) { 
@@ -106,12 +108,33 @@ export class UpdateprofileComponent implements OnInit{
         if (response.status === 'OK' && response.results.length > 0) {
           const components = response.results[0].address_components;
           this.currentLocation = response.results[0].formatted_address;
+          
+          // Extract area name
           this.areaName = this.getAddressComponent(components, 'sublocality_level_1') || 'Unknown area';
+          
+          // Extract postal code (pincode)
+          this.postalCode = this.getAddressComponent(components, 'postal_code') || '';
+          
+          // Extract city
+          this.city = this.getAddressComponent(components, 'locality') || '';
+          
+          console.log('Location mapped:', {
+            address: this.currentLocation,
+            area: this.areaName,
+            city: this.city,
+            postalCode: this.postalCode,
+            latitude: latitude,
+            longitude: longitude
+          });
         } else {
           this.currentLocation = 'Unable to fetch location details';
+          console.error('Geocoding failed:', response.status);
         }
       },
-      () => (this.currentLocation = 'Error fetching location')
+      (error) => {
+        this.currentLocation = 'Error fetching location';
+        console.error('Geocoding error:', error);
+      }
     );
   }
 

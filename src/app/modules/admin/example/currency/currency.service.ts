@@ -86,5 +86,14 @@ export class CurrencyService {
     return this.http.delete<void>(url);
   }
 
+  bookExchange(orderData: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'ExchangeOrders', orderData);
+  }
+
+  getExchangeOrders(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'ExchangeOrders');
+  }
+
 
 }
+

@@ -1,11 +1,11 @@
-import { Inject, ViewChild, ViewEncapsulation, HostListener, AfterViewInit } from '@angular/core';
+import { Inject, ViewChild, ViewEncapsulation, HostListener, AfterViewInit, NgZone } from '@angular/core';
+declare var google: any;
 import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { Subject } from 'rxjs';
-import { NgZone } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
@@ -135,8 +135,15 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
   selcountryCode: string = '';
   selcurrencyName: string = '';
   selcountryName: string = '';
-  inputBuyRate: number = 0;
   inputSellRate: number = 0;
+
+  // Live Location Properties
+  isBooking: boolean = false;
+  liveCity: string = '';
+  livePincode: string = '';
+  liveLatitude: number | null = null;
+  liveLongitude: number | null = null;
+  liveAddress: string = '';
 
 
   // p: number = 1;
@@ -693,7 +700,171 @@ export class CustomerPreviewComponent implements OnInit, AfterViewInit {
     });
   }
 
+  async bookExchange(): Promise<void> {
+    if (this.orderForm.invalid || this.isBooking) {
+      return;
+    }
+
+    this.isBooking = true;
+
+    try {
+      // 1. Try to get Live Location first
+      await this.captureLiveLocation();
+
+      const formValue = this.orderForm.value;
+      const customerId = sessionStorage.getItem('loggedInUserId');
+
+      const orderData = {
+        customerId: customerId, // Send customerId if logged in
+        name: formValue.name,
+        email: formValue.email,
+        phoneNumber: formValue.phoneNumber,
+        amount: parseFloat(formValue.amount),
+        fromCurrency: formValue.selectedValue.currencyName || this.getCurrencyCode(formValue.selectedValue.countryCode),
+        toCurrency: formValue.selectedValue1.currencyName || this.getCurrencyCode(formValue.selectedValue1.countryCode),
+        location: this.liveAddress || 'Website Guest',
+        city: this.liveCity,
+        pincode: this.livePincode,
+        latitude: this.liveLatitude,
+        longitude: this.liveLongitude
+      };
+
+      this.currencyService.bookExchange(orderData).subscribe({
+        next: (response) => {
+          this.snackBar.open('Exchange Booking Successful! Location Captured. We will contact you soon.', 'Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass: ['snackbar-success']
+          });
+          this.clearFields();
+          this.isBooking = false;
+        },
+        error: (error) => {
+          console.error('Exchange booking failed:', error);
+          this.snackBar.open('Failed to book exchange. Please try again later.', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass: ['snackbar-error']
+          });
+          this.isBooking = false;
+        }
+      });
+    } catch (error) {
+      console.error('Location capture failed, proceeding with default location:', error);
+      // Proceed even if location fails, but log it
+      this.isBooking = false;
+      this.bookExchangeWithDefault();
+    }
+  }
+
+  private captureLiveLocation(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        return resolve(); // Proceed without location
+      }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          // Now use Google Geocoder to get City and Pincode
+          if (typeof google !== 'undefined' && google.maps) {
+            const geocoder = new google.maps.Geocoder();
+            const latlng = { lat, lng };
+
+            geocoder.geocode({ location: latlng }, (results: any, status: any) => {
+              this.zone.run(() => {
+                this.liveLatitude = lat;
+                this.liveLongitude = lng;
+
+                if (status === 'OK' && results && results[0]) {
+                  this.liveAddress = results[0].formatted_address || '';
+                  // More robust extraction: collect candidates across all results
+                  const cityCandidates: string[] = [];
+                  let pincodeCandidate: string | null = null;
+
+                  for (const res of results) {
+                    for (const component of res.address_components || []) {
+                      const types = component.types || [];
+                      if (types.includes('locality') || types.includes('postal_town') || types.includes('sublocality') || types.includes('neighborhood') || types.includes('administrative_area_level_2')) {
+                        cityCandidates.push(component.long_name);
+                      }
+                      if (!pincodeCandidate && types.includes('postal_code')) {
+                        pincodeCandidate = component.long_name;
+                      }
+                    }
+                  }
+
+                  // Prefer locality/postal_town, else fallback to first candidate
+                  this.liveCity = cityCandidates.find(c => !!c) || this.liveCity || '';
+                  this.livePincode = pincodeCandidate || this.livePincode || '';
+                  console.log('Geocoder results:', { resultsCount: results.length, cityCandidates, pincodeCandidate });
+                }
+                resolve();
+              });
+            });
+          } else {
+            this.zone.run(() => {
+              this.liveLatitude = lat;
+              this.liveLongitude = lng;
+            });
+            resolve();
+          }
+        },
+        (error) => {
+          this.zone.run(() => console.warn('Geolocation error:', error));
+          resolve(); // Resolve anyway so booking isn't blocked
+        },
+        { timeout: 5000 }
+      );
+    });
+  }
+
+  // Public helper to trigger location capture with user feedback
+  public async takeCurrentLocation(): Promise<void> {
+    this.snackBar.open('Capturing current location...', 'Close', { duration: 2000 });
+    try {
+      await this.captureLiveLocation();
+      if (this.liveLatitude && this.liveLongitude) {
+        this.snackBar.open('✅ Current location captured', 'Close', { duration: 3000, panelClass: ['snackbar-success'] });
+      } else {
+        this.snackBar.open('❌ Unable to capture location', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+      }
+    } catch (err) {
+      console.error('takeCurrentLocation error:', err);
+      this.snackBar.open('❌ Error capturing location', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+    }
+  }
+
+  private bookExchangeWithDefault() {
+    // Fallback if async capture fails
+    const formValue = this.orderForm.value;
+    const customerId = sessionStorage.getItem('loggedInUserId');
+
+    const orderData = {
+      customerId: customerId,
+      name: formValue.name,
+      email: formValue.email,
+      phoneNumber: formValue.phoneNumber,
+      amount: parseFloat(formValue.amount),
+      fromCurrency: formValue.selectedValue.currencyName || this.getCurrencyCode(formValue.selectedValue.countryCode),
+      toCurrency: formValue.selectedValue1.currencyName || this.getCurrencyCode(formValue.selectedValue1.countryCode),
+      location: 'Location Capture Failed'
+    };
+
+    this.currencyService.bookExchange(orderData).subscribe({
+      next: () => {
+        this.snackBar.open('Booking Successful (Location capturing failed).', 'Close', { duration: 3000 });
+        this.clearFields();
+      },
+      error: () => this.snackBar.open('Booking Failed.', 'Close', { duration: 3000 })
+    });
+  }
+
   refreshPage(): void {
     window.location.reload();
   }
 }
+
